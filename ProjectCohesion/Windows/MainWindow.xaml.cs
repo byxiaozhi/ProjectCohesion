@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectCohesion.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace ProjectCohesion
     {
         public MainWindow()
         {
+            WindowBackdrop.SetBackdrop(this);
             InitializeComponent();
         }
     }

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProjectCohesion.Core.ViewModels
 {
+    /// <summary>
+    /// 视图模型基类
+    /// </summary>
     public abstract class ViewModelBase: INotifyPropertyChanged
     {
 #pragma warning disable CS0067

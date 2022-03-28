@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:ProjectCohesion"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="ProjectCohesion" Height="600" Width="1000">
+        Title="ProjectCohesion" Height="600" Width="1000"
+        >
     <Grid>
-
+        <TextBlock Foreground="{StaticResource TextColor}">123</TextBlock>
     </Grid>
 </Window>

@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace ProjectCohesion.Core.ViewModels
 {
-    public class AppViewModel: ViewModelBase
+    /// <summary>
+    /// 根视图模型
+    /// </summary>
+    public class AppViewModel : ViewModelBase
     {
+        public UIViewModel UIViewModel { get; }
+        public ProjectViewModel ProjectViewModel { get; }
 
+        public AppViewModel(UIViewModel uiViewModel, ProjectViewModel projectViewModel)
+        {
+            UIViewModel = uiViewModel;
+            ProjectViewModel = projectViewModel;
+        }
     }
 }
