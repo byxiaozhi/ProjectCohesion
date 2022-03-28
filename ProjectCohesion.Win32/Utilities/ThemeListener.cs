@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Windows.UI.ViewManagement;
 
-namespace ProjectCohesion.Utilities
+namespace ProjectCohesion.Win32.Utilities
 {
     /// <summary>
     /// 监听系统主题变化
@@ -37,7 +37,7 @@ namespace ProjectCohesion.Utilities
             if (isDarkMode != IsDarkMode)
             {
                 IsDarkMode = isDarkMode;
-                App.Current.Dispatcher.Invoke(() => ThemeChanged?.Invoke());
+                ThemeChanged?.Invoke();
             }
         }
     }

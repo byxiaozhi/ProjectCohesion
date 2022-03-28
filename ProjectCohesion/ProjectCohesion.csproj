@@ -22,6 +22,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\ProjectCohesion.Core\ProjectCohesion.Core.csproj" />
+		<ProjectReference Include="..\ProjectCohesion.Win32\ProjectCohesion.Win32.csproj" />
 		<ProjectReference Include="..\ProjectCohesion.WinUI\ProjectCohesion.WinUI.csproj" />
 		<ProjectReference Include="..\ProjectCohesion.XamlHost\ProjectCohesion.XamlHost.csproj" />
 	</ItemGroup>

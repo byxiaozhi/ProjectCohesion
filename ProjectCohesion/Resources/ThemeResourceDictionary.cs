@@ -5,7 +5,7 @@ using System.Windows;
 using Autofac;
 using ProjectCohesion.Core.Models.UIModels;
 using ProjectCohesion.Core.ViewModels;
-using ProjectCohesion.Utilities;
+using ProjectCohesion.Win32.Utilities;
 
 namespace ProjectCohesion.Resources
 {

@@ -7,7 +7,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shell;
 
-namespace ProjectCohesion.Utilities
+namespace ProjectCohesion.Win32.Utilities
 {
     public static class WindowBackdrop
     {

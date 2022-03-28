@@ -1,4 +1,4 @@
-﻿using ProjectCohesion.Utilities;
+﻿using ProjectCohesion.Win32.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
