@@ -9,6 +9,6 @@
         Title="ProjectCohesion" Height="600" Width="1000"
         >
     <Grid>
-        <TextBlock Foreground="{StaticResource TextColor}">123</TextBlock>
+        <TextBlock Foreground="{DynamicResource TextColor}">123</TextBlock>
     </Grid>
 </Window>
