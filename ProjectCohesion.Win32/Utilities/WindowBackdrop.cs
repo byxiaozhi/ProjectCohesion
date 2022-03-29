@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Autofac;
+using ProjectCohesion.Core.Models.UIModels;
+using ProjectCohesion.Core.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -48,7 +51,7 @@ namespace ProjectCohesion.Win32.Utilities
         /// </summary>
         public static void SetBackdrop(Window window)
         {
-            if (Environment.OSVersion.Version.Build >= 22000 && !windows.Contains(window))
+            if (!windows.Contains(window))
             {
                 windows.Add(window);
                 window.Closed += (o, e) => windows.Remove(window);
@@ -112,7 +115,7 @@ namespace ProjectCohesion.Win32.Utilities
             var windowChrome = new WindowChrome
             {
                 GlassFrameThickness = new Thickness(-1),
-                NonClientFrameEdges = NonClientFrameEdges.Left | NonClientFrameEdges.Right | NonClientFrameEdges.Bottom
+                NonClientFrameEdges = NonClientFrameEdges.Right, // 避免窗口控制按钮出现右边距
             };
             WindowChrome.SetWindowChrome(window, windowChrome);
         }
@@ -122,8 +125,14 @@ namespace ProjectCohesion.Win32.Utilities
         /// </summary>
         private static void SetTheme(Window window)
         {
-            // 设置窗口主题
-            uint darkModeValue = (uint)(ThemeListener.IsDarkMode ? 0x01 : 0x00);
+            // 设置窗口主题，会影响窗口三个控制按钮颜色
+            var uiViewModel = Core.Autofac.Container.Resolve<UIViewModel>();
+            uint darkModeValue = uiViewModel.Theme switch
+            {
+                Themes.Light => 0x01,
+                Themes.Dark => 0x00,
+                _ => (uint)(ThemeListener.IsDarkMode ? 0x01 : 0x00)
+            };
             var handle = new WindowInteropHelper(window).Handle;
             DwmSetWindowAttribute(handle, DwmWindowAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, ref darkModeValue, Marshal.SizeOf(typeof(int)));
 

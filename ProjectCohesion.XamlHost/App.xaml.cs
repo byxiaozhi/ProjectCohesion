@@ -22,6 +22,7 @@ namespace ProjectCohesion.XamlHost
         public App()
         {
             Initialize();
+            ((Window.Current as object) as IWindowPrivate).TransparentBackground = true;
         }
     }
 }
