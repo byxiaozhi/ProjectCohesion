@@ -23,5 +23,11 @@ namespace ProjectCohesion
             WindowBackdrop.SetBackdrop(this);
             InitializeComponent();
         }
+
+        private void btn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            btn.Text = "123";
+            btn.IsEnabled = false;
+        }
     }
 }

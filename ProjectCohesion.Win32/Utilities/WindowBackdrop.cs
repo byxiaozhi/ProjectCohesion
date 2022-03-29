@@ -115,7 +115,8 @@ namespace ProjectCohesion.Win32.Utilities
             var windowChrome = new WindowChrome
             {
                 GlassFrameThickness = new Thickness(-1),
-                NonClientFrameEdges = NonClientFrameEdges.Right, // 避免窗口控制按钮出现右边距
+                NonClientFrameEdges = NonClientFrameEdges.Left | NonClientFrameEdges.Right | NonClientFrameEdges.Bottom, // 避免窗口控制按钮出现右边距
+                ResizeBorderThickness = new Thickness(4)
             };
             WindowChrome.SetWindowChrome(window, windowChrome);
         }
