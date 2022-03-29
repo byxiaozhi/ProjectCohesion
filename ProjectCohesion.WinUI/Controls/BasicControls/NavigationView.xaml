@@ -9,19 +9,17 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="-8,-16,-8,-8">
         <muxc:NavigationView 
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             IsPaneToggleButtonVisible="False"
             PaneDisplayMode="Top"
-            CompositeMode="MinBlend"
-            Height="26">
+            CompositeMode="MinBlend">
             <muxc:NavigationView.MenuItemContainerStyle>
                 <Style TargetType="muxc:NavigationViewItem">
                     <Setter Property="FontSize" Value="13"/>
                     <Setter Property="Height" Value="38"/>
-                    <Setter Property="Margin" Value="0,-32,0,0"/>
                 </Style>
             </muxc:NavigationView.MenuItemContainerStyle>
             <muxc:NavigationView.MenuItems>

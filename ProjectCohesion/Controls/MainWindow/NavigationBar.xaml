@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Border BorderThickness="0,0,0,1" BorderBrush="#e6e6e6">
         <StackPanel>
-            <winui:NavigationView/>
+            <winui:NavigationView Margin="8,0,8,0"/>
             <Border Height="80" Background="White" BorderBrush="#e6e6e6" BorderThickness="1" CornerRadius="6" Margin="8,0,8,8">
 
             </Border>
