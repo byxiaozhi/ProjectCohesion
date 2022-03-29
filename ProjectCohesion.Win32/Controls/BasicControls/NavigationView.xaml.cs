@@ -11,13 +11,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProjectCohesion.Controls.MainWindow
+namespace ProjectCohesion.Win32.Controls
 {
-    public partial class NavigationBar : UserControl
+    public partial class NavigationView : UserControl
     {
-        public NavigationBar()
+        public NavigationView()
         {
             InitializeComponent();
+        }
+
+        private void WindowsXamlHost_ChildChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

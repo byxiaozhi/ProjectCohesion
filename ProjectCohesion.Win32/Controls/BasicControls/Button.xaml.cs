@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProjectCohesion.Win32.Controls.BasicControls
+namespace ProjectCohesion.Win32.Controls
 {
     public partial class Button : UserControl
     {
@@ -39,7 +39,7 @@ namespace ProjectCohesion.Win32.Controls.BasicControls
 
         public event Windows.UI.Xaml.RoutedEventHandler Click;
 
-        WinUI.Controls.BasicControls.Button button;
+        WinUI.Controls.Button button;
 
         public Button()
         {
@@ -49,7 +49,7 @@ namespace ProjectCohesion.Win32.Controls.BasicControls
         private void WindowsXamlHost_ChildChanged(object sender, EventArgs e)
         {
             var windowsXamlHost = sender as WindowsXamlHost;
-            button = windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.BasicControls.Button;
+            button = windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.Button;
             if (button != null)
             {
                 button.Text = Text;

@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="ProjectCohesion.WinUI.Controls.BasicControls.TabView"
+    x:Class="ProjectCohesion.WinUI.Controls.TabView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ProjectCohesion.WinUI.Controls.BasicControls"

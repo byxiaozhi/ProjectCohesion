@@ -13,11 +13,13 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+//https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
+
 namespace ProjectCohesion.WinUI.Controls
 {
-    public sealed partial class TabView : UserControl
+    public sealed partial class NavigationView : UserControl
     {
-        public TabView()
+        public NavigationView()
         {
             this.InitializeComponent();
         }

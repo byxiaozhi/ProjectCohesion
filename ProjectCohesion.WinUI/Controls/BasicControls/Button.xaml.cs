@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace ProjectCohesion.WinUI.Controls.BasicControls
+namespace ProjectCohesion.WinUI.Controls
 {
     public sealed partial class Button : UserControl
     {

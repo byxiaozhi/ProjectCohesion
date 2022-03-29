@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectCohesion.Controls.MainWindow"
+             xmlns:winui="clr-namespace:ProjectCohesion.Win32.Controls;assembly=ProjectCohesion.Win32"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border BorderThickness="0,0,0,1" BorderBrush="#e6e6e6">
         <StackPanel>
+            <winui:NavigationView/>
+            <Border Height="80" Background="White" BorderBrush="#e6e6e6" BorderThickness="1" CornerRadius="6" Margin="8,0,8,8">
 
-            <Border Height="80" Background="White" BorderBrush="#e6e6e6" BorderThickness="1" CornerRadius="6" Margin="10">
-                
             </Border>
         </StackPanel>
     </Border>

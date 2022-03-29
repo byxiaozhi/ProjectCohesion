@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProjectCohesion.Win32.Controls.BasicControls
+namespace ProjectCohesion.Win32.Controls
 {
     public partial class TabView : UserControl
     {
