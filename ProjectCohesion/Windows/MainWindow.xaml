@@ -32,7 +32,7 @@
             </Grid.RowDefinitions>
             <mainwindow:TitleBar Grid.Row="0"/>
             <mainwindow:NavigationBar Grid.Row="1"/>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" Background="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200" MaxWidth="400" MinWidth="100"/>
                     <ColumnDefinition Width="Auto"/>
@@ -42,6 +42,7 @@
                 </Grid.ColumnDefinitions>
                 <mainwindow:LeftPanel Grid.Column="0"/>
                 <GridSplitter 
+                    Background="Transparent"
                     Grid.Column="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Stretch"
@@ -53,9 +54,10 @@
                     BorderThickness="1,0,0,0"
                     Width="1"
                     IsHitTestVisible="False"
-                    BorderBrush="#d4d4d4"/>
+                    BorderBrush="#e6e6e6"/>
                 <mainwindow:TabView Grid.Column="2"/>
                 <GridSplitter 
+                    Background="Transparent"
                     Grid.Column="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Stretch"
@@ -67,7 +69,7 @@
                     BorderThickness="1,0,0,0"
                     Width="1"
                     IsHitTestVisible="False"
-                    BorderBrush="#d4d4d4"/>
+                    BorderBrush="#e6e6e6"/>
                 <mainwindow:RightPanel Grid.Column="4"/>
             </Grid>
             <mainwindow:StatusBar Grid.Row="3"/>
