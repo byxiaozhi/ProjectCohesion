@@ -16,9 +16,9 @@ namespace ProjectCohesion.Controls.MainWindow
     /// <summary>
     /// TabView.xaml 的交互逻辑
     /// </summary>
-    public partial class TabView : UserControl
+    public partial class MainContent : UserControl
     {
-        public TabView()
+        public MainContent()
         {
             InitializeComponent();
         }

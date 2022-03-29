@@ -55,7 +55,7 @@
                     Width="1"
                     IsHitTestVisible="False"
                     BorderBrush="#e6e6e6"/>
-                <mainwindow:TabView Grid.Column="2"/>
+                <mainwindow:MainContent Grid.Column="2"/>
                 <GridSplitter 
                     Background="Transparent"
                     Grid.Column="3"
