@@ -4,25 +4,73 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:ProjectCohesion.Win32.Controls.BasicControls;assembly=ProjectCohesion.Win32"
-        xmlns:local="clr-namespace:ProjectCohesion"
+        xmlns:local="clr-namespace:ProjectCohesion" 
+        xmlns:mainwindow="clr-namespace:ProjectCohesion.Controls.MainWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="ProjectCohesion" Height="600" Width="1000"
-        >
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Height="34">
-            
-        </StackPanel>
-        <Grid Grid.Row="1" Margin="4,0,4,4">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal" Height="32">
-                    <controls:Button x:Name="btn" Text="测试按钮" Click="btn_Click"/>
-                </StackPanel>
-            </StackPanel>
+        Title="ProjectCohesion" Height="600" Width="1000">
+    <Border>
+        <Border.Style>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="BorderThickness" Value="0"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=WindowState}" Value="Maximized">
+                        <Setter Property="BorderThickness" Value="4"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=WindowState}" Value="Normal">
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <Grid Margin="{Binding }">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <mainwindow:TitleBar Grid.Row="0"/>
+            <mainwindow:NavigationBar Grid.Row="1"/>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" MaxWidth="400" MinWidth="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200" MaxWidth="400" MinWidth="100"/>
+                </Grid.ColumnDefinitions>
+                <mainwindow:LeftPanel Grid.Column="0"/>
+                <GridSplitter 
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Width="5"/>
+                <Border 
+                    Grid.Column="1"
+                    HorizontalAlignment="center"
+                    VerticalAlignment="Stretch"
+                    BorderThickness="1,0,0,0"
+                    Width="1"
+                    IsHitTestVisible="False"
+                    BorderBrush="#d4d4d4"/>
+                <mainwindow:TabView Grid.Column="2"/>
+                <GridSplitter 
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Width="5"/>
+                <Border 
+                    Grid.Column="3"
+                    HorizontalAlignment="center"
+                    VerticalAlignment="Stretch"
+                    BorderThickness="1,0,0,0"
+                    Width="1"
+                    IsHitTestVisible="False"
+                    BorderBrush="#d4d4d4"/>
+                <mainwindow:RightPanel Grid.Column="4"/>
+            </Grid>
+            <mainwindow:StatusBar Grid.Row="3"/>
         </Grid>
-    </Grid>
+    </Border>
 </Window>

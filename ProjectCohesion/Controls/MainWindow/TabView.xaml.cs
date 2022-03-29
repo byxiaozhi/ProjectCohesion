@@ -1,9 +1,6 @@
-﻿using ProjectCohesion.Win32.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,13 +11,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProjectCohesion
+namespace ProjectCohesion.Controls.MainWindow
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// TabView.xaml 的交互逻辑
+    /// </summary>
+    public partial class TabView : UserControl
     {
-        public MainWindow()
+        public TabView()
         {
-            WindowBackdrop.SetBackdrop(this);
             InitializeComponent();
         }
     }
