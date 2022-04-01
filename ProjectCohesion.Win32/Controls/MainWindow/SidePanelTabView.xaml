@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="ProjectCohesion.Win32.Controls.SidePanelTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectCohesion.Win32.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel>
+        <ToggleButton FontSize="12" Height="32" Padding="8,0,8,0">
+            <ToggleButton.LayoutTransform>
+                <RotateTransform Angle="90" />
+            </ToggleButton.LayoutTransform>
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border 
+                        Background="{TemplateBinding Background}" 
+                        Width="{TemplateBinding Width}" 
+                        Height="{TemplateBinding Height}"
+                        Padding="{TemplateBinding Padding}">
+                        <ContentPresenter 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"  
+                            Content="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </ToggleButton.Template>
+            <ToggleButton.Style>
+                <Style TargetType="ToggleButton">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#eaeaea"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="#e1e1e1"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ToggleButton.Style>
+            参数1
+        </ToggleButton>
+    </StackPanel>
+</UserControl>

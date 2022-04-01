@@ -92,6 +92,9 @@
     <Compile Include="Controls\BasicControls\TabView.xaml.cs">
       <DependentUpon>TabView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MainWindow\SidePanelHeader.xaml.cs">
+      <DependentUpon>SidePanelHeader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\ProjectCohesion.WinUI.rd.xml" />
   </ItemGroup>
@@ -116,6 +119,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\BasicControls\TabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MainWindow\SidePanelHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

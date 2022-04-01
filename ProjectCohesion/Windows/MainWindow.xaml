@@ -46,7 +46,8 @@
                     Grid.Column="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Stretch"
-                    Width="5"/>
+                    Width="5"
+                    IsTabStop="False"/>
                 <Border 
                     Grid.Column="1"
                     HorizontalAlignment="center"
@@ -61,7 +62,8 @@
                     Grid.Column="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Stretch"
-                    Width="5"/>
+                    Width="5"
+                    IsTabStop="False"/>
                 <Border 
                     Grid.Column="3"
                     HorizontalAlignment="center"
