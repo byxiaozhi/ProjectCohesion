@@ -9,7 +9,7 @@ namespace ProjectCohesion.Core.ViewModels
     /// <summary>
     /// 根视图模型
     /// </summary>
-    public class AppViewModel : ViewModelBase
+    public class AppViewModel : ViewModel
     {
         public UIViewModel UIViewModel { get; }
         public ProjectViewModel ProjectViewModel { get; }

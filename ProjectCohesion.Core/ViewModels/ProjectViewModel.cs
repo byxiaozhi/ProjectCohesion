@@ -9,7 +9,7 @@ namespace ProjectCohesion.Core.ViewModels
     /// <summary>
     /// 项目视图模型，存放项目相关数据
     /// </summary>
-    public class ProjectViewModel : ViewModelBase
+    public class ProjectViewModel : ViewModel
     {
 
     }

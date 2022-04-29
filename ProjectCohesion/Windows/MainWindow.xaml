@@ -8,11 +8,13 @@
         xmlns:mainwindow="clr-namespace:ProjectCohesion.Controls.MainWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="ProjectCohesion" Height="600" Width="1000">
+        Title="ProjectCohesion" Height="600" Width="1000"
+        Closed="Window_Closed">
     <Border>
         <Border.Style>
             <Style TargetType="{x:Type Border}">
                 <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Margin" Value="0,0,2.5,0"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}, Path=WindowState}" Value="Maximized">
                         <Setter Property="BorderThickness" Value="4"/>
@@ -23,7 +25,7 @@
                 </Style.Triggers>
             </Style>
         </Border.Style>
-        <Grid Margin="{Binding }">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

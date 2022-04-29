@@ -13,15 +13,39 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 
 namespace ProjectCohesion
 {
     public partial class MainWindow : Window
     {
+        readonly Properties.Settings settings = Properties.Settings.Default;
+
         public MainWindow()
         {
             WindowBackdrop.SetBackdrop(this);
             InitializeComponent();
+            RestoreWindowPlacement();
         }
+
+        public void RestoreWindowPlacement()
+        {
+            if (!string.IsNullOrEmpty(settings.MainWindowPlacement))
+            {
+                WindowPlacement.RestoreWindowPlacement(this, JsonConvert.DeserializeObject<PInvoke.User32.WINDOWPLACEMENT>(settings.MainWindowPlacement));
+            }
+        }
+
+        public void SaveWindowPlacement()
+        {
+            settings.MainWindowPlacement = JsonConvert.SerializeObject(WindowPlacement.GetWindowPlacement(this));
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            SaveWindowPlacement();
+            settings.Save();
+        }
+
     }
 }

@@ -9,7 +9,7 @@
     <StackPanel>
         <ToggleButton FontSize="12" Height="32" Padding="8,0,8,0">
             <ToggleButton.LayoutTransform>
-                <RotateTransform Angle="90" />
+                <RotateTransform Angle="-90" />
             </ToggleButton.LayoutTransform>
             <ToggleButton.Template>
                 <ControlTemplate TargetType="ToggleButton">

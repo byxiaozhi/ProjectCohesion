@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using ProjectCohesion.Core.Services;
 using ProjectCohesion.Core.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace ProjectCohesion.Core
         {
             var builder = new ContainerBuilder();
             RegisterViewModel(builder);
+            RegisterServices(builder);
             Container = builder.Build();
         }
 
@@ -26,6 +28,14 @@ namespace ProjectCohesion.Core
             builder.RegisterType<AppViewModel>().SingleInstance();
             builder.RegisterType<UIViewModel>().SingleInstance();
             builder.RegisterType<ProjectViewModel>().SingleInstance();
+        }
+
+        /// <summary>
+        /// 注册服务
+        /// </summary>
+        static public void RegisterServices(ContainerBuilder builder)
+        {
+            builder.RegisterType<EventCenter>().SingleInstance();
         }
     }
 }

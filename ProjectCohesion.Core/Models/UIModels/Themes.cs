@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProjectCohesion.Core.Models.UIModels
 {
+    /// <summary>
+    /// 界面主题
+    /// </summary>
     public enum Themes
     {
         Default, Light, Dark
