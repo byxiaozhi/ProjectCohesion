@@ -41,11 +41,10 @@ namespace ProjectCohesion
             settings.MainWindowPlacement = JsonConvert.SerializeObject(WindowPlacement.GetWindowPlacement(this));
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveWindowPlacement();
             settings.Save();
         }
-
     }
 }
