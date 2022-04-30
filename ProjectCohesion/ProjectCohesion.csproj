@@ -24,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Modules\ProjectCohesion.Modules.Demo\ProjectCohesion.Modules.Demo.csproj" />
 		<ProjectReference Include="..\ProjectCohesion.Core\ProjectCohesion.Core.csproj" />
 		<ProjectReference Include="..\ProjectCohesion.Win32\ProjectCohesion.Win32.csproj" />
 		<ProjectReference Include="..\ProjectCohesion.WinUI\ProjectCohesion.WinUI.csproj" />

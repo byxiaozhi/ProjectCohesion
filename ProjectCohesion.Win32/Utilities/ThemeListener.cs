@@ -13,7 +13,7 @@ namespace ProjectCohesion.Win32.Utilities
     {
         public delegate void ThemeChangedHandler();
 
-        private static UISettings uiSettings = new();
+        private static readonly UISettings uiSettings = new();
         public static bool IsDarkMode { get; private set; }
 
         public static ThemeChangedHandler ThemeChanged;

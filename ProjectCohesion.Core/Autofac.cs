@@ -36,6 +36,8 @@ namespace ProjectCohesion.Core
         static public void RegisterServices(ContainerBuilder builder)
         {
             builder.RegisterType<EventCenter>().SingleInstance();
+            builder.RegisterType<ModuleManager>().SingleInstance();
+            builder.RegisterType<UIManager>().SingleInstance();
         }
     }
 }

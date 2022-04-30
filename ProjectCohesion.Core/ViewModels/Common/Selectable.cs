@@ -20,7 +20,7 @@ namespace ProjectCohesion.Core.ViewModels.Common
         /// <summary>
         /// 当前选中索引
         /// </summary>
-        public int SelectedIndex { get; set; }
+        public int SelectedIndex { get; set; } = 0;
 
         /// <summary>
         /// 可选项

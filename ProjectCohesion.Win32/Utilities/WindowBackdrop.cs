@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using ProjectCohesion.Core.Models.UIModels;
+using ProjectCohesion.Core.Models;
 using ProjectCohesion.Core.ViewModels;
 using System;
 using System.Collections.Generic;

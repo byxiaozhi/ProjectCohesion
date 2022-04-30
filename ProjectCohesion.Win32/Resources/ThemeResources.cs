@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using Autofac;
-using ProjectCohesion.Core.Models.UIModels;
+using ProjectCohesion.Core.Models;
 using ProjectCohesion.Core.ViewModels;
 using ProjectCohesion.Win32.Utilities;
 

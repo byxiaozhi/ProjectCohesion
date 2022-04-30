@@ -12,7 +12,6 @@ namespace ProjectCohesion
             using (new XamlHost.App())
             {
                 var app = new App();
-                app.InitializeComponent();
                 app.Run();
             }
         }

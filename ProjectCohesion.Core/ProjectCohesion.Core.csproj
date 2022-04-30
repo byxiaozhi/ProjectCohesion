@@ -83,12 +83,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Autofac.cs" />
-    <Compile Include="Models\UIModels\Menu.cs" />
-    <Compile Include="Models\UIModels\ModuleSet.cs" />
-    <Compile Include="Models\UIModels\SideTab.cs" />
-    <Compile Include="Models\UIModels\Themes.cs" />
+    <Compile Include="Models\EventArgs\ModuleEventArgs.cs" />
+    <Compile Include="Module.cs" />
+    <Compile Include="Models\Themes.cs" />
+    <Compile Include="Modules\MenuModule.cs" />
+    <Compile Include="Modules\GroupModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EventCenter.cs" />
+    <Compile Include="Services\ModuleManager.cs" />
+    <Compile Include="Services\UIManager.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
     <Compile Include="ViewModels\Common\Selectable.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />

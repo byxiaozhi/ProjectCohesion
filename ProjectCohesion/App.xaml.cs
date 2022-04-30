@@ -10,5 +10,11 @@ namespace ProjectCohesion
 {
     public partial class App : Application
     {
+        readonly ModuleLoader moduleLoader = new();
+        public App()
+        {
+            InitializeComponent();
+            moduleLoader.Initialize(Core.Autofac.Container);
+        }
     }
 }

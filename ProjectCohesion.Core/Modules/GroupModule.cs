@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectCohesion.Core.Models.UIModels
+namespace ProjectCohesion.Core.Modules
 {
     /// <summary>
-    /// 界面主题
+    /// 模块集合模块
     /// </summary>
-    public enum Themes
+    public class GroupModule : Module<ObservableCollection<Guid>>
     {
-        Default, Light, Dark
+
     }
 }
