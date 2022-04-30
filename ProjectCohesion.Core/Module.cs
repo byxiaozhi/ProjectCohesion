@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectCohesion.Core
 {
-    public class Module<T> where T : new()
+    public class Module<T>
     {
         /// <summary>
         /// 模块名称

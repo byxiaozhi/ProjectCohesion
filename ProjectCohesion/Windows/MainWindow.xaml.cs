@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Newtonsoft.Json;
+using Autofac;
+using ProjectCohesion.Core.ViewModels;
 
 namespace ProjectCohesion
 {
@@ -23,6 +25,7 @@ namespace ProjectCohesion
 
         public MainWindow()
         {
+            DataContext = Core.Autofac.Container.Resolve<AppViewModel>();
             WindowBackdrop.SetBackdrop(this);
             InitializeComponent();
             RestoreWindowPlacement();

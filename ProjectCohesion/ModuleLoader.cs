@@ -1,7 +1,7 @@
 ﻿using ProjectCohesion.Win32.Interfaces;
+using Autofac;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Text;
 
 namespace ProjectCohesion
@@ -16,16 +16,16 @@ namespace ProjectCohesion
             moduleLoaders.Add(new Modules.Demo.ModuleLoader());
         }
 
-        public void Destroy(Autofac.IContainer container)
+        public void Destroy(IContainer container)
         {
             // 初始化各个模块
-            moduleLoaders.ForEach(module => module.Initialize(container));
+            moduleLoaders.ForEach(module => module.Destroy(container));
         }
 
-        public void Initialize(Autofac.IContainer container)
+        public void Initialize(IContainer container)
         {
             // 销毁各个模块
-            moduleLoaders.ForEach(module => module.Destroy(container));
+            moduleLoaders.ForEach(module => module.Initialize(container));
         }
     }
 }

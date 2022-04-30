@@ -50,7 +50,7 @@ namespace ProjectCohesion.Core.Services
         /// <summary>
         /// 通过类型获取组件
         /// </summary>
-        public T GetModule<T>() where T : Module<T>, new()
+        public T GetModule<T>()
         {
             return (T)moduleDictionary.Values.Where(x => x is T).First();
         }
@@ -58,7 +58,7 @@ namespace ProjectCohesion.Core.Services
         /// <summary>
         /// 通过类型获取组件列表
         /// </summary>
-        public List<T> GetModules<T>() where T : Module<T>, new()
+        public List<T> GetModules<T>()
         {
             return moduleDictionary.Values.Where(x => x is T).Select(x => (T)x).ToList();
         }

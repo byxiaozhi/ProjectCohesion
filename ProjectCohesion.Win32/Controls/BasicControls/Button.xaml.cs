@@ -16,21 +16,21 @@ namespace ProjectCohesion.Win32.Controls
 {
     public partial class Button : UserControl
     {
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(Button), new PropertyMetadata(TextChanged));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(Button), new PropertyMetadata(PropertyChanged));
         public string Text
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
         }
 
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(Button), new PropertyMetadata(CommandChanged));
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(Button), new PropertyMetadata(PropertyChanged));
         public ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
 
-        public static new readonly DependencyProperty IsEnabledProperty = DependencyProperty.Register(nameof(IsEnabled), typeof(bool), typeof(Button), new PropertyMetadata(true, IsEnableChanged));
+        public static new readonly DependencyProperty IsEnabledProperty = DependencyProperty.Register(nameof(IsEnabled), typeof(bool), typeof(Button), new PropertyMetadata(true, PropertyChanged));
         public new bool IsEnabled
         {
             get => (bool)GetValue(IsEnabledProperty);
@@ -59,30 +59,17 @@ namespace ProjectCohesion.Win32.Controls
             }
         }
 
-        private static void TextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var button = ((Button)d).button;
             if (button != null)
             {
-                button.Text = (string)e.NewValue;
-            }
-        }
-
-        private static void CommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var button = ((Button)d).button;
-            if (button != null)
-            {
-                button.Command = (ICommand)e.NewValue;
-            }
-        }
-
-        private static void IsEnableChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var button = ((Button)d).button;
-            if (button != null)
-            {
-                button.IsEnabled = (bool)e.NewValue;
+                if (e.Property.Name == nameof(Text) && button.Text != (string)e.NewValue)
+                    button.Text = (string)e.NewValue;
+                if (e.Property.Name == nameof(Command) && button.Command != (ICommand)e.NewValue)
+                    button.Command = (ICommand)e.NewValue;
+                if (e.Property.Name == nameof(IsEnabled) && button.IsEnabled != (bool)e.NewValue)
+                    button.IsEnabled = (bool)e.NewValue;
             }
         }
     }

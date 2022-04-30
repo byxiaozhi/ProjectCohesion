@@ -9,7 +9,7 @@ using ProjectCohesion.Win32.Utilities;
 
 namespace ProjectCohesion.Win32.Resources
 {
-    public class ThemeResources : ResourceDictionary
+    public class ThemeResources : ResourceDictionary, IDisposable
     {
         private readonly Uri lightSource = new("/ProjectCohesion.Win32;component/Resources/Styles/Theme.Light.xaml", UriKind.Relative);
         private readonly Uri darkSource = new("/ProjectCohesion.Win32;component/Resources/Styles/Theme.Dark.xaml", UriKind.Relative);
@@ -22,7 +22,7 @@ namespace ProjectCohesion.Win32.Resources
             ThemeListener.ThemeChanged += ThemeChanged;
         }
 
-        ~ThemeResources()
+        public void Dispose()
         {
             uiViewModel.PropertyChanged -= UiViewModel_PropertyChanged;
             ThemeListener.ThemeChanged -= ThemeChanged;

@@ -8,26 +8,24 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    x:Name="thisControl">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="-8,-16,-8,-8">
         <muxc:NavigationView 
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             IsPaneToggleButtonVisible="False"
             PaneDisplayMode="Top"
-            CompositeMode="MinBlend">
-            <muxc:NavigationView.MenuItemContainerStyle>
-                <Style TargetType="muxc:NavigationViewItem">
-                    <Setter Property="FontSize" Value="13"/>
-                    <Setter Property="Height" Value="38"/>
-                </Style>
-            </muxc:NavigationView.MenuItemContainerStyle>
-            <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem Content="功能1" />
-                <muxc:NavigationViewItem Content="功能2" />
-                <muxc:NavigationViewItem Content="功能3" />
-                <muxc:NavigationViewItem Content="功能4" />
-            </muxc:NavigationView.MenuItems>
+            CompositeMode="MinBlend"
+            x:Name="navView"
+            MenuItemsSource="{Binding MenuItems,ElementName=thisControl}"
+            SelectedItem="{Binding SelectedItem,ElementName=thisControl}"
+            ItemInvoked="navView_ItemInvoked">
+            <muxc:NavigationView.MenuItemTemplate>
+                <DataTemplate>
+                    <muxc:NavigationViewItem Content="{Binding Name}" FontSize="13" Height="38"/>
+                </DataTemplate>
+            </muxc:NavigationView.MenuItemTemplate>
         </muxc:NavigationView>
     </Grid>
 </UserControl>

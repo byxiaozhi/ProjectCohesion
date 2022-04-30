@@ -15,16 +15,20 @@ namespace ProjectCohesion.Core.ViewModels.Common
         /// <summary>
         /// 当前选中项
         /// </summary>
-        public T Selected { get => Items[SelectedIndex]; set => SelectedIndex = Items.IndexOf(value); }
+        public T Selected
+        {
+            get => SelectedIndex >= 0 && SelectedIndex < Items.Count ? Items[SelectedIndex] : default;
+            set => SelectedIndex = Items.IndexOf(value);
+        }
 
         /// <summary>
         /// 当前选中索引
         /// </summary>
-        public int SelectedIndex { get; set; } = 0;
+        public int SelectedIndex { get; set; } = -1;
 
         /// <summary>
         /// 可选项
         /// </summary>
-        public ObservableCollection<T> Items { get; } = new ();
+        public ObservableCollection<T> Items { get; } = new();
     }
 }

@@ -1,6 +1,4 @@
-﻿using ProjectCohesion.Core.ViewModels;
-using Autofac;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -12,15 +10,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Linq;
 
-namespace ProjectCohesion.Controls.MainWindow
+namespace ProjectCohesion.Modules.Demo.Controls.Side.Left
 {
-    public partial class NavigationBar : UserControl
+    /// <summary>
+    /// Body.xaml 的交互逻辑
+    /// </summary>
+    public partial class Body : UserControl
     {
-        readonly UIViewModel uiViewModel = Core.Autofac.Container.Resolve<UIViewModel>();
-
-        public NavigationBar()
+        public Body()
         {
             InitializeComponent();
         }

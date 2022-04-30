@@ -14,7 +14,7 @@ namespace ProjectCohesion.Core.ViewModels
     /// <summary>
     /// 界面视图模型，存放界面布局、主题样式、语言设定、显示单位等界面相关数据
     /// </summary>
-    public class UIViewModel : ViewModel
+    public class UIViewModel : ViewModel, IDisposable
     {
         private readonly ModuleManager moduleManager;
 
@@ -27,7 +27,7 @@ namespace ProjectCohesion.Core.ViewModels
             moduleManager.Removed += ModuleManager_Removed;
         }
 
-        ~UIViewModel()
+        public void Dispose()
         {
             // 移除监听模块更新
             moduleManager.Registered -= ModuleManager_Registered;
@@ -54,12 +54,24 @@ namespace ProjectCohesion.Core.ViewModels
         private void ModuleManager_Registered(object sender, Models.EventArgs.ModuleEventArgs e)
         {
             if (e.Module is MenuModule menuModule && menuModule.Type == "MainTopMenu")
+            {
                 TopMenu.Items.Add(menuModule);
+                if (TopMenu.Selected == null)
+                    TopMenu.Selected = menuModule;
+            }
             else if (e.Module is GroupModule groupModule)
                 if (groupModule.Type == "MainLeftTab")
+                {
                     LeftTabs.Items.Add(groupModule);
+                    if (LeftTabs.Selected == null)
+                        LeftTabs.Selected = groupModule;
+                }
                 else if (groupModule.Type == "MainRightTab")
+                {
                     RightTabs.Items.Add(groupModule);
+                    if (RightTabs.Selected == null)
+                        RightTabs.Selected = groupModule;
+                }
         }
 
         /// <summary>

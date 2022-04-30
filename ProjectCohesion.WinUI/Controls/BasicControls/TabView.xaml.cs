@@ -19,7 +19,7 @@ namespace ProjectCohesion.WinUI.Controls
     {
         public TabView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }
