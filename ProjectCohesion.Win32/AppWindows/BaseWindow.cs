@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Shell;
 
 namespace ProjectCohesion.Win32.AppWindows
 {
@@ -111,6 +112,7 @@ namespace ProjectCohesion.Win32.AppWindows
         {
             ThemeListener.ThemeChanged += OnThemeChanged;
             Closed += (s, e) => ThemeListener.ThemeChanged -= OnThemeChanged;
+            StateChanged += (s, e) => SetWindowStyle();
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -125,6 +127,15 @@ namespace ProjectCohesion.Win32.AppWindows
                 Background = new SolidColorBrush(Colors.Transparent);
                 var nonClientArea = new Margins { cyTopHeight = -1 };
                 DwmExtendFrameIntoClientArea(hWnd, ref nonClientArea);
+            }
+            else
+            {
+                SetWindowStyle();
+                WindowChrome.SetWindowChrome(this, new WindowChrome()
+                {
+                    GlassFrameThickness = new Thickness(0, 0.1, 0.1, 0.1),
+                    NonClientFrameEdges = NonClientFrameEdges.Top
+                });
             }
             SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, WindowPosFlags.SWP_FRAMECHANGED | WindowPosFlags.SWP_NOMOVE | WindowPosFlags.SWP_NOSIZE);
             SetWindowEffect(hWnd);
@@ -187,6 +198,8 @@ namespace ProjectCohesion.Win32.AppWindows
                     p.rcNewWindow.left += borderWidth - 1;
                     p.rcNewWindow.right -= borderWidth - 1;
                     p.rcNewWindow.bottom -= borderWidth - 1;
+                    if (Environment.OSVersion.Version.Build < 22000)
+                        p.rcNewWindow.top += 1;
                     Marshal.StructureToPtr(p, lParam, false);
                     return IntPtr.Zero;
                 case 0x0084: // NCHITTEST
@@ -196,7 +209,7 @@ namespace ProjectCohesion.Win32.AppWindows
                     if (hitTest == HitTestFlags.CAPTION && DwmDefWindowProc(hwnd, msg, wParam, lParam, out IntPtr dwmHitTest))
                         return dwmHitTest;
                     return (IntPtr)hitTest;
-                case 0x00A5: // WM_NCRBUTTONUP
+                case 0x00A5: // NCRBUTTONUP
                     handled = true;
                     if (wParam == (IntPtr)HitTestFlags.CAPTION)
                         OpenSystemMenu();
@@ -228,6 +241,19 @@ namespace ProjectCohesion.Win32.AppWindows
                 uint trueValue = 0x01;
                 DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_MICA_EFFECT, ref trueValue, Marshal.SizeOf(typeof(int)));
             }
+        }
+
+        /// <summary>
+        /// 设置窗口样式
+        /// </summary>
+        private void SetWindowStyle()
+        {
+            // 还有更好的方式得到一个在Win10下无边框且可以最大化的窗口吗？
+            if (Environment.OSVersion.Version.Build < 22000)
+                if (WindowState == WindowState.Maximized)
+                    WindowStyle = WindowStyle.SingleBorderWindow;
+                else
+                    WindowStyle = WindowStyle.None;
         }
 
         /// <summary>
