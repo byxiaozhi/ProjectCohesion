@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 
 namespace ProjectCohesion.Controls.MainWindow
 {
-    /// <summary>
-    /// TitleBar.xaml 的交互逻辑
-    /// </summary>
+
     public partial class TitleBar : UserControl
     {
+        public bool CaptionButtonVisibility => Environment.OSVersion.Version.Build < 22000;
+
         public TitleBar()
         {
             InitializeComponent();

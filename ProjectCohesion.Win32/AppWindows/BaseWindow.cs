@@ -118,10 +118,10 @@ namespace ProjectCohesion.Win32.AppWindows
             base.OnSourceInitialized(e);
             var hWnd = new WindowInteropHelper(this).Handle;
             var hWndSource = HwndSource.FromHwnd(hWnd);
-            hWndSource.CompositionTarget.BackgroundColor = Colors.Transparent;
             if (Environment.OSVersion.Version.Build >= 22000)
             {
                 // 在Win11下拓展标题栏到整个窗口，窗口背景设置透明后会显示标题栏颜色
+                hWndSource.CompositionTarget.BackgroundColor = Colors.Transparent;
                 Background = new SolidColorBrush(Colors.Transparent);
                 var nonClientArea = new Margins { cyTopHeight = -1 };
                 DwmExtendFrameIntoClientArea(hWnd, ref nonClientArea);
@@ -135,12 +135,12 @@ namespace ProjectCohesion.Win32.AppWindows
         /// <summary>
         /// 命中测试
         /// </summary>
-        protected HitTestFlags HitTest(Point mousePosition)
+        protected virtual HitTestFlags HitTest(Point mousePosition)
         {
             var isTop = mousePosition.Y <= borderWidth / 2.0;
-            var isBottom = mousePosition.Y >= ActualHeight - borderWidth - 2;
+            var isBottom = mousePosition.Y >= ActualHeight - borderWidth - 1;
             var isLeft = mousePosition.X < 0;
-            var isRight = mousePosition.X >= ActualWidth - borderWidth - 2;
+            var isRight = mousePosition.X >= ActualWidth - borderWidth - 1;
             var hitTest = HitTestFlags.CLIENT;
             if (isTop)
             {
@@ -161,7 +161,7 @@ namespace ProjectCohesion.Win32.AppWindows
         }
 
         /// <summary>
-        /// 打开系统菜单
+        /// 打开系统菜单（但是还没有处理点击事件）
         /// </summary>
         protected void OpenSystemMenu()
         {
@@ -184,17 +184,17 @@ namespace ProjectCohesion.Win32.AppWindows
                 case 0x0083: // NCCALCSIZE
                     handled = true;
                     var p = (NCCALCSIZE_PARAMS)Marshal.PtrToStructure(lParam, typeof(NCCALCSIZE_PARAMS));
-                    p.rcNewWindow.left += borderWidth;
-                    p.rcNewWindow.right -= borderWidth;
-                    p.rcNewWindow.bottom -= borderWidth;
+                    p.rcNewWindow.left += borderWidth - 1;
+                    p.rcNewWindow.right -= borderWidth - 1;
+                    p.rcNewWindow.bottom -= borderWidth - 1;
                     Marshal.StructureToPtr(p, lParam, false);
                     return IntPtr.Zero;
                 case 0x0084: // NCHITTEST
                     handled = true;
-                    if (DwmDefWindowProc(hwnd, msg, wParam, lParam, out IntPtr dwmHitTest))
-                        return dwmHitTest;
                     var mousePosition = PointFromScreen(new Point(lParam.ToInt32() & 0xFFFF, lParam.ToInt32() >> 16));
                     var hitTest = HitTest(mousePosition);
+                    if (hitTest == HitTestFlags.CAPTION && DwmDefWindowProc(hwnd, msg, wParam, lParam, out IntPtr dwmHitTest))
+                        return dwmHitTest;
                     return (IntPtr)hitTest;
                 case 0x00A5: // WM_NCRBUTTONUP
                     handled = true;

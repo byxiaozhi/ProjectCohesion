@@ -48,5 +48,12 @@ namespace ProjectCohesion
             SaveWindowPlacement();
             settings.Save();
         }
+
+        protected override HitTestFlags HitTest(Point mousePosition) { 
+            var hit = base.HitTest(mousePosition);
+            if (titleBar.CaptionButtonVisibility && hit != HitTestFlags.RIGHT && mousePosition.Y < titleBar.ActualHeight && mousePosition.X > titleBar.ActualWidth - 46 * 3)
+                return HitTestFlags.CLIENT;
+            return hit;
+        }
     }
 }

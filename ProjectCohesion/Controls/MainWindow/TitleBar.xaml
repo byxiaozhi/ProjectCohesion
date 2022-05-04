@@ -3,12 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ProjectCohesion.Controls.MainWindow"
+             xmlns:local="clr-namespace:ProjectCohesion.Controls.MainWindow" 
+             xmlns:controls="clr-namespace:ProjectCohesion.Win32.Controls;assembly=ProjectCohesion.Win32"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="thisControl">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <StackPanel Height="34">
             <TextBlock FontSize="12" Margin="12,8,4,4">ProjectCohesion</TextBlock>
         </StackPanel>
+        <controls:CaptionButtons Grid.Column="1" x:Name="captionButtons">
+            <controls:CaptionButtons.Style>
+                <Style TargetType="controls:CaptionButtons">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=thisControl, Path=CaptionButtonVisibility}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </controls:CaptionButtons.Style>
+        </controls:CaptionButtons>
     </Grid>
 </UserControl>
