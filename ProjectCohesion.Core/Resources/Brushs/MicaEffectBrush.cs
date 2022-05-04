@@ -182,7 +182,8 @@ namespace ProjectCohesion.Core.Resources.Brushs
                 !uiSettings.AdvancedEffectsEnabled ||
                 !WpfWindow.IsActive ||
                 isFastEffects == false ||
-                isEnergySaver == true;
+                isEnergySaver == true ||
+                Environment.OSVersion.Version.Build < 22000;
 
             Color tintColor = currentTheme == ElementTheme.Light ?
                 Color.FromArgb(255, 243, 243, 243) :
