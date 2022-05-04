@@ -138,7 +138,7 @@ namespace ProjectCohesion.Win32.AppWindows
         protected virtual HitTestFlags HitTest(Point mousePosition)
         {
             var isTop = mousePosition.Y <= borderWidth / 2.0;
-            var isBottom = mousePosition.Y >= ActualHeight - borderWidth - 1;
+            var isBottom = mousePosition.Y >= ActualHeight - borderWidth / 2.0 - 1;
             var isLeft = mousePosition.X < 0;
             var isRight = mousePosition.X >= ActualWidth - borderWidth - 1;
             var hitTest = HitTestFlags.CLIENT;
