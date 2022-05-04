@@ -204,10 +204,10 @@ namespace ProjectCohesion.Win32.AppWindows
                     return IntPtr.Zero;
                 case 0x0084: // NCHITTEST
                     handled = true;
+                    if (DwmDefWindowProc(hwnd, msg, wParam, lParam, out IntPtr dwmHitTest))
+                        return dwmHitTest;
                     var mousePosition = PointFromScreen(new Point(lParam.ToInt32() & 0xFFFF, lParam.ToInt32() >> 16));
                     var hitTest = HitTest(mousePosition);
-                    if (hitTest == HitTestFlags.CAPTION && DwmDefWindowProc(hwnd, msg, wParam, lParam, out IntPtr dwmHitTest))
-                        return dwmHitTest;
                     return (IntPtr)hitTest;
                 case 0x00A5: // NCRBUTTONUP
                     handled = true;
