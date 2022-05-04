@@ -119,20 +119,13 @@ namespace ProjectCohesion.Win32.AppWindows
             var hWnd = new WindowInteropHelper(this).Handle;
             var hWndSource = HwndSource.FromHwnd(hWnd);
             hWndSource.CompositionTarget.BackgroundColor = Colors.Transparent;
-            var nonClientArea = new Margins
-            {
-                cxLeftWidth = 1,
-                cyTopHeight = -1,
-                cyBottomHeight = 1,
-                cxRightWidth = 1
-            };
             if (Environment.OSVersion.Version.Build >= 22000)
-                // 在Win11下由于标题栏被拓展到整个窗口，所以窗口背景设置透明后会显示标题栏颜色
-                Background = new SolidColorBrush(Colors.Transparent); 
-            else
-                // 在Win10下标题栏缩小为1个像素
-                nonClientArea.cyTopHeight = 1;
-            DwmExtendFrameIntoClientArea(hWnd, ref nonClientArea);
+            {
+                // 在Win11下拓展标题栏到整个窗口，窗口背景设置透明后会显示标题栏颜色
+                Background = new SolidColorBrush(Colors.Transparent);
+                var nonClientArea = new Margins { cyTopHeight = -1 };
+                DwmExtendFrameIntoClientArea(hWnd, ref nonClientArea);
+            }
             SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, WindowPosFlags.SWP_FRAMECHANGED | WindowPosFlags.SWP_NOMOVE | WindowPosFlags.SWP_NOSIZE);
             SetWindowEffect(hWnd);
             SetTheme(hWnd);
