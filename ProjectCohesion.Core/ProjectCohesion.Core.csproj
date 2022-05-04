@@ -83,12 +83,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Autofac.cs" />
+    <Compile Include="Interfaces\IWpfWindow.cs" />
     <Compile Include="Models\EventArgs\ModuleEventArgs.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Models\Themes.cs" />
     <Compile Include="Modules\MenuModule.cs" />
     <Compile Include="Modules\GroupModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Brushs\MicaEffectBrush.cs" />
     <Compile Include="Services\EventCenter.cs" />
     <Compile Include="Services\ModuleManager.cs" />
     <Compile Include="Services\UIManager.cs" />
@@ -109,9 +111,11 @@
     <PackageReference Include="PropertyChanged.Fody" PrivateAssets="All">
       <Version>3.4.0</Version>
     </PackageReference>
+    <PackageReference Include="Win2D.uwp">
+      <Version>1.26.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="Utilities\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

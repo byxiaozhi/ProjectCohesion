@@ -1,5 +1,7 @@
 ﻿using Microsoft.Toolkit.Wpf.UI.XamlHost;
 using ProjectCohesion.Core.Modules;
+using ProjectCohesion.Core.Resources.Brushs;
+using ProjectCohesion.Win32.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,6 +43,7 @@ namespace ProjectCohesion.Win32.Controls
             {
                 navigationView.ItemInvoked += NavigationView_ItemInvoked;
                 navigationView.Loaded += NavigationView_Loaded;
+                navigationView.Background = new MicaEffectBrush(navigationView, new WpfWindow(Window.GetWindow(this)));
             }
         }
 
