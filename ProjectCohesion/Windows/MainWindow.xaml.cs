@@ -19,14 +19,13 @@ using ProjectCohesion.Core.ViewModels;
 
 namespace ProjectCohesion
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Win32.AppWindows.BaseWindow
     {
         readonly Properties.Settings settings = Properties.Settings.Default;
 
         public MainWindow()
         {
             DataContext = Core.Autofac.Container.Resolve<AppViewModel>();
-            WindowBackdrop.SetBackdrop(this);
             InitializeComponent();
             RestoreWindowPlacement();
         }
