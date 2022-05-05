@@ -35,7 +35,7 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" Margin="0,0,8,0" Grid.Row="1"/>
+                        <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center" Margin="0,0,8,0" Grid.Row="1"/>
                     </Grid>
                     <Border BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" HorizontalAlignment="Right" Margin="0,8,0,8" BorderThickness="1,0,0,0"/>
                 </StackPanel>

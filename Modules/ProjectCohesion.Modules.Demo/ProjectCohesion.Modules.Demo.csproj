@@ -16,4 +16,24 @@
 		<ProjectReference Include="..\..\ProjectCohesion.Win32\ProjectCohesion.Win32.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Controls\Menu\Project\SaveAs.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Controls\Menu\Project\Save.xaml.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Controls\Menu\Project\SaveAs.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
+	  <Page Update="Controls\Menu\Project\Save.xaml">
+	    <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+	    <SubType>Designer</SubType>
+	  </Page>
+	</ItemGroup>
+
 </Project>

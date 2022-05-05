@@ -4,9 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectCohesion.Modules.Demo.Controls.Menu.Project"
+             xmlns:winui="clr-namespace:ProjectCohesion.Win32.Controls;assembly=ProjectCohesion.Win32"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock>打开</TextBlock>
-    </Grid>
+    <Button Style="{StaticResource EllipsisButton}" VerticalAlignment="Stretch">
+        <DockPanel>
+            <Border DockPanel.Dock="Top">
+                <TextBlock DockPanel.Dock="Top" Margin="8" FontSize="16" Style="{DynamicResource FontSymbol}" Text="&#xE838;" />
+            </Border>
+            <TextBlock DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center">打开</TextBlock>
+        </DockPanel>
+    </Button>
 </UserControl>

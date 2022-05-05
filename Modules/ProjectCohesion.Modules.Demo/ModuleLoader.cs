@@ -16,21 +16,18 @@ namespace ProjectCohesion.Modules.Demo
             var uiManager = container.Resolve<UIManager>();
             Guid guid;
 
-
-            guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.Project.Open() });
-            uiManager.AddTopMenuItem("主页", "项目", guid);
-
             guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.Project.Create() });
             uiManager.AddTopMenuItem("主页", "项目", guid);
+            guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.Project.Open() });
+            uiManager.AddTopMenuItem("主页", "项目", guid);
+            guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.Project.Save() });
+            uiManager.AddTopMenuItem("主页", "项目", guid);
+            guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.Project.SaveAs() });
+            uiManager.AddTopMenuItem("主页", "项目", guid);
 
-            guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.Test.ButtonTest() });
-            uiManager.AddTopMenuItem("主页", "测试", guid);
 
-            guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.Test.SelectTest() });
-            uiManager.AddTopMenuItem("主页", "测试", guid);
-
-            guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.Test.CheckedBox() });
-            uiManager.AddTopMenuItem("主页", "测试", guid);
+            guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.UnitSetting() });
+            uiManager.AddTopMenuItem("主页", "单位", guid);
 
             guid = moduleManager.RegisterModule(new Core.Module<Func<UIElement>>() { Element = () => new Controls.Menu.Chart.Vertical() });
             uiManager.AddTopMenuItem("通用分析", "图表", guid);

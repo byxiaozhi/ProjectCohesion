@@ -13,9 +13,9 @@ using System.Windows.Shapes;
 
 namespace ProjectCohesion.Modules.Demo.Controls.Menu.Project
 {
-    public partial class Open : UserControl
+    public partial class SaveAs : UserControl
     {
-        public Open()
+        public SaveAs()
         {
             InitializeComponent();
         }

@@ -42,7 +42,7 @@ namespace ProjectCohesion.Controls.MainWindow
         {
             // 当HitTest使用
             var point = e.GetPosition(navigationView);
-            popup.StaysOpen = point.Y < navigationView.ActualHeight;
+            popup.StaysOpen = point.Y < navigationView.ActualHeight + popup.Height;
         }
 
         private void navigationView_DoubleClick(object sender, EventArgs e)
@@ -64,12 +64,14 @@ namespace ProjectCohesion.Controls.MainWindow
         {
             Window.LocationChanged += ClosePopup;
             Window.Deactivated += ClosePopup;
+            Window.MouseMove += Popup_MouseMove;
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             Window.LocationChanged -= ClosePopup;
             Window.Deactivated -= ClosePopup;
+            Window.MouseMove -= Popup_MouseMove;
         }
 
         private void ClosePopup(object sender, EventArgs e)

@@ -43,7 +43,7 @@ namespace ProjectCohesion.Win32.Controls
         {
             var windowsXamlHost = sender as WindowsXamlHost;
             navigationView = windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.NavigationView;
-            if(navigationView != null)
+            if (navigationView != null)
             {
                 navigationView.ItemInvoked += NavigationView_ItemInvoked;
                 navigationView.DoubleClick += DoubleClick;
@@ -61,11 +61,11 @@ namespace ProjectCohesion.Win32.Controls
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var navigationView = ((NavigationView)d).navigationView;
-            if (navigationView != null)
-                if (e.Property.Name == nameof(MenuItems) && navigationView.MenuItems != e.NewValue)
-                    navigationView.MenuItems = e.NewValue;
-                else if (e.Property.Name == nameof(SelectedItem) && navigationView.SelectedItem != e.NewValue)
-                    navigationView.SelectedItem = e.NewValue;
+            if (navigationView == null) return;
+            if (e.Property.Name == nameof(MenuItems) && navigationView.MenuItems != e.NewValue)
+                navigationView.MenuItems = e.NewValue;
+            else if (e.Property.Name == nameof(SelectedItem) && navigationView.SelectedItem != e.NewValue)
+                navigationView.SelectedItem = e.NewValue;
         }
 
         private async void NavigationView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)

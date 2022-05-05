@@ -13,9 +13,6 @@ using System.Windows.Shapes;
 
 namespace ProjectCohesion.Modules.Demo.Controls.Menu.Project
 {
-    /// <summary>
-    /// Create.xaml 的交互逻辑
-    /// </summary>
     public partial class Create : UserControl
     {
         public Create()

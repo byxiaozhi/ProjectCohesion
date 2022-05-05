@@ -11,13 +11,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProjectCohesion.Modules.Demo.Controls.Menu.Project
+namespace ProjectCohesion.Modules.Demo.Controls.Menu
 {
-    public partial class Open : UserControl
+    public partial class UnitSetting : UserControl
     {
-        public Open()
+        public UnitSetting()
         {
             InitializeComponent();
+            comboBox.ItemsSource = new List<string>()
+            {
+                "国际单位",
+                "英制单位"
+            };
         }
     }
 }
