@@ -33,6 +33,7 @@ namespace ProjectCohesion.Controls.MainWindow
         private void navigationView_ItemInvoked(object sender, EventArgs e)
         {
             // 打开Popup
+            popup.StaysOpen = true;
             popup.IsOpen = moduleGroupsWrapper.Visibility == Visibility.Collapsed && (prevSelected != uiViewModel.TopMenu.Selected || !popup.IsOpen);
             prevSelected = uiViewModel.TopMenu.Selected;
         }
