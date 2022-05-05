@@ -10,7 +10,8 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="ProjectCohesion" Height="600" Width="1000"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        MinWidth="800" MinHeight="500">
     <Border>
         <Border.Style>
             <Style TargetType="{x:Type Border}">
