@@ -36,7 +36,7 @@
                                 <Style TargetType="ToggleButton">
                                     <Setter Property="Background" Value="Transparent"/>
                                     <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
                                     <Setter Property="Margin" Value="1,1,1,0"/>
                                     <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
                                     <Style.Triggers>
@@ -48,7 +48,7 @@
                                             <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
                                             <Setter Property="FontWeight" Value="SemiBold" />
                                             <Setter Property="BorderThickness" Value="1,1,1,0"/>
-                                            <Setter Property="Margin" Value="0,0,0,1"/>
+                                            <Setter Property="Margin" Value="0"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -59,7 +59,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <StackPanel Margin="0,4,-3,0">
+    <StackPanel Margin="0,40,-2,0">
         <ToggleButton Style="{StaticResource TabItem}">
             参数1
         </ToggleButton>
