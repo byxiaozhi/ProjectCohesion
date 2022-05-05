@@ -11,7 +11,12 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">
-                        <ToggleButton FontSize="12" Height="32" Padding="8,0,8,0" Content="{TemplateBinding Content}">
+                        <ToggleButton 
+                            UseLayoutRounding="True"
+                            FontSize="12" 
+                            Height="32" 
+                            Padding="8,0,8,0" 
+                            Content="{TemplateBinding Content}">
                             <ToggleButton.LayoutTransform>
                                 <RotateTransform Angle="-90" />
                             </ToggleButton.LayoutTransform>
@@ -59,7 +64,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <StackPanel Margin="0,40,-2,0">
+    <StackPanel Margin="0,2,-2,0">
         <ToggleButton Style="{StaticResource TabItem}">
             参数1
         </ToggleButton>

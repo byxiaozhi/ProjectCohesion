@@ -7,7 +7,7 @@
 		<Platforms>x64;ARM64;x86</Platforms>
 		<AssetTargetFallback>uap10.0.19041</AssetTargetFallback>
 		<LangVersion>latest</LangVersion>
-		<StartupObject>ProjectCohesion.Program</StartupObject>
+		<StartupObject>ProjectCohesion.App</StartupObject>
 		<ApplicationIcon>icon.ico</ApplicationIcon>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
