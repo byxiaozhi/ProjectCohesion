@@ -14,7 +14,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel Height="34">
-            <TextBlock FontSize="12" Margin="12,8,4,4">ProjectCohesion</TextBlock>
+            <TextBlock FontSize="12" Margin="12,8,4,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}">ProjectCohesion</TextBlock>
         </StackPanel>
         <controls:CaptionButtons Grid.Column="1" x:Name="captionButtons">
             <controls:CaptionButtons.Style>

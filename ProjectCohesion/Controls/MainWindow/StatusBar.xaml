@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:ProjectCohesion.Controls.MainWindow"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border BorderThickness="0,1,0,0" BorderBrush="#e6e6e6">
-        <Grid Background="#f3f3f3" Height="28">
+    <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}">
+        <Grid Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" Height="28">
 
         </Grid>
     </Border>

@@ -7,7 +7,7 @@
              xmlns:winui="clr-namespace:ProjectCohesion.Win32.Controls;assembly=ProjectCohesion.Win32"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="{DynamicResource TextFillColorInverseBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

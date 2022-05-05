@@ -6,39 +6,69 @@
              xmlns:local="clr-namespace:ProjectCohesion.Win32.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
-        <ToggleButton FontSize="12" Height="32" Padding="8,0,8,0">
-            <ToggleButton.LayoutTransform>
-                <RotateTransform Angle="-90" />
-            </ToggleButton.LayoutTransform>
-            <ToggleButton.Template>
-                <ControlTemplate TargetType="ToggleButton">
-                    <Border 
-                        Background="{TemplateBinding Background}" 
-                        Width="{TemplateBinding Width}" 
-                        Height="{TemplateBinding Height}"
-                        Padding="{TemplateBinding Padding}">
-                        <ContentPresenter 
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center"  
-                            Content="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </ToggleButton.Template>
-            <ToggleButton.Style>
-                <Style TargetType="ToggleButton">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#eaeaea"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Background" Value="#e1e1e1"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </ToggleButton.Style>
+    <UserControl.Resources>
+        <Style x:Key="TabItem" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <ToggleButton FontSize="12" Height="32" Padding="8,0,8,0" Content="{TemplateBinding Content}">
+                            <ToggleButton.LayoutTransform>
+                                <RotateTransform Angle="-90" />
+                            </ToggleButton.LayoutTransform>
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border 
+                                            Background="{TemplateBinding Background}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            Margin="{TemplateBinding Margin}"
+                                            Width="{TemplateBinding Width}" 
+                                            Height="{TemplateBinding Height}"
+                                            Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter 
+                                            HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"  
+                                            Content="{TemplateBinding Content}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="Margin" Value="1,1,1,0"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"/>
+                                            <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
+                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                            <Setter Property="BorderThickness" Value="1,1,1,0"/>
+                                            <Setter Property="Margin" Value="0,0,0,1"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Margin="0,4,-3,0">
+        <ToggleButton Style="{StaticResource TabItem}">
             参数1
         </ToggleButton>
+        <ToggleButton Style="{StaticResource TabItem}">
+            参数2
+        </ToggleButton>
+        <ToggleButton Style="{StaticResource TabItem}">
+            参数3
+        </ToggleButton>
+        <Border Width="34"/>
     </StackPanel>
 </UserControl>

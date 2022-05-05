@@ -6,19 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="40" BorderBrush="#E5E5E5" BorderThickness="0,0,0,1">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="8,0,0,0">
-            <TextBlock VerticalAlignment="Center" FontSize="12">标题</TextBlock>
-        </StackPanel>
-        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,0">
-            <Button Style="{ThemeResource EllipsisButton}" Width="40" Height="40">
-                <FontIcon Glyph="&#xe8bb;" FontSize="8" />
-            </Button>
-        </StackPanel>
-    </Grid>
+    <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid BorderBrush="{ThemeResource CardStrokeColorDefault}" Height="40" BorderThickness="0,0,0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="8,0,0,0">
+                <TextBlock VerticalAlignment="Center" FontSize="12">标题</TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,0">
+                <Button Style="{ThemeResource EllipsisButton}" Width="40" Height="40">
+                    <FontIcon Glyph="&#xe8bb;" FontSize="8" />
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>

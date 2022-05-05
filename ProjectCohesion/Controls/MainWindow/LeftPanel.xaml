@@ -12,10 +12,10 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Background="#f3f3f3" BorderBrush="#e5e5e5" BorderThickness="0,0,1,0">
+        <Border Grid.Column="0" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,1,0">
             <winui:SidePanelTabView Margin="4,0,0,0"/>
         </Border>
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Background="{DynamicResource TextFillColorInverseBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
