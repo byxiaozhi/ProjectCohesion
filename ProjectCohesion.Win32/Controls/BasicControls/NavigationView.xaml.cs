@@ -28,6 +28,8 @@ namespace ProjectCohesion.Win32.Controls
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(NavigationView), new PropertyMetadata(PropertyChanged));
         public object SelectedItem { get => GetValue(SelectedItemProperty); set => SetValue(SelectedItemProperty, value); }
 
+        public event EventHandler ItemInvoked;
+
         public NavigationView()
         {
             InitializeComponent();
@@ -50,6 +52,7 @@ namespace ProjectCohesion.Win32.Controls
         private void NavigationView_ItemInvoked(object sender, EventArgs e)
         {
             SelectedItem = navigationView.SelectedItem;
+            ItemInvoked?.Invoke(this, EventArgs.Empty);
         }
 
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

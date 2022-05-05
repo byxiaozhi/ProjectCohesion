@@ -24,5 +24,10 @@ namespace ProjectCohesion.Controls.MainWindow
         {
             InitializeComponent();
         }
+
+        private void navigationView_ItemInvoked(object sender, EventArgs e)
+        {
+
+        }
     }
 }

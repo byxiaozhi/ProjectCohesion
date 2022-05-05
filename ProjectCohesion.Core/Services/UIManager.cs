@@ -46,8 +46,7 @@ namespace ProjectCohesion.Core.Services
                 };
                 menuModule.Element.Add(groupModule);
             }
-            var module = groupModule.Element.Where(x => x == moduleGuid).FirstOrDefault();
-            if (module == null)
+            if (!groupModule.Element.Where(x => x == moduleGuid).Any())
             {
                 // 如果还未添加该菜单项，就添加一个
                 groupModule.Element.Add(moduleGuid);
@@ -72,8 +71,7 @@ namespace ProjectCohesion.Core.Services
                 };
                 moduleManager.RegisterModule(Guid.NewGuid(), groupModule);
             }
-            var module = groupModule.Element.Where(x => x == moduleGuid).FirstOrDefault();
-            if (module == null)
+            if (!groupModule.Element.Where(x => x == moduleGuid).Any())
             {
                 // 如果还未添加该标签页，就添加一个
                 groupModule.Element.Add(moduleGuid);

@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ThemeResources xmlns="clr-namespace:ProjectCohesion.Win32.Resources;assembly=ProjectCohesion.Win32"/>
                 <ResourceDictionary Source="/ProjectCohesion.Win32;component/Resources/Styles/Default.xaml"/>
+                <ResourceDictionary Source="/ProjectCohesion.Win32;component/Resources/Converters/Converters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

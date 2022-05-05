@@ -40,6 +40,16 @@ namespace ProjectCohesion.Core.Services
         }
 
         /// <summary>
+        /// 注册一个组件
+        /// </summary>
+        public Guid RegisterModule(object module)
+        {
+            Guid guid = Guid.NewGuid();
+            RegisterModule(guid, module);
+            return guid;
+        }
+
+        /// <summary>
         /// 通过关键字组件
         /// </summary>
         public object GetModule(Guid guid)
