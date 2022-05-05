@@ -27,6 +27,8 @@ namespace ProjectCohesion.WinUI.Controls
 
         public event EventHandler ItemInvoked;
 
+        public event EventHandler DoubleClick;
+
         public NavigationView()
         {
             InitializeComponent();
@@ -35,7 +37,12 @@ namespace ProjectCohesion.WinUI.Controls
         private void navView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             SelectedItem = sender.SelectedItem;
-            ItemInvoked?.Invoke(this, null);
+            ItemInvoked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void NavigationViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            DoubleClick?.Invoke(this, EventArgs.Empty);
         }
     }
 }

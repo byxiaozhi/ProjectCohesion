@@ -8,16 +8,34 @@
              xmlns:viewmodels="clr-namespace:ProjectCohesion.Core.ViewModels;assembly=ProjectCohesion.Core" 
              d:DataContext="{d:DesignInstance Type=viewmodels:AppViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="thisControl"
+             Loaded="UserControl_Loaded"
+             Unloaded="UserControl_Unloaded">
     <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}">
-        <StackPanel>
+        <StackPanel Margin="8,0,8,8">
             <winui:NavigationView 
-                Margin="8,0,8,0" 
                 x:Name="navigationView" 
                 MenuItems="{Binding UIViewModel.TopMenu.Items}" 
                 SelectedItem="{Binding UIViewModel.TopMenu.Selected, Mode=TwoWay}"
-                ItemInvoked="navigationView_ItemInvoked"/>
-            <local:ModuleGroupsWrapper ItemsSource="{Binding UIViewModel.TopMenu.Selected.Element}"/>
+                ItemInvoked="navigationView_ItemInvoked"
+                DoubleClick="navigationView_DoubleClick"/>
+            <local:ModuleGroupsWrapper ItemsSource="{Binding UIViewModel.TopMenu.Selected.Element}" x:Name="moduleGroupsWrapper" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
+            <Popup x:Name="popup" 
+                   PopupAnimation="Slide" 
+                   Width="{Binding ActualWidth, ElementName=thisControl}" 
+                   Height="96" 
+                   PlacementTarget="{Binding ElementName=navigationView}" 
+                   AllowsTransparency="True"
+                   Placement="Bottom"
+                   MouseMove="Popup_MouseMove">
+                        <Border Margin="8,8,8,8">
+                            <Border.Effect>
+                                <DropShadowEffect Opacity="0.1" Direction="-90" BlurRadius="8" ShadowDepth="2"/>
+                            </Border.Effect>
+                            <local:ModuleGroupsWrapper ItemsSource="{Binding UIViewModel.TopMenu.Selected.Element}" Background="White"/>
+                        </Border>
+            </Popup>
         </StackPanel>
     </Border>
 </UserControl>

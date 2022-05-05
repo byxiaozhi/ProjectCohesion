@@ -24,6 +24,13 @@ namespace ProjectCohesion.Controls.MainWindow
             set => SetValue(ItemsSourceProperty, value);
         }
 
+        public static new readonly DependencyProperty BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(SolidColorBrush), typeof(ModuleGroupsWrapper), null);
+        public new SolidColorBrush Background
+        {
+            get => (SolidColorBrush)GetValue(BackgroundProperty);
+            set => SetValue(BackgroundProperty, value);
+        }
+
         public ModuleGroupsWrapper()
         {
             InitializeComponent();

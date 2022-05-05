@@ -24,7 +24,7 @@
             ItemInvoked="navView_ItemInvoked">
             <muxc:NavigationView.MenuItemTemplate>
                 <DataTemplate>
-                    <muxc:NavigationViewItem Content="{Binding Name}" FontSize="13" Height="38"/>
+                    <muxc:NavigationViewItem Content="{Binding Name}" FontSize="13" Height="38" DoubleTapped="NavigationViewItem_DoubleTapped"/>
                 </DataTemplate>
             </muxc:NavigationView.MenuItemTemplate>
         </muxc:NavigationView>

@@ -30,6 +30,8 @@ namespace ProjectCohesion.Win32.Controls
 
         public event EventHandler ItemInvoked;
 
+        public event EventHandler DoubleClick;
+
         public NavigationView()
         {
             InitializeComponent();
@@ -44,6 +46,7 @@ namespace ProjectCohesion.Win32.Controls
             if(navigationView != null)
             {
                 navigationView.ItemInvoked += NavigationView_ItemInvoked;
+                navigationView.DoubleClick += DoubleClick;
                 navigationView.Loaded += NavigationView_Loaded;
                 navigationView.Background = new MicaEffectBrush(navigationView, new WpfWindow(Window.GetWindow(this)));
             }
