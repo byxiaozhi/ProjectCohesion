@@ -6,4 +6,6 @@
     <local:EqualsConverter x:Key="EqualsConverterReverse" IsReverse="True"/>
     <local:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
     <local:ObjectToBoolConverter x:Key="ObjectToBoolConverterReverse" IsReverse="True"/>
+    <local:BoolToObjectConverter x:Key="ObjectToVisibilityConverter" TrueValue="Visible" FalseValue="Collapsed"/>
+    <local:BoolToObjectConverter x:Key="ObjectToVisibilityConverterReverse" TrueValue="Collapsed" FalseValue="Visible"/>
 </ResourceDictionary>

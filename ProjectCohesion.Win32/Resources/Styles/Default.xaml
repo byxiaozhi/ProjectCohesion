@@ -46,6 +46,7 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"/>
+                            <Setter TargetName="border" Property="Opacity" Value="0.8"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -76,6 +77,7 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"/>
+                            <Setter TargetName="border" Property="Opacity" Value="0.8"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
                             <Setter TargetName="border" Property="Margin" Value="1"/>
