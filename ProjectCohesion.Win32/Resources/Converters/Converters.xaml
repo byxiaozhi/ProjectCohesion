@@ -2,4 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:local="clr-namespace:ProjectCohesion.Win32.Resources.Converters">
     <local:GuidToControlConverter x:Key="GuidToControlConverter"/>
+    <local:EqualsConverter x:Key="EqualsConverter"/>
+    <local:EqualsConverter x:Key="EqualsConverterReverse" IsReverse="True"/>
+    <local:ObjectToBoolConverter x:Key="ObjectToBoolConverter"/>
+    <local:ObjectToBoolConverter x:Key="ObjectToBoolConverterReverse" IsReverse="True"/>
 </ResourceDictionary>
