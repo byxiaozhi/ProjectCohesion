@@ -194,13 +194,18 @@ namespace ProjectCohesion.Win32.AppWindows
             {
                 case 0x0083: // NCCALCSIZE
                     handled = true;
-                    var p = (NCCALCSIZE_PARAMS)Marshal.PtrToStructure(lParam, typeof(NCCALCSIZE_PARAMS));
-                    p.rcNewWindow.left += borderWidth - 1;
-                    p.rcNewWindow.right -= borderWidth - 1;
-                    p.rcNewWindow.bottom -= borderWidth - 1;
-                    if (Environment.OSVersion.Version.Build < 22000)
-                        p.rcNewWindow.top += 1;
-                    Marshal.StructureToPtr(p, lParam, false);
+                    if (ResizeMode == ResizeMode.CanResize ||
+                        ResizeMode == ResizeMode.CanResizeWithGrip ||
+                        Environment.OSVersion.Version.Build >= 22000)
+                    {
+                        var p = (NCCALCSIZE_PARAMS)Marshal.PtrToStructure(lParam, typeof(NCCALCSIZE_PARAMS));
+                        p.rcNewWindow.left += borderWidth - 1;
+                        p.rcNewWindow.right -= borderWidth - 1;
+                        p.rcNewWindow.bottom -= borderWidth - 1;
+                        if (Environment.OSVersion.Version.Build < 22000)
+                            p.rcNewWindow.top += 1;
+                        Marshal.StructureToPtr(p, lParam, false);
+                    }
                     return IntPtr.Zero;
                 case 0x0084: // NCHITTEST
                     handled = true;
@@ -256,7 +261,9 @@ namespace ProjectCohesion.Win32.AppWindows
         {
             // 还有更好的方式得到一个在Win10下无边框且可以最大化的窗口吗？
             if (Environment.OSVersion.Version.Build < 22000)
-                if (WindowState == WindowState.Maximized)
+                if (WindowState == WindowState.Maximized ||
+                    ResizeMode == ResizeMode.NoResize ||
+                    ResizeMode == ResizeMode.CanMinimize)
                     WindowStyle = WindowStyle.SingleBorderWindow;
                 else
                     WindowStyle = WindowStyle.None;
