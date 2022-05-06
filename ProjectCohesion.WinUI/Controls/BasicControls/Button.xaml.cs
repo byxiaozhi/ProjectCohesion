@@ -18,22 +18,11 @@ namespace ProjectCohesion.WinUI.Controls
 {
     public sealed partial class Button : UserControl
     {
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(Button), null);
-        public string Text { get => (string)GetValue(TextProperty); set => SetValue(TextProperty, value); }
-
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(Button), null);
-        public ICommand Command { get => (ICommand)GetValue(CommandProperty); set => SetValue(CommandProperty, value); }
-
-        public RoutedEventHandler Click;
+        public Windows.UI.Xaml.Controls.Button ChildButton { get => button; }
 
         public Button()
         {
             InitializeComponent();
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            Click?.Invoke(this, e);
         }
     }
 }

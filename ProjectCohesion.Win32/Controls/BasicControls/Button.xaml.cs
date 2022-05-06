@@ -39,7 +39,7 @@ namespace ProjectCohesion.Win32.Controls
 
         public event Windows.UI.Xaml.RoutedEventHandler Click;
 
-        WinUI.Controls.Button button;
+        Windows.UI.Xaml.Controls.Button button;
 
         public Button()
         {
@@ -49,10 +49,10 @@ namespace ProjectCohesion.Win32.Controls
         private void WindowsXamlHost_ChildChanged(object sender, EventArgs e)
         {
             var windowsXamlHost = sender as WindowsXamlHost;
-            button = windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.Button;
+            button = (windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.Button).ChildButton;
             if (button != null)
             {
-                button.Text = Text;
+                button.Content = Text;
                 button.Command = Command;
                 button.IsEnabled = IsEnabled;
                 button.Click += (s, e) => Click?.Invoke(this, e);
@@ -64,8 +64,8 @@ namespace ProjectCohesion.Win32.Controls
             var button = ((Button)d).button;
             if (button != null)
             {
-                if (e.Property.Name == nameof(Text) && button.Text != (string)e.NewValue)
-                    button.Text = (string)e.NewValue;
+                if (e.Property.Name == nameof(Text) && (string)button.Content != (string)e.NewValue)
+                    button.Content = e.NewValue;
                 if (e.Property.Name == nameof(Command) && button.Command != (ICommand)e.NewValue)
                     button.Command = (ICommand)e.NewValue;
                 if (e.Property.Name == nameof(IsEnabled) && button.IsEnabled != (bool)e.NewValue)
