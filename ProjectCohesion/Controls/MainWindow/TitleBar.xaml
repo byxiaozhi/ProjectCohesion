@@ -16,16 +16,5 @@
         <StackPanel Height="34">
             <TextBlock FontSize="12" Margin="12,8,4,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}">ProjectCohesion</TextBlock>
         </StackPanel>
-        <controls:CaptionButtons Grid.Column="1" x:Name="captionButtons">
-            <controls:CaptionButtons.Style>
-                <Style TargetType="controls:CaptionButtons">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=thisControl, Path=CaptionButtonVisibility}" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </controls:CaptionButtons.Style>
-        </controls:CaptionButtons>
     </Grid>
 </UserControl>

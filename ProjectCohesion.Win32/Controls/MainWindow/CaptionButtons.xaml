@@ -7,116 +7,114 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="thisControl">
-    <Grid>
-        <StackPanel Orientation="Horizontal">
-            <Button Click="Minimize_Click">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Width" Value="46"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border x:Name="border" Background="Transparent">
-                                        <TextBlock 
+    <StackPanel Orientation="Horizontal" Height="32">
+        <Button Click="Minimize_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="46"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="Transparent">
+                                    <TextBlock 
                                             x:Name="text"
                                             FontFamily="Segoe MDL2 Assets" 
                                             FontSize="9.5" 
                                             Text="&#xE921;" 
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="False">
-                                            <Setter TargetName="text" Property="Foreground" Value="#929292"/>
-                                        </DataTrigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="border" Property="Background" Value="#20000000"/>
-                                            <Setter TargetName="text" Property="Foreground" Value="#000000"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="border" Property="Background" Value="#30000000"/>
-                                            <Setter TargetName="text" Property="Foreground" Value="#000000"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Click="Maximize_Click">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Width" Value="46"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border x:Name="border" Background="Transparent">
-                                        <TextBlock 
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="False">
+                                        <Setter TargetName="text" Property="Foreground" Value="#929292"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#20000000"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="#000000"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#30000000"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="#000000"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Click="Maximize_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="46"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="Transparent">
+                                    <TextBlock 
                                             x:Name="text"
                                             FontFamily="Segoe MDL2 Assets" 
                                             FontSize="9.5" 
                                             Text="&#xE922;" 
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.WindowState}" Value="Maximized">
-                                            <Setter TargetName="text" Property="Text" Value="&#xE923;"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="False">
-                                            <Setter TargetName="text" Property="Foreground" Value="#929292"/>
-                                        </DataTrigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="border" Property="Background" Value="#20000000"/>
-                                            <Setter TargetName="text" Property="Foreground" Value="#000000"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="border" Property="Background" Value="#30000000"/>
-                                            <Setter TargetName="text" Property="Foreground" Value="#000000"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Click="Close_Click">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Width" Value="46"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border x:Name="border" Background="Transparent">
-                                        <TextBlock 
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.WindowState}" Value="Maximized">
+                                        <Setter TargetName="text" Property="Text" Value="&#xE923;"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="False">
+                                        <Setter TargetName="text" Property="Foreground" Value="#929292"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#20000000"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="#000000"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#30000000"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="#000000"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Click="Close_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="46"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="Transparent">
+                                    <TextBlock 
                                             x:Name="text"
                                             FontFamily="Segoe MDL2 Assets" 
                                             FontSize="9.5" 
                                             Text="&#xE8BB;" 
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="False">
-                                            <Setter TargetName="text" Property="Foreground" Value="#929292"/>
-                                        </DataTrigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="border" Property="Background" Value="#C42B1C"/>
-                                            <Setter TargetName="text" Property="Foreground" Value="White"/>
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter TargetName="border" Property="Background" Value="#C84030"/>
-                                            <Setter TargetName="text" Property="Foreground" Value="White"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-        </StackPanel>
-    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="False">
+                                        <Setter TargetName="text" Property="Foreground" Value="#929292"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#C42B1C"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#C84030"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+    </StackPanel>
 </UserControl>

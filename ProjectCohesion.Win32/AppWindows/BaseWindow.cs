@@ -3,14 +3,14 @@ using ProjectCohesion.Core.Models;
 using ProjectCohesion.Core.ViewModels;
 using ProjectCohesion.Win32.Utilities;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shell;
 using PInvoke;
+using System.Windows.Controls;
+using ProjectCohesion.Win32.Controls;
 
 namespace ProjectCohesion.Win32.AppWindows
 {
@@ -21,7 +21,7 @@ namespace ProjectCohesion.Win32.AppWindows
             DWMWA_USE_IMMERSIVE_DARK_MODE = 20,
             DWMWA_MICA_EFFECT = 1029,
             DWMWA_SYSTEMBACKDROP_TYPE = 38,
-            DWMWA_CAPTION_COLOR = 1030,
+            DWMWA_CAPTION_COLOR = 35,
         }
 
         public enum HitTestFlags
@@ -68,11 +68,29 @@ namespace ProjectCohesion.Win32.AppWindows
         [DllImport("user32.dll")]
         static extern bool TrackPopupMenu(IntPtr hMenu, uint uFlags, int x, int y, int nReserved, IntPtr hWnd, IntPtr prcRect);
 
+        // 内容属性
+        public new static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(BaseWindow), new PropertyMetadata(PropertyChanged));
+        public new object Content
+        {
+            get => GetValue(ContentProperty);
+            set => SetValue(ContentProperty, value);
+        }
+
+        // 背景属性，仅支持纯色
+        public new static readonly DependencyProperty BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(SolidColorBrush), typeof(BaseWindow), new PropertyMetadata(PropertyChanged));
+        public new SolidColorBrush Background
+        {
+            get => (SolidColorBrush)GetValue(BackgroundProperty);
+            set => SetValue(BackgroundProperty, value);
+        }
+
+        double WindowScale => User32.GetDpiForWindow(new WindowInteropHelper(this).Handle) / 96.0;
+
         public BaseWindow()
         {
             ThemeListener.ThemeChanged += OnThemeChanged;
             Closed += (s, e) => ThemeListener.ThemeChanged -= OnThemeChanged;
-            StateChanged += (s, e) => SetWindowStyle();
+            StateChanged += (s, e) => UpdateWindowStyle();
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -84,18 +102,21 @@ namespace ProjectCohesion.Win32.AppWindows
             {
                 // 在Win11下拓展标题栏到整个窗口，窗口背景设置透明后会显示标题栏颜色
                 hWndSource.CompositionTarget.BackgroundColor = Colors.Transparent;
-                Background = new SolidColorBrush(Colors.Transparent);
+                base.Background = new SolidColorBrush(Colors.Transparent);
                 var nonClientArea = new MARGINS { cyTopHeight = -1 };
                 DwmExtendFrameIntoClientArea(hWnd, ref nonClientArea);
             }
             else
             {
-                SetWindowStyle();
+                // 在Win10下将删除标题栏并将边框调整为1个像素
+                var width = 1 / WindowScale;
                 WindowChrome.SetWindowChrome(this, new WindowChrome()
                 {
-                    GlassFrameThickness = new Thickness(0, 0.1, 0.1, 0.1),
+
+                    GlassFrameThickness = new Thickness(0, width, width, width),
                     NonClientFrameEdges = NonClientFrameEdges.Top
-                });
+                }); ;
+                UpdateWindowStyle();
             }
 
             // 移除WS_CLIPCHILDREN，否则无法渲染透明的Xaml控件
@@ -103,8 +124,8 @@ namespace ProjectCohesion.Win32.AppWindows
             User32.SetWindowLong(hWnd, User32.WindowLongIndexFlags.GWL_STYLE, style & ~User32.SetWindowLongFlags.WS_CLIPCHILDREN);
 
             User32.SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, User32.SetWindowPosFlags.SWP_FRAMECHANGED | User32.SetWindowPosFlags.SWP_NOMOVE | User32.SetWindowPosFlags.SWP_NOSIZE);
-            SetWindowEffect(hWnd);
-            SetTheme(hWnd);
+            UpdateWindowEffect(hWnd);
+            UpdateTheme(hWnd);
             hWndSource.AddHook(WndProc);
         }
 
@@ -113,10 +134,12 @@ namespace ProjectCohesion.Win32.AppWindows
         /// </summary>
         protected virtual HitTestFlags HitTest(Point mousePosition)
         {
-            var isTop = mousePosition.Y <= borderWidth / 2.0;
-            var isBottom = mousePosition.Y >= ActualHeight - borderWidth / 2.0 - 1;
+            if (rootElement == null) return HitTestFlags.CLIENT;
+
+            var isTop = mousePosition.Y <= borderWidth / WindowScale;
+            var isBottom = mousePosition.Y >= rootElement.ActualHeight;
             var isLeft = mousePosition.X < 0;
-            var isRight = mousePosition.X >= ActualWidth - borderWidth - 1;
+            var isRight = mousePosition.X > rootElement.ActualWidth;
             var hitTest = HitTestFlags.CLIENT;
             if (isTop)
             {
@@ -133,6 +156,18 @@ namespace ProjectCohesion.Win32.AppWindows
             else if (isLeft) hitTest = HitTestFlags.LEFT;
             else if (isRight) hitTest = HitTestFlags.RIGHT;
             else if (mousePosition.Y <= captionHeight) hitTest = HitTestFlags.CAPTION;
+
+            if (captionButtons != null)
+            {
+                // 检测是否命中控制按钮
+                var point = captionButtons.TranslatePoint(new Point(0d, 0d), rootElement);
+                if (mousePosition.X > point.X &&
+                    mousePosition.Y > point.Y &&
+                    mousePosition.X < point.X + captionButtons.ActualWidth &&
+                    mousePosition.Y < captionButtons.ActualHeight)
+                    return HitTestFlags.CLIENT;
+            }
+
             return hitTest;
         }
 
@@ -188,15 +223,21 @@ namespace ProjectCohesion.Win32.AppWindows
         /// </summary>
         private void OnThemeChanged()
         {
-            Dispatcher.Invoke(() => SetTheme(new WindowInteropHelper(this).Handle));
+            Dispatcher.Invoke(() => UpdateTheme(new WindowInteropHelper(this).Handle));
         }
 
         /// <summary>
         /// 设置窗口视觉样式
         /// </summary>
-        private void SetWindowEffect(IntPtr hWnd)
+        private void UpdateWindowEffect(IntPtr hWnd)
         {
-            if (Environment.OSVersion.Version.Build >= 22523)
+            if (Background != null)
+            {
+                uint falseValue = 0x00;
+                DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_MICA_EFFECT, ref falseValue, Marshal.SizeOf(typeof(int)));
+                DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_SYSTEMBACKDROP_TYPE, ref falseValue, Marshal.SizeOf(typeof(int)));
+            }
+            else if (Environment.OSVersion.Version.Build >= 22523)
             {
                 uint micaValue = 0x02;
                 DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_SYSTEMBACKDROP_TYPE, ref micaValue, Marshal.SizeOf(typeof(int)));
@@ -211,7 +252,7 @@ namespace ProjectCohesion.Win32.AppWindows
         /// <summary>
         /// 设置窗口样式
         /// </summary>
-        private void SetWindowStyle()
+        private void UpdateWindowStyle()
         {
             // 还有更好的方式得到一个在Win10下无边框且可以最大化的窗口吗？
             if (Environment.OSVersion.Version.Build < 22000)
@@ -219,19 +260,26 @@ namespace ProjectCohesion.Win32.AppWindows
                     WindowStyle = WindowStyle.SingleBorderWindow;
                 else
                     WindowStyle = WindowStyle.None;
+
+            // 最大化时整个布局向下移动
+            if (WindowState == WindowState.Maximized && rootElement != null)
+                rootElement.Margin = new Thickness(0, borderWidth / WindowScale, 0, 0);
+            else
+                rootElement.Margin = new Thickness(0);
         }
 
         /// <summary>
         /// 设置窗口主题
         /// </summary>
-        private void SetTheme(IntPtr hWnd)
+        private void UpdateTheme(IntPtr hWnd)
         {
+            // 获取设置的主题
             var uiViewModel = Core.Autofac.Container.Resolve<UIViewModel>();
             uint darkModeValue = uiViewModel.Theme switch
             {
-                Themes.Light => 0x01,
-                Themes.Dark => 0x00,
-                _ => (uint)(ThemeListener.IsDarkMode ? 0x01 : 0x00)
+                Themes.Light => 0,
+                Themes.Dark => 1,
+                _ => (uint)(ThemeListener.IsDarkMode ? 1 : 0)
             };
 
             // 设置窗口主题，会影响窗口三个控制按钮颜色
@@ -240,14 +288,76 @@ namespace ProjectCohesion.Win32.AppWindows
             if (Environment.OSVersion.Version.Build >= 22000)
             {
                 // 在Win11下由于标题栏被拓展到整个窗口，所以只需要设置标题栏背景颜色
-                uint color = (uint)(darkModeValue == 0x01 ? 0x00202020 : 0x00f3f3f3);
-                DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_CAPTION_COLOR, ref color, Marshal.SizeOf(typeof(int)));
+                if (Background != null)
+                {
+                    uint color = 0;
+                    color |= (uint)Background.Color.R << 0;
+                    color |= (uint)Background.Color.G << 8;
+                    color |= (uint)Background.Color.B << 16;
+                    DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_CAPTION_COLOR, ref color, Marshal.SizeOf(typeof(int)));
+                }
+
             }
             else
             {
                 // 在Win10下需要设置窗口背景颜色
-                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkModeValue == 0x01 ? "#202020" : "#f3f3f3"));
+                if (Background == null)
+                    base.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkModeValue == 1 ? "#202020" : "#f3f3f3"));
+                else
+                    base.Background = Background;
             }
         }
+
+        // 构建基础布局
+        private void UpdateContent()
+        {
+            if (rootElement == null)
+            {
+                rootElement = new Grid();
+                contentElement = new ContentControl();
+                rootElement.Children.Add(contentElement);
+                if (Environment.OSVersion.Version.Build < 22000)
+                {
+                    // Win10下添加自定义窗口控制按钮
+                    rootElement.Children.Add(
+                        captionButtons = new CaptionButtons()
+                        {
+                            VerticalAlignment = VerticalAlignment.Top,
+                            HorizontalAlignment = HorizontalAlignment.Right,
+                        });
+                }
+            }
+            contentElement.Content = Content;
+            base.Content = rootElement;
+        }
+
+        /// <summary>
+        /// 依赖属性变化
+        /// </summary>
+        private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((BaseWindow)d).PropertyChanged(e);
+        }
+
+        /// <summary>
+        /// 依赖属性变化
+        /// </summary>
+        private void PropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.Property.Name == nameof(Content))
+            {
+                UpdateContent();
+            }
+            else if (e.Property.Name == nameof(Background))
+            {
+                var hWnd = new WindowInteropHelper(this).Handle;
+                UpdateWindowEffect(hWnd);
+                UpdateTheme(hWnd);
+            }
+        }
+
+        private Grid rootElement;
+        private ContentControl contentElement;
+        private CaptionButtons captionButtons;
     }
 }
