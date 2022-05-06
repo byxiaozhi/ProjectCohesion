@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shell;
+using PInvoke;
 
 namespace ProjectCohesion.Win32.AppWindows
 {
@@ -21,13 +22,6 @@ namespace ProjectCohesion.Win32.AppWindows
             DWMWA_MICA_EFFECT = 1029,
             DWMWA_SYSTEMBACKDROP_TYPE = 38,
             DWMWA_CAPTION_COLOR = 1030,
-        }
-
-        enum WindowPosFlags : uint
-        {
-            SWP_FRAMECHANGED = 0x20u,
-            SWP_NOMOVE = 0x2u,
-            SWP_NOSIZE = 0x1u,
         }
 
         public enum HitTestFlags
@@ -44,21 +38,6 @@ namespace ProjectCohesion.Win32.AppWindows
             BOTTOMRIGHT
         }
 
-        enum SystemMetric
-        {
-            SM_CXFRAME = 32,
-            SM_CXPADDEDBORDER = 92,
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
-        {
-            public int left;
-            public int top;
-            public int right;
-            public int bottom;
-        }
-
         [StructLayout(LayoutKind.Sequential)]
         struct NCCALCSIZE_PARAMS
         {
@@ -69,7 +48,7 @@ namespace ProjectCohesion.Win32.AppWindows
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct Margins
+        public struct MARGINS
         {
             public int cxLeftWidth;
             public int cxRightWidth;
@@ -77,33 +56,14 @@ namespace ProjectCohesion.Win32.AppWindows
             public int cyBottomHeight;
         };
 
-        [StructLayout(LayoutKind.Sequential)]
-        struct POINT
-        {
-            public int x;
-            public int y;
-        }
-
         [DllImport("dwmapi.dll")]
         static extern int DwmSetWindowAttribute(IntPtr hwnd, DwmWindowAttribute dwAttribute, ref uint pvAttribute, int cbAttribute);
 
         [DllImport("dwmapi.dll")]
-        static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref Margins pMarInset);
+        static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS pMarInset);
 
         [DllImport("dwmapi.dll")]
         static extern bool DwmDefWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, out IntPtr plResult);
-
-        [DllImport("user32.dll")]
-        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, WindowPosFlags uFlags);
-
-        [DllImport("user32.dll")]
-        static extern int GetSystemMetrics(SystemMetric smIndex);
-
-        [DllImport("user32.dll")]
-        static extern IntPtr GetSystemMenu(IntPtr hWnd, [MarshalAs(UnmanagedType.Bool)] bool bRevert);
-
-        [DllImport("user32.dll")]
-        static extern bool GetCursorPos(out POINT lpPoint);
 
         [DllImport("user32.dll")]
         static extern bool TrackPopupMenu(IntPtr hMenu, uint uFlags, int x, int y, int nReserved, IntPtr hWnd, IntPtr prcRect);
@@ -125,7 +85,7 @@ namespace ProjectCohesion.Win32.AppWindows
                 // 在Win11下拓展标题栏到整个窗口，窗口背景设置透明后会显示标题栏颜色
                 hWndSource.CompositionTarget.BackgroundColor = Colors.Transparent;
                 Background = new SolidColorBrush(Colors.Transparent);
-                var nonClientArea = new Margins { cyTopHeight = -1 };
+                var nonClientArea = new MARGINS { cyTopHeight = -1 };
                 DwmExtendFrameIntoClientArea(hWnd, ref nonClientArea);
             }
             else
@@ -137,7 +97,12 @@ namespace ProjectCohesion.Win32.AppWindows
                     NonClientFrameEdges = NonClientFrameEdges.Top
                 });
             }
-            SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, WindowPosFlags.SWP_FRAMECHANGED | WindowPosFlags.SWP_NOMOVE | WindowPosFlags.SWP_NOSIZE);
+
+            // 移除WS_CLIPCHILDREN，否则无法渲染透明的Xaml控件
+            var style = (User32.SetWindowLongFlags)User32.GetWindowLong(hWnd, User32.WindowLongIndexFlags.GWL_STYLE);
+            User32.SetWindowLong(hWnd, User32.WindowLongIndexFlags.GWL_STYLE, style & ~User32.SetWindowLongFlags.WS_CLIPCHILDREN);
+
+            User32.SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, User32.SetWindowPosFlags.SWP_FRAMECHANGED | User32.SetWindowPosFlags.SWP_NOMOVE | User32.SetWindowPosFlags.SWP_NOSIZE);
             SetWindowEffect(hWnd);
             SetTheme(hWnd);
             hWndSource.AddHook(WndProc);
@@ -176,12 +141,12 @@ namespace ProjectCohesion.Win32.AppWindows
         /// </summary>
         protected void OpenSystemMenu()
         {
-            IntPtr hMenu = GetSystemMenu(new WindowInteropHelper(this).Handle, false);
-            GetCursorPos(out POINT point);
+            IntPtr hMenu = User32.GetSystemMenu(new WindowInteropHelper(this).Handle, false);
+            User32.GetCursorPos(out var point);
             TrackPopupMenu(hMenu, 0, point.x, point.y, 0, new WindowInteropHelper(this).Handle, new IntPtr());
         }
 
-        readonly int borderWidth = GetSystemMetrics(SystemMetric.SM_CXFRAME) + GetSystemMetrics(SystemMetric.SM_CXPADDEDBORDER);
+        readonly int borderWidth = User32.GetSystemMetrics(User32.SystemMetric.SM_CXFRAME) + User32.GetSystemMetrics(User32.SystemMetric.SM_CXPADDEDBORDER);
         readonly int captionHeight = 32;
 
         /// <summary>
