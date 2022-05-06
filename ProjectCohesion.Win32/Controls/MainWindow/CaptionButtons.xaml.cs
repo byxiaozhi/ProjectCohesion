@@ -15,12 +15,26 @@ namespace ProjectCohesion.Win32.Controls
 {
     public partial class CaptionButtons : UserControl
     {
+
+        public Window Window => Window.GetWindow(this);
+
         public CaptionButtons()
         {
             InitializeComponent();
         }
 
-        public Window Window => Window.GetWindow(this);
+        private void Control_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Window.ResizeMode == ResizeMode.NoResize)
+            {
+                btn_Maximize.Visibility = Visibility.Collapsed;
+                btn_Minimize.Visibility = Visibility.Collapsed;
+            }
+            else if (Window.ResizeMode == ResizeMode.CanMinimize)
+            {
+                btn_Maximize.IsEnabled = false;
+            }
+        }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {

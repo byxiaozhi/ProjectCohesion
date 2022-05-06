@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:ProjectCohesion.Win32.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             x:Name="thisControl">
+             x:Name="thisControl"
+             Loaded="Control_Loaded">
     <StackPanel Orientation="Horizontal" Height="32">
-        <Button Click="Minimize_Click">
+        <Button Click="Minimize_Click" x:Name="btn_Minimize">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Width" Value="46"/>
@@ -18,23 +19,26 @@
                                 <Border x:Name="border" Background="Transparent">
                                     <TextBlock 
                                             x:Name="text"
-                                            FontFamily="Segoe MDL2 Assets" 
+                                            Style="{DynamicResource FontSymbol}"
                                             FontSize="9.5" 
                                             Text="&#xE921;" 
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Center"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="True">
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="False">
-                                        <Setter TargetName="text" Property="Foreground" Value="#929292"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
                                     </DataTrigger>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="border" Property="Background" Value="#20000000"/>
-                                        <Setter TargetName="text" Property="Foreground" Value="#000000"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
                                         <Setter TargetName="border" Property="Background" Value="#30000000"/>
-                                        <Setter TargetName="text" Property="Foreground" Value="#000000"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -43,7 +47,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Click="Maximize_Click">
+        <Button Click="Maximize_Click" x:Name="btn_Maximize">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Width" Value="46"/>
@@ -53,7 +57,7 @@
                                 <Border x:Name="border" Background="Transparent">
                                     <TextBlock 
                                             x:Name="text"
-                                            FontFamily="Segoe MDL2 Assets" 
+                                            Style="{DynamicResource FontSymbol}"
                                             FontSize="9.5" 
                                             Text="&#xE922;" 
                                             VerticalAlignment="Center"
@@ -63,16 +67,22 @@
                                     <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.WindowState}" Value="Maximized">
                                         <Setter TargetName="text" Property="Text" Value="&#xE923;"/>
                                     </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="True">
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="False">
-                                        <Setter TargetName="text" Property="Foreground" Value="#929292"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
                                     </DataTrigger>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="border" Property="Background" Value="#20000000"/>
-                                        <Setter TargetName="text" Property="Foreground" Value="#000000"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
                                         <Setter TargetName="border" Property="Background" Value="#30000000"/>
-                                        <Setter TargetName="text" Property="Foreground" Value="#000000"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -81,7 +91,7 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Click="Close_Click">
+        <Button Click="Close_Click" x:Name="btn_Close">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Width" Value="46"/>
@@ -91,15 +101,18 @@
                                 <Border x:Name="border" Background="Transparent">
                                     <TextBlock 
                                             x:Name="text"
-                                            FontFamily="Segoe MDL2 Assets" 
+                                            Style="{DynamicResource FontSymbol}"
                                             FontSize="9.5" 
                                             Text="&#xE8BB;" 
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Center"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="True">
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding ElementName=thisControl, Path=Window.IsActive}" Value="False">
-                                        <Setter TargetName="text" Property="Foreground" Value="#929292"/>
+                                        <Setter TargetName="text" Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
                                     </DataTrigger>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter TargetName="border" Property="Background" Value="#C42B1C"/>
