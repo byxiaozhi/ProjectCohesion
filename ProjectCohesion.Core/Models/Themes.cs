@@ -11,6 +11,6 @@ namespace ProjectCohesion.Core.Models
     /// </summary>
     public enum Themes
     {
-        Default, Light, Dark
+        Default, Light, Dark, HighContrast
     }
 }
