@@ -49,7 +49,7 @@ namespace ProjectCohesion.Win32.Controls
         private void WindowsXamlHost_ChildChanged(object sender, EventArgs e)
         {
             var windowsXamlHost = sender as WindowsXamlHost;
-            button = (windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.Button).ChildButton;
+            button = (windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.Button)?.ChildButton;
             if (button != null)
             {
                 button.Content = Text;
