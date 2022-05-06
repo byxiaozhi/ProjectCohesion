@@ -6,11 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
     x:Name="thisControl">
-    <Grid Margin="-8,-16,-8,-8">
+    <Grid Background="{Binding Background, ElementName=thisControl}" Margin="-8,-16,-8,-8">
         <muxc:NavigationView 
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"

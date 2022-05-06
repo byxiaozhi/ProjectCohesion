@@ -20,6 +20,7 @@ namespace ProjectCohesion.Win32.Resources
             Source = lightSource;
             uiViewModel.PropertyChanged += UiViewModel_PropertyChanged;
             ThemeListener.ThemeChanged += ThemeChanged;
+            UpdateSource();
         }
 
         public void Dispose()

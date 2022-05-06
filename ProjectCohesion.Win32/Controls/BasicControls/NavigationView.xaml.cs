@@ -46,6 +46,8 @@ namespace ProjectCohesion.Win32.Controls
                 navigationView.ItemInvoked += NavigationView_ItemInvoked;
                 navigationView.DoubleClick += DoubleClick;
                 navigationView.Loaded += NavigationView_Loaded;
+                if (Environment.OSVersion.Version.Build >= 22000)
+                    navigationView.Background = null;
             }
         }
 
