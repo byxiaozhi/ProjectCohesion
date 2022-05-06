@@ -301,10 +301,9 @@ namespace ProjectCohesion.Win32.AppWindows
             else
             {
                 // 在Win10下需要设置窗口背景颜色
-                if (Background == null)
-                    base.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkModeValue == 1 ? "#202020" : "#f3f3f3"));
-                else
-                    base.Background = Background;
+                base.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkModeValue == 1 ? "#202020" : "#f3f3f3"));
+                if (Background != null && rootElement != null)
+                    rootElement.Background = Background;
             }
         }
 
