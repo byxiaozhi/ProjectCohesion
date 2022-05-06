@@ -106,26 +106,35 @@ namespace ProjectCohesion.Win32.AppWindows
 
         private void primaryButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var routedEventArg = new RoutedEventArgs();
-            PrimaryButtonClick?.Invoke(this, routedEventArg);
-            if (!routedEventArg.Handled)
-                SetResultAndClose(Result.PrimaryButton);
+            Dispatcher.BeginInvoke(() =>
+            {
+                var routedEventArg = new RoutedEventArgs();
+                PrimaryButtonClick?.Invoke(this, routedEventArg);
+                if (!routedEventArg.Handled)
+                    SetResultAndClose(Result.PrimaryButton);
+            });
         }
 
         private void secondaryButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var routedEventArg = new RoutedEventArgs();
-            SecondaryButtonClick?.Invoke(this, routedEventArg);
-            if (!routedEventArg.Handled)
-                SetResultAndClose(Result.SecondaryButton);
+            Dispatcher.BeginInvoke(() =>
+            {
+                var routedEventArg = new RoutedEventArgs();
+                SecondaryButtonClick?.Invoke(this, routedEventArg);
+                if (!routedEventArg.Handled)
+                    SetResultAndClose(Result.SecondaryButton);
+            });
         }
 
         private void closeButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var routedEventArg = new RoutedEventArgs();
-            CloseButtonClick?.Invoke(this, routedEventArg);
-            if (!routedEventArg.Handled)
-                SetResultAndClose(Result.CloseButton);
+            Dispatcher.BeginInvoke(() =>
+            {
+                var routedEventArg = new RoutedEventArgs();
+                CloseButtonClick?.Invoke(this, routedEventArg);
+                if (!routedEventArg.Handled)
+                    SetResultAndClose(Result.CloseButton);
+            });
         }
     }
 }
