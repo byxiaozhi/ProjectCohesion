@@ -5,12 +5,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectCohesion" 
-        xmlns:mainwindow="clr-namespace:ProjectCohesion.Controls.MainWindow"
-        mc:Ignorable="d"
+        xmlns:mainwindow="clr-namespace:ProjectCohesion.Controls.MainWindow" xmlns:viewmodels="clr-namespace:ProjectCohesion.Core.ViewModels;assembly=ProjectCohesion.Core" xmlns:converters="clr-namespace:ProjectCohesion.Win32.Resources.Converters;assembly=ProjectCohesion.Win32" d:DataContext="{d:DesignInstance Type=viewmodels:AppViewModel}"
+    mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="ProjectCohesion" Height="600" Width="1000"
         Closing="Window_Closing"
         MinWidth="800" MinHeight="500">
+    <appwindows:BaseWindow.Resources>
+        <Style TargetType="Border" x:Key="Divider">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultSolidBrush}"/>
+            <Setter Property="BorderThickness" Value="1,0,0,0"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
+        </Style>
+        <Style TargetType="GridSplitter" x:Key="Splitter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Width" Value="5"/>
+            <Setter Property="IsTabStop" Value="False"/>
+        </Style>
+        <converters:BoolToObjectConverter x:Key="LeftTabsWidthConverter" TrueValue="{Binding UIViewModel.LeftTabsWidth}" FalseValue="Auto"/>
+        <converters:BoolToObjectConverter x:Key="RightTabsWidthConverter" TrueValue="{Binding UIViewModel.RightTabsWidth}" FalseValue="Auto"/>
+    </appwindows:BaseWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -22,44 +40,18 @@
         <mainwindow:NavigationBar Grid.Row="1"/>
         <Grid Grid.Row="2" Background="{DynamicResource TextFillColorInverseBrush}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" MaxWidth="400" MinWidth="100"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource LeftTabsWidthConverter}}" MaxWidth="400"/>
+                <ColumnDefinition Width="Auto" MinWidth="2"/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200" MaxWidth="400" MinWidth="100"/>
+                <ColumnDefinition Width="Auto" MinWidth="2"/>
+                <ColumnDefinition Width="{Binding UIViewModel.RightTabs.Selected, Converter={StaticResource RightTabsWidthConverter}}" MaxWidth="400"/>
             </Grid.ColumnDefinitions>
             <mainwindow:LeftPanel Grid.Column="0"/>
-            <GridSplitter 
-                    Background="Transparent"
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch"
-                    Width="5"
-                    IsTabStop="False"/>
-            <Border 
-                    Grid.Column="1"
-                    HorizontalAlignment="center"
-                    VerticalAlignment="Stretch"
-                    BorderThickness="1,0,0,0"
-                    Width="1"
-                    IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}"/>
+            <GridSplitter  Grid.Column="1" Style="{DynamicResource Splitter}" Visibility="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource ObjectToVisibilityConverter}}"/>
+            <Border  Grid.Column="1" Style="{DynamicResource Divider}" Visibility="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource ObjectToVisibilityConverter}}"/>
             <mainwindow:MainContent Grid.Column="2"/>
-            <GridSplitter 
-                    Background="Transparent"
-                    Grid.Column="3"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch"
-                    Width="5"
-                    IsTabStop="False"/>
-            <Border 
-                    Grid.Column="3"
-                    HorizontalAlignment="center"
-                    VerticalAlignment="Stretch"
-                    BorderThickness="1,0,0,0"
-                    Width="1"
-                    IsHitTestVisible="False"
-                    BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}"/>
+            <GridSplitter  Grid.Column="3" Style="{DynamicResource Splitter}" Visibility="{Binding UIViewModel.RightTabs.Selected, Converter={StaticResource ObjectToVisibilityConverter}}"/>
+            <Border  Grid.Column="3" Style="{DynamicResource Divider}" Visibility="{Binding UIViewModel.RightTabs.Selected, Converter={StaticResource ObjectToVisibilityConverter}}"/>
             <mainwindow:RightPanel Grid.Column="4"/>
         </Grid>
         <mainwindow:StatusBar Grid.Row="3"/>

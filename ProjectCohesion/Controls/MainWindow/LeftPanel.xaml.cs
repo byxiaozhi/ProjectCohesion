@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Autofac;
+using ProjectCohesion.Core.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -18,6 +20,13 @@ namespace ProjectCohesion.Controls.MainWindow
         public LeftPanel()
         {
             InitializeComponent();
+        }
+
+        UIViewModel UIViewModel => Core.Autofac.Container.Resolve<UIViewModel>();
+
+        private void SidePanelHeader_CloseClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            UIViewModel.LeftTabs.Selected = null;
         }
     }
 }

@@ -2,14 +2,26 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Windows;
 using System.Windows.Data;
 
 namespace ProjectCohesion.Win32.Resources.Converters
 {
-    public class BoolToObjectConverter : IValueConverter
+    public class BoolToObjectConverter : Freezable, IValueConverter
     {
-        public object TrueValue { get; set; }
-        public object FalseValue { get; set; }
+        public static readonly DependencyProperty TrueValueProperty = DependencyProperty.Register(nameof(TrueValue), typeof(object), typeof(BoolToObjectConverter), null);
+        public object TrueValue
+        {
+            get => GetValue(TrueValueProperty);
+            set => SetValue(TrueValueProperty, value);
+        }
+
+        public static readonly DependencyProperty FalseValueProperty = DependencyProperty.Register(nameof(FalseValue), typeof(object), typeof(BoolToObjectConverter), null);
+        public object FalseValue
+        {
+            get => GetValue(FalseValueProperty);
+            set => SetValue(FalseValueProperty, value);
+        }
 
         private readonly ObjectToBoolConverter objectToBoolConverter = new();
 
@@ -22,6 +34,11 @@ namespace ProjectCohesion.Win32.Resources.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+
+        protected override Freezable CreateInstanceCore()
+        {
+            return new BoolToObjectConverter();
         }
     }
 }

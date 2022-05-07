@@ -19,14 +19,18 @@
                 MenuItems="{Binding UIViewModel.LeftTabs.Items}" 
                 SelectedItem="{Binding UIViewModel.LeftTabs.Selected, Mode=TwoWay}"/>
         </Border>
-        <Grid Grid.Column="1" Background="{DynamicResource TextFillColorInverseBrush}">
+        <Grid 
+            Grid.Column="1" 
+            Background="{DynamicResource TextFillColorInverseBrush}"
+            Visibility="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource ObjectToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <winui:SidePanelHeader 
                 Grid.Row="0" Margin="0,0,-2,0"
-                Title="{Binding UIViewModel.LeftTabs.Selected.Name}"/>
+                Title="{Binding UIViewModel.LeftTabs.Selected.Name}"
+                CloseClick="SidePanelHeader_CloseClick"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding UIViewModel.LeftTabs.Selected.Element}">
                     <ItemsControl.ItemsPanel>
