@@ -26,8 +26,7 @@
             <Setter Property="Width" Value="5"/>
             <Setter Property="IsTabStop" Value="False"/>
         </Style>
-        <converters:BoolToObjectConverter x:Key="LeftTabsWidthConverter" TrueValue="{Binding UIViewModel.LeftTabsWidth}" FalseValue="Auto"/>
-        <converters:BoolToObjectConverter x:Key="RightTabsWidthConverter" TrueValue="{Binding UIViewModel.RightTabsWidth}" FalseValue="Auto"/>
+        <converters:BoolToObjectConverter x:Key="MaxWidthConverter" TrueValue="400" FalseValue="41"/>
     </appwindows:BaseWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -40,11 +39,17 @@
         <mainwindow:NavigationBar Grid.Row="1"/>
         <Grid Grid.Row="2" Background="{DynamicResource TextFillColorInverseBrush}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource LeftTabsWidthConverter}}" MaxWidth="400"/>
+                <ColumnDefinition 
+                    MinWidth="41"
+                    MaxWidth="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource MaxWidthConverter}}" 
+                    Width="{Binding UIViewModel.LeftTabsWidth}"/>
                 <ColumnDefinition Width="Auto" MinWidth="2"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto" MinWidth="2"/>
-                <ColumnDefinition Width="{Binding UIViewModel.RightTabs.Selected, Converter={StaticResource RightTabsWidthConverter}}" MaxWidth="400"/>
+                <ColumnDefinition 
+                    MinWidth="41"
+                    MaxWidth="{Binding UIViewModel.RightTabs.Selected, Converter={StaticResource MaxWidthConverter}}" 
+                    Width="{Binding UIViewModel.RightTabsWidth}"/>
             </Grid.ColumnDefinitions>
             <mainwindow:LeftPanel Grid.Column="0"/>
             <GridSplitter  Grid.Column="1" Style="{DynamicResource Splitter}" Visibility="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource ObjectToVisibilityConverter}}"/>
