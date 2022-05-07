@@ -3,10 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ProjectCohesion.Win32.Controls"
+             xmlns:local="clr-namespace:ProjectCohesion.Win32.Controls" 
+             xmlns:converters="clr-namespace:ProjectCohesion.Win32.Resources.Converters"
+             xmlns:brushs="clr-namespace:ProjectCohesion.Win32.Resources.Brushs"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="thisControl">
     <UserControl.Resources>
+        <converters:BoolToObjectConverter x:Key="BoolToHiddenConverter" TrueValue="Visible" FalseValue="Hidden"/>
         <Style x:Key="TabItem" TargetType="ToggleButton">
             <Setter Property="Template">
                 <Setter.Value>
@@ -14,8 +18,7 @@
                         <ToggleButton 
                             UseLayoutRounding="True"
                             FontSize="12" 
-                            Height="32" 
-                            Padding="8,0,8,0" 
+                            Padding="8,0,8,0"
                             Content="{TemplateBinding Content}">
                             <ToggleButton.LayoutTransform>
                                 <RotateTransform Angle="-90" />
@@ -30,10 +33,15 @@
                                             Width="{TemplateBinding Width}" 
                                             Height="{TemplateBinding Height}"
                                             Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter 
-                                            HorizontalAlignment="Center" 
-                                            VerticalAlignment="Center"  
+                                        <StackPanel>
+                                            <Border Background="{Binding Path=(brushs:SystemColorBrushs.Accent), UpdateSourceTrigger=PropertyChanged}" Height="3" CornerRadius="1.5" Visibility="{TemplateBinding IsChecked, Converter={StaticResource BoolToHiddenConverter}}"/>
+                                            <ContentPresenter
+                                                Margin="8,8,8,12" 
+                                                x:Name="content"
+                                                HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center"
                                             Content="{TemplateBinding Content}" />
+                                        </StackPanel>
                                     </Border>
                                 </ControlTemplate>
                             </ToggleButton.Template>
@@ -41,19 +49,16 @@
                                 <Style TargetType="ToggleButton">
                                     <Setter Property="Background" Value="Transparent"/>
                                     <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="Margin" Value="1,1,1,0"/>
-                                    <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
+                                    <Setter Property="BorderThickness" Value="1,1,1,0"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"/>
                                         </Trigger>
                                         <Trigger Property="IsChecked" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"/>
-                                            <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
+                                            <!--<Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorTertiaryBrush}"/>-->
+                                            <!--<Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>-->
                                             <Setter Property="FontWeight" Value="SemiBold" />
-                                            <Setter Property="BorderThickness" Value="1,1,1,0"/>
-                                            <Setter Property="Margin" Value="0"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -64,16 +69,27 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <StackPanel Margin="0,2,-2,0">
-        <ToggleButton Style="{StaticResource TabItem}">
-            参数1
-        </ToggleButton>
-        <ToggleButton Style="{StaticResource TabItem}">
-            参数2
-        </ToggleButton>
-        <ToggleButton Style="{StaticResource TabItem}">
-            参数3
-        </ToggleButton>
-        <Border Width="34"/>
-    </StackPanel>
+
+    <ItemsControl Grid.Row="0" ItemsSource="{Binding MenuItems, ElementName=thisControl}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Margin="0,2,-2,0"/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <StackPanel>
+                    <ToggleButton
+                        Loaded="ToggleButton_Loaded"
+                        Unloaded="ToggleButton_Unloaded"
+                        Style="{StaticResource TabItem}" 
+                        Content="{Binding Name}" 
+                        Tag="{Binding}"
+                        Click="ToggleButton_Click" 
+                        MouseDoubleClick="ToggleButton_MouseDoubleClick"
+                        HorizontalAlignment="Right"/>
+                </StackPanel>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>

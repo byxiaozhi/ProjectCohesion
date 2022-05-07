@@ -13,7 +13,7 @@ namespace ProjectCohesion.Win32.Resources.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool result = value != null && value.ToString() == parameter.ToString();
+            bool result = value?.Equals(parameter) ?? value == parameter;
             return IsReverse ? !result : result;
         }
 

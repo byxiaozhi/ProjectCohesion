@@ -98,4 +98,5 @@
         <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
+    
 </ResourceDictionary>
