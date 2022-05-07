@@ -21,7 +21,7 @@
         </Border>
         <Grid 
             Grid.Column="1" 
-            Background="{DynamicResource TextFillColorInverseBrush}" 
+            Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}" 
             FlowDirection="LeftToRight"
             Visibility="{Binding UIViewModel.RightTabs.Selected, Converter={StaticResource ObjectToVisibilityConverter}}">
             <Grid.RowDefinitions>
