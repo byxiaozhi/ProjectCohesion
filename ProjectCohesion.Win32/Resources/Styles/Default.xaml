@@ -43,10 +43,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SolidBackgroundFillColorBaseBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorDefaultBrush}"/>
                             <Setter TargetName="border" Property="Opacity" Value="0.8"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -75,10 +75,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SolidBackgroundFillColorBaseBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorDefaultBrush}"/>
                             <Setter TargetName="border" Property="Opacity" Value="0.8"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">

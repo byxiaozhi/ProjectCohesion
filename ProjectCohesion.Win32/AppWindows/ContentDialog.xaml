@@ -11,7 +11,8 @@
         ResizeMode="NoResize"
         Title="ContentDialog" Height="200" Width="400"
         WindowStartupLocation="CenterOwner"
-        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+        Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}"
+        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
         x:Name="thisControl">
     <local:BaseWindow.Resources>
         <converter:BoolToObjectConverter x:Key="TextToWidthConverter" TrueValue="*" FalseValue="0"/>
