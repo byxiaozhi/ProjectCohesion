@@ -9,5 +9,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <xaml:WindowsXamlHost
         Height="Auto" 
-        InitialTypeName="ProjectCohesion.WinUI.Controls.SidePanelHeader"/>
+        InitialTypeName="ProjectCohesion.WinUI.Controls.SidePanelHeader"
+        ChildChanged="WindowsXamlHost_ChildChanged"/>
 </UserControl>

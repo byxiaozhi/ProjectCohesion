@@ -24,10 +24,25 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <winui:SidePanelHeader Grid.Row="0" Margin="0,0,-2,0"/>
-            <StackPanel Grid.Row="1">
-                
-            </StackPanel>
+            <winui:SidePanelHeader 
+                Grid.Row="0" Margin="0,0,-2,0"
+                Title="{Binding UIViewModel.LeftTabs.Selected.Name}"/>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding UIViewModel.LeftTabs.Selected.Element}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="2,2,0,2">
+                                <ContentControl Content="{Binding Converter={StaticResource GuidToControlConverter}}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

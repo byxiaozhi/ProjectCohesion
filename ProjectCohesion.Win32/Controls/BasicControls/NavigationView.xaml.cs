@@ -30,7 +30,7 @@ namespace ProjectCohesion.Win32.Controls
 
         public event EventHandler ItemInvoked;
 
-        public event EventHandler DoubleClick;
+        public event RoutedEventHandler DoubleClick;
 
         public NavigationView()
         {
@@ -46,11 +46,16 @@ namespace ProjectCohesion.Win32.Controls
             if (navigationView != null)
             {
                 navigationView.ItemInvoked += NavigationView_ItemInvoked;
-                navigationView.DoubleClick += DoubleClick;
+                navigationView.DoubleClick += NavigationView_DoubleClick; ;
                 navigationView.Loaded += NavigationView_Loaded;
                 if (Environment.OSVersion.Version.Build >= 22000)
                     navigationView.Background = null;
             }
+        }
+
+        private void NavigationView_DoubleClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            DoubleClick?.Invoke(this, new RoutedEventArgs());
         }
 
         private void NavigationView_ItemInvoked(object sender, EventArgs e)

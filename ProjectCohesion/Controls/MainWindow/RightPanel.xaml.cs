@@ -13,9 +13,6 @@ using System.Windows.Shapes;
 
 namespace ProjectCohesion.Controls.MainWindow
 {
-    /// <summary>
-    /// RightPanel.xaml 的交互逻辑
-    /// </summary>
     public partial class RightPanel : UserControl
     {
         public RightPanel()

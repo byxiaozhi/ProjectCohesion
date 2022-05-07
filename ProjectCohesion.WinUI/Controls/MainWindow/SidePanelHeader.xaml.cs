@@ -17,9 +17,21 @@ namespace ProjectCohesion.WinUI.Controls
 {
     public sealed partial class SidePanelHeader : UserControl
     {
+
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(SidePanelHeader), null);
+        public object Title { get => GetValue(TitleProperty); set => SetValue(TitleProperty, value); }
+
+
+        public event RoutedEventHandler CloseClick;
+
         public SidePanelHeader()
         {
             this.InitializeComponent();
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            CloseClick?.Invoke(this, e);
         }
     }
 }
