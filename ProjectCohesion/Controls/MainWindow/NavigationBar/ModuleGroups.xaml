@@ -30,7 +30,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border Margin="0,0,8,0">
-                                        <ContentControl Content="{Binding Converter={StaticResource GuidToControlConverter}}"/>
+                                        <ContentControl Content="{Binding Converter={StaticResource GuidToControlConverter}}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

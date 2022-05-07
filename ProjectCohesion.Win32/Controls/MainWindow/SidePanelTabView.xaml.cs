@@ -24,11 +24,9 @@ namespace ProjectCohesion.Win32.Controls
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(SidePanelTabView), new PropertyMetadata(PropertyChanged));
         public object SelectedItem { get => GetValue(SelectedItemProperty); set => SetValue(SelectedItemProperty, value); }
 
-        public event RoutedEventHandler ItemInvoked;
+        public event RoutedEventHandler SelectionChanged;
 
         public event RoutedEventHandler DoubleClick;
-
-        private HashSet<ToggleButton> toggleButtons = new();
 
         public SidePanelTabView()
         {
@@ -37,33 +35,17 @@ namespace ProjectCohesion.Win32.Controls
 
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var sidePanelTabView = d as SidePanelTabView;
-            foreach (var toggleButton in sidePanelTabView.toggleButtons)
-            {
-                toggleButton.IsChecked = toggleButton.Tag == sidePanelTabView.SelectedItem;
-            }
+
         }
 
-        private void ToggleButton_Click(object sender, RoutedEventArgs e)
-        {
-            SelectedItem = (sender as ToggleButton).Tag;
-            (sender as ToggleButton).IsChecked = false;
-            ItemInvoked?.Invoke(this, e);
-        }
-
-        private void ToggleButton_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             DoubleClick?.Invoke(this, e);
         }
 
-        private void ToggleButton_Loaded(object sender, RoutedEventArgs e)
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            toggleButtons.Add(sender as ToggleButton);
-        }
-
-        private void ToggleButton_Unloaded(object sender, RoutedEventArgs e)
-        {
-            toggleButtons.Remove(sender as ToggleButton);
+            SelectionChanged?.Invoke(this, e);
         }
     }
 }
