@@ -13,7 +13,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Margin="-2,0,-2,0">
-            <winui:TabView Background="#f3f3f3"/>
+            <winui:TabView Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"/>
         </Border>
     </Grid>
 </UserControl>

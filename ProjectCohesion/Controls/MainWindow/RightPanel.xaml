@@ -31,7 +31,8 @@
             <winui:SidePanelHeader 
                 Grid.Row="0" Margin="-2,0,0,0"
                 Title="{Binding UIViewModel.RightTabs.Selected.Name}"
-                CloseClick="SidePanelHeader_CloseClick"/>
+                CloseClick="SidePanelHeader_CloseClick"
+                Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"/>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding UIViewModel.RightTabs.Selected.Element}">
                     <ItemsControl.ItemsPanel>
