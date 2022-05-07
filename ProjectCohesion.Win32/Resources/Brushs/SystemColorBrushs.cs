@@ -11,9 +11,11 @@ namespace ProjectCohesion.Win32.Resources.Brushs
     {
         private static readonly UISettings uiSettings = new();
 
-        public static event EventHandler<PropertyChangedEventArgs> PropertyChanged;
+        public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
 
         public static SolidColorBrush Accent => ToBrush(uiSettings.GetColorValue(UIColorType.Accent));
+        public static SolidColorBrush Foreground => ToBrush(uiSettings.GetColorValue(UIColorType.Foreground));
+        public static SolidColorBrush Background => ToBrush(uiSettings.GetColorValue(UIColorType.Background));
 
         static SystemColorBrushs()
         {
@@ -22,7 +24,9 @@ namespace ProjectCohesion.Win32.Resources.Brushs
 
         private static void Update()
         {
-            PropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Accent)));
+            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Accent)));
+            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Foreground)));
+            StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Background)));
         }
 
         private static SolidColorBrush ToBrush(Windows.UI.Color color)
