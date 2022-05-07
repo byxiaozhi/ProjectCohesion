@@ -17,7 +17,6 @@
             IsSettingsVisible="False"
             IsPaneToggleButtonVisible="False"
             PaneDisplayMode="Top"
-            CompositeMode="MinBlend"
             x:Name="navView"
             MenuItemsSource="{Binding MenuItems,ElementName=thisControl}"
             SelectedItem="{Binding SelectedItem,ElementName=thisControl}"
