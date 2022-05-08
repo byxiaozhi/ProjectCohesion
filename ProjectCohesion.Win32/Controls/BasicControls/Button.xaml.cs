@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Wpf.UI.XamlHost;
+using ProjectCohesion.Win32.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -66,6 +67,8 @@ namespace ProjectCohesion.Win32.Controls
         public Windows.UI.Xaml.Controls.Button ChildButton { get; private set; }
         WinUI.Controls.Button child;
 
+        private PropertyBridge propertyBridge = new();
+
         public Button()
         {
             InitializeComponent();
@@ -73,14 +76,15 @@ namespace ProjectCohesion.Win32.Controls
 
         private void WindowsXamlHost_ChildChanged(object sender, EventArgs e)
         {
+            var binding = new Binding();
             var windowsXamlHost = sender as WindowsXamlHost;
             child = (windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.Button);
             ChildButton = child?.ChildButton;
             if (ChildButton != null)
             {
-                ChildButton.Content = Text;
-                ChildButton.Command = Command;
-                ChildButton.IsEnabled = IsEnabled;
+                propertyBridge.OneWayBinding(ChildButton, Windows.UI.Xaml.Controls.Button.ContentProperty, this, TextProperty);
+                propertyBridge.OneWayBinding(ChildButton, Windows.UI.Xaml.Controls.Button.CommandProperty, this, CommandProperty);
+                propertyBridge.OneWayBinding(ChildButton, Windows.UI.Xaml.Controls.Button.IsEnabledProperty, this, IsEnabledProperty);
                 if (Width > 0) ChildButton.Width = Width;
                 if (Height > 0) ChildButton.Height = Height;
                 if (ButtonStyle != null && child.Resources.ContainsKey(ButtonStyle)) ChildButton.Style = (Windows.UI.Xaml.Style)child.Resources[ButtonStyle];
@@ -94,12 +98,6 @@ namespace ProjectCohesion.Win32.Controls
             var child = ((Button)d).child;
             if (button != null)
             {
-                if (e.Property.Name == nameof(Text) && (string)button.Content != (string)e.NewValue)
-                    button.Content = e.NewValue;
-                if (e.Property.Name == nameof(Command) && button.Command != (ICommand)e.NewValue)
-                    button.Command = (ICommand)e.NewValue;
-                if (e.Property.Name == nameof(IsEnabled) && button.IsEnabled != (bool)e.NewValue)
-                    button.IsEnabled = (bool)e.NewValue;
                 if (e.Property.Name == nameof(Width) && button.Width != (double)e.NewValue && (double)e.NewValue > 0)
                     button.Width = (double)e.NewValue;
                 if (e.Property.Name == nameof(Height) && button.Height != (double)e.NewValue && (double)e.NewValue > 0)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Wpf.UI.XamlHost;
 using ProjectCohesion.Core.Modules;
+using ProjectCohesion.Win32.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,10 +23,10 @@ namespace ProjectCohesion.Win32.Controls
     public partial class NavigationView : UserControl
     {
 
-        public static readonly DependencyProperty MenuItemsProperty = DependencyProperty.Register(nameof(MenuItems), typeof(object), typeof(NavigationView), new PropertyMetadata(PropertyChanged));
+        public static readonly DependencyProperty MenuItemsProperty = DependencyProperty.Register(nameof(MenuItems), typeof(object), typeof(NavigationView), null);
         public object MenuItems { get => GetValue(MenuItemsProperty); set => SetValue(MenuItemsProperty, value); }
 
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(NavigationView), new PropertyMetadata(PropertyChanged));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(NavigationView), null);
         public object SelectedItem { get => GetValue(SelectedItemProperty); set => SetValue(SelectedItemProperty, value); }
 
         public event EventHandler ItemInvoked;
@@ -39,6 +40,8 @@ namespace ProjectCohesion.Win32.Controls
 
         WinUI.Controls.NavigationView navigationView;
 
+        private PropertyBridge propertyBridge = new();
+
         private void WindowsXamlHost_ChildChanged(object sender, EventArgs e)
         {
             var windowsXamlHost = sender as WindowsXamlHost;
@@ -48,6 +51,7 @@ namespace ProjectCohesion.Win32.Controls
                 navigationView.ItemInvoked += NavigationView_ItemInvoked;
                 navigationView.DoubleClick += NavigationView_DoubleClick; ;
                 navigationView.Loaded += NavigationView_Loaded;
+                propertyBridge.OneWayBinding(navigationView, WinUI.Controls.NavigationView.MenuItemsProperty, this, MenuItemsProperty);
                 if (Environment.OSVersion.Version.Build >= 22000)
                     navigationView.Background = null;
             }
@@ -64,21 +68,10 @@ namespace ProjectCohesion.Win32.Controls
             ItemInvoked?.Invoke(this, EventArgs.Empty);
         }
 
-        private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var navigationView = ((NavigationView)d).navigationView;
-            if (navigationView == null) return;
-            if (e.Property.Name == nameof(MenuItems) && navigationView.MenuItems != e.NewValue)
-                navigationView.MenuItems = e.NewValue;
-            else if (e.Property.Name == nameof(SelectedItem) && navigationView.SelectedItem != e.NewValue)
-                navigationView.SelectedItem = e.NewValue;
-        }
-
         private async void NavigationView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             await System.Threading.Tasks.Task.Delay(500);
-            navigationView.SelectedItem = null;
-            navigationView.SelectedItem = SelectedItem;
+            propertyBridge.TwoWayBinding(navigationView, WinUI.Controls.NavigationView.SelectedItemProperty, this, SelectedItemProperty);
         }
     }
 }
