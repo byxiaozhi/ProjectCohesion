@@ -5,8 +5,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectCohesion" 
-        xmlns:mainwindow="clr-namespace:ProjectCohesion.Controls.MainWindow" xmlns:viewmodels="clr-namespace:ProjectCohesion.Core.ViewModels;assembly=ProjectCohesion.Core" xmlns:converters="clr-namespace:ProjectCohesion.Win32.Resources.Converters;assembly=ProjectCohesion.Win32" d:DataContext="{d:DesignInstance Type=viewmodels:AppViewModel}"
-    mc:Ignorable="d"
+        xmlns:mainwindow="clr-namespace:ProjectCohesion.Controls.MainWindow" 
+        xmlns:viewmodels="clr-namespace:ProjectCohesion.Core.ViewModels;assembly=ProjectCohesion.Core" 
+        xmlns:converters="clr-namespace:ProjectCohesion.Win32.Resources.Converters;assembly=ProjectCohesion.Win32" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:AppViewModel}"
+        xmlns:properties="clr-namespace:ProjectCohesion.Properties"
+        mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="ProjectCohesion" Height="600" Width="1000"
         Closing="Window_Closing"
@@ -42,15 +46,17 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition 
                     MinWidth="41"
+                    x:Name="leftPanelColumnDefinition"
                     MaxWidth="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource MaxWidthConverter}}" 
-                    Width="{Binding UIViewModel.LeftTabsWidth}"/>
+                    Width="{Binding MainWindowLeftPanelWidth, Source={x:Static properties:Settings.Default}}"/>
                 <ColumnDefinition Width="Auto" MinWidth="2"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto" MinWidth="2"/>
                 <ColumnDefinition 
                     MinWidth="41"
+                    x:Name="rightPanelColumnDefinition"
                     MaxWidth="{Binding UIViewModel.RightTabs.Selected, Converter={StaticResource MaxWidthConverter}}" 
-                    Width="{Binding UIViewModel.RightTabsWidth}"/>
+                    Width="{Binding MainWindowRightPanelWidth, Source={x:Static properties:Settings.Default}}"/>
             </Grid.ColumnDefinitions>
             <mainwindow:LeftPanel Grid.Column="0"/>
             <GridSplitter  Grid.Column="1" Style="{DynamicResource Splitter}" Visibility="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource ObjectToVisibilityConverter}}"/>

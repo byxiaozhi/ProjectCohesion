@@ -95,11 +95,6 @@ namespace ProjectCohesion.Core.ViewModels
         public Selectable<GroupModule> LeftTabs { get; } = new();
 
         /// <summary>
-        /// 主页左侧标签页宽度
-        /// </summary>
-        public double LeftTabsWidth { get; set; } = 200;
-
-        /// <summary>
         /// 主页右侧标签页，
         /// 一般储存专有参数界面，
         /// 按照Order递增排序，
@@ -111,11 +106,6 @@ namespace ProjectCohesion.Core.ViewModels
         /// 主页内容标签页
         /// </summary>
         public Selectable<GroupModule> ContentTabs { get; } = new();
-
-        /// <summary>
-        /// 主页右侧标签页宽度
-        /// </summary>
-        public double RightTabsWidth { get; set; } = 200;
 
     }
 }

@@ -34,5 +34,29 @@ namespace ProjectCohesion.Properties {
                 this["MainWindowPlacement"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("250")]
+        public double MainWindowLeftPanelWidth {
+            get {
+                return ((double)(this["MainWindowLeftPanelWidth"]));
+            }
+            set {
+                this["MainWindowLeftPanelWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("250")]
+        public double MainWindowRightPanelWidth {
+            get {
+                return ((double)(this["MainWindowRightPanelWidth"]));
+            }
+            set {
+                this["MainWindowRightPanelWidth"] = value;
+            }
+        }
     }
 }

@@ -41,6 +41,8 @@ namespace ProjectCohesion
         public void SaveWindowPlacement()
         {
             settings.MainWindowPlacement = JsonConvert.SerializeObject(WindowPlacement.GetWindowPlacement(this));
+            settings.MainWindowLeftPanelWidth = leftPanelColumnDefinition.Width.Value;
+            settings.MainWindowRightPanelWidth = rightPanelColumnDefinition.Width.Value;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

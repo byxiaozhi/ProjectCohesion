@@ -5,5 +5,11 @@
     <Setting Name="MainWindowPlacement" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="MainWindowLeftPanelWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">250</Value>
+    </Setting>
+    <Setting Name="MainWindowRightPanelWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">250</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
