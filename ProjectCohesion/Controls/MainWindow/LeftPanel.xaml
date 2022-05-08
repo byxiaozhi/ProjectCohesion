@@ -32,22 +32,24 @@
                 Title="{Binding UIViewModel.LeftTabs.Selected.Name}"
                 CloseClick="SidePanelHeader_CloseClick"
                 Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"/>
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding UIViewModel.LeftTabs.Selected.Element}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Margin="2,2,0,2">
-                                <ContentControl Content="{Binding Converter={StaticResource GuidToControlConverter}}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <winui:WindowContainer Grid.Row="1" >
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding UIViewModel.LeftTabs.Selected.Element}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="2,2,0,2">
+                                    <ContentControl Content="{Binding Converter={StaticResource GuidToControlConverter}}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </winui:WindowContainer>
         </Grid>
     </Grid>
 </UserControl>
