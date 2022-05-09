@@ -116,7 +116,7 @@ namespace ProjectCohesion.Win32.AppWindows
                     GlassFrameThickness = new Thickness(0, width, width, width),
                     NonClientFrameEdges = NonClientFrameEdges.Top
                 }); ;
-                UpdateWindowStyle();
+                WindowStyle = WindowStyle.None;
             }
 
             // 移除WS_CLIPCHILDREN，否则无法渲染透明的Xaml控件
@@ -190,9 +190,9 @@ namespace ProjectCohesion.Win32.AppWindows
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
 
-            switch (msg)
+            switch ((User32.WindowMessage)msg)
             {
-                case 0x0083: // NCCALCSIZE
+                case User32.WindowMessage.WM_NCCALCSIZE:
                     handled = true;
                     if (ResizeMode == ResizeMode.CanResize ||
                         ResizeMode == ResizeMode.CanResizeWithGrip ||
@@ -204,22 +204,27 @@ namespace ProjectCohesion.Win32.AppWindows
                         p.rcNewWindow.bottom -= borderWidth - 1;
                         if (Environment.OSVersion.Version.Build < 22000)
                             p.rcNewWindow.top += 1;
-                        Marshal.StructureToPtr(p, lParam, false);
+                        Marshal.StructureToPtr(p, lParam, true);
                     }
                     return IntPtr.Zero;
-                case 0x0084: // NCHITTEST
+                case User32.WindowMessage.WM_NCHITTEST:
                     handled = true;
                     if (DwmDefWindowProc(hwnd, msg, wParam, lParam, out IntPtr dwmHitTest))
                         return dwmHitTest;
                     var mousePosition = PointFromScreen(new Point(lParam.ToInt32() & 0xFFFF, lParam.ToInt32() >> 16));
                     var hitTest = HitTest(mousePosition);
                     return (IntPtr)hitTest;
-                case 0x00A5: // NCRBUTTONUP
+                case User32.WindowMessage.WM_NCRBUTTONUP:
                     handled = true;
                     if (wParam == (IntPtr)HitTestFlags.CAPTION)
                         OpenSystemMenu();
                     break;
+                case User32.WindowMessage.WM_GETMINMAXINFO:
+                    if (Environment.OSVersion.Version.Build < 22000)
+                        UpdateMinMaxInfo(hwnd, lParam);
+                    break;
             }
+
             return IntPtr.Zero;
         }
 
@@ -229,6 +234,28 @@ namespace ProjectCohesion.Win32.AppWindows
         private void OnThemeChanged()
         {
             Dispatcher.Invoke(() => UpdateTheme(new WindowInteropHelper(this).Handle));
+        }
+
+        /// <summary>
+        /// 设置窗口最大化信息
+        /// </summary>
+        private void UpdateMinMaxInfo(IntPtr hwnd, IntPtr lParam)
+        {
+            var monitor = User32.MonitorFromWindow(hwnd, User32.MonitorOptions.MONITOR_DEFAULTTONEAREST);
+            if (monitor != IntPtr.Zero)
+            {
+                User32.MONITORINFO monitorInfo = new();
+                monitorInfo.cbSize = Marshal.SizeOf(typeof(User32.MONITORINFO));
+                User32.GetMonitorInfo(monitor, ref monitorInfo);
+                var rcWorkArea = monitorInfo.rcWork;
+                var rcMonitorArea = monitorInfo.rcMonitor;
+                var minmaxinfo = (User32.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(User32.MINMAXINFO));
+                minmaxinfo.ptMaxPosition.x = rcWorkArea.left - rcMonitorArea.left - borderWidth;
+                minmaxinfo.ptMaxPosition.y = rcWorkArea.top - rcMonitorArea.top - borderWidth;
+                minmaxinfo.ptMaxSize.x = rcWorkArea.right - rcWorkArea.left + borderWidth * 2;
+                minmaxinfo.ptMaxSize.y = rcWorkArea.bottom - rcWorkArea.top + borderWidth * 2;
+                Marshal.StructureToPtr(minmaxinfo, lParam, true);
+            }
         }
 
         /// <summary>
@@ -259,15 +286,6 @@ namespace ProjectCohesion.Win32.AppWindows
         /// </summary>
         private void UpdateWindowStyle()
         {
-            // 还有更好的方式得到一个在Win10下无边框且可以最大化的窗口吗？
-            if (Environment.OSVersion.Version.Build < 22000)
-                if (WindowState == WindowState.Maximized ||
-                    ResizeMode == ResizeMode.NoResize ||
-                    ResizeMode == ResizeMode.CanMinimize)
-                    WindowStyle = WindowStyle.SingleBorderWindow;
-                else
-                    WindowStyle = WindowStyle.None;
-
             // 最大化时整个布局向下移动
             if (WindowState == WindowState.Maximized && rootElement != null)
                 rootElement.Margin = new Thickness(0, borderWidth / WindowScale, 0, 0);
