@@ -48,7 +48,7 @@ namespace ProjectCohesion.Win32.Controls
             InitializeComponent();
         }
 
-        private void WindowsXamlHost_ChildChanged(object sender, EventArgs e)
+        private void AppXamlHost_ChildChanged(object sender, EventArgs e)
         {
             var windowsXamlHost = sender as WindowsXamlHost;
             comboBox = windowsXamlHost.GetUwpInternalObject() as Windows.UI.Xaml.Controls.ComboBox;

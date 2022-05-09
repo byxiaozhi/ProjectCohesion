@@ -18,12 +18,8 @@ namespace ProjectCohesion.Win32.Utilities
         /// </summary>
         public static User32.WINDOWPLACEMENT GetWindowPlacement(IntPtr hwnd)
         {
-            var placement = new User32.WINDOWPLACEMENT();
+            var placement = User32.GetWindowPlacement(hwnd);
             var scale = User32.GetDpiForWindow(hwnd) / 96.0;
-            unsafe
-            {
-                User32.GetWindowPlacement(hwnd, &placement);
-            }
             // 通过Win32API获得的坐标没有经过缩放，所以需要除以显示器缩放
             placement.rcNormalPosition.top = (int)(placement.rcNormalPosition.top / scale);
             placement.rcNormalPosition.left = (int)(placement.rcNormalPosition.left / scale);

@@ -66,7 +66,7 @@ namespace ProjectCohesion.Win32.AppWindows
         static extern bool DwmDefWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, out IntPtr plResult);
 
         [DllImport("user32.dll")]
-        static extern int TrackPopupMenu(IntPtr hMenu, uint uFlags, int x, int y, int nReserved, IntPtr hWnd, IntPtr prcRect);
+        static extern IntPtr TrackPopupMenu(IntPtr hMenu, uint uFlags, int x, int y, int nReserved, IntPtr hWnd, IntPtr prcRect);
 
         // 内容属性
         public new static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(BaseWindow), new PropertyMetadata(PropertyChanged));
@@ -179,10 +179,7 @@ namespace ProjectCohesion.Win32.AppWindows
             var hMenu = User32.GetSystemMenu(hWnd, false);
             User32.GetCursorPos(out var point);
             var retvalue = TrackPopupMenu(hMenu, 0x0100, point.x, point.y, 0, hWnd, new IntPtr());
-            unsafe
-            {
-                User32.PostMessage(hWnd, User32.WindowMessage.WM_SYSCOMMAND, (void*)retvalue, (void*)0);
-            }
+            User32.PostMessage(hWnd, User32.WindowMessage.WM_SYSCOMMAND, retvalue, IntPtr.Zero);
         }
 
         readonly int borderWidth = User32.GetSystemMetrics(User32.SystemMetric.SM_CXFRAME) + User32.GetSystemMetrics(User32.SystemMetric.SM_CXPADDEDBORDER);

@@ -42,7 +42,7 @@ namespace ProjectCohesion.Win32.Controls
 
         private PropertyBridge propertyBridge = new();
 
-        private void WindowsXamlHost_ChildChanged(object sender, EventArgs e)
+        private void AppXamlHost_ChildChanged(object sender, EventArgs e)
         {
             var windowsXamlHost = sender as WindowsXamlHost;
             navigationView = windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.NavigationView;
