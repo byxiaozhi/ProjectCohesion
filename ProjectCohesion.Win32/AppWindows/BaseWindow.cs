@@ -66,7 +66,7 @@ namespace ProjectCohesion.Win32.AppWindows
         static extern bool DwmDefWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, out IntPtr plResult);
 
         [DllImport("user32.dll")]
-        static extern bool TrackPopupMenu(IntPtr hMenu, uint uFlags, int x, int y, int nReserved, IntPtr hWnd, IntPtr prcRect);
+        static extern int TrackPopupMenu(IntPtr hMenu, uint uFlags, int x, int y, int nReserved, IntPtr hWnd, IntPtr prcRect);
 
         // 内容属性
         public new static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(BaseWindow), new PropertyMetadata(PropertyChanged));
@@ -84,7 +84,8 @@ namespace ProjectCohesion.Win32.AppWindows
             set => SetValue(BackgroundProperty, value);
         }
 
-        double WindowScale => User32.GetDpiForWindow(new WindowInteropHelper(this).Handle) / 96.0;
+        IntPtr hWnd;
+        double WindowScale => User32.GetDpiForWindow(hWnd) / 96.0;
 
         public BaseWindow()
         {
@@ -96,7 +97,7 @@ namespace ProjectCohesion.Win32.AppWindows
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            var hWnd = new WindowInteropHelper(this).Handle;
+            hWnd = new WindowInteropHelper(this).Handle;
             var hWndSource = HwndSource.FromHwnd(hWnd);
             if (Environment.OSVersion.Version.Build >= 22000)
             {
@@ -171,13 +172,17 @@ namespace ProjectCohesion.Win32.AppWindows
         }
 
         /// <summary>
-        /// 打开系统菜单（但是还没有处理点击事件）
+        /// 打开系统菜单
         /// </summary>
-        protected void OpenSystemMenu()
+        protected void OpenSystemMenu(IntPtr hWnd)
         {
-            IntPtr hMenu = User32.GetSystemMenu(new WindowInteropHelper(this).Handle, false);
+            var hMenu = User32.GetSystemMenu(hWnd, false);
             User32.GetCursorPos(out var point);
-            TrackPopupMenu(hMenu, 0, point.x, point.y, 0, new WindowInteropHelper(this).Handle, new IntPtr());
+            var retvalue = TrackPopupMenu(hMenu, 0x0100, point.x, point.y, 0, hWnd, new IntPtr());
+            unsafe
+            {
+                User32.PostMessage(hWnd, User32.WindowMessage.WM_SYSCOMMAND, (void*)retvalue, (void*)0);
+            }
         }
 
         readonly int borderWidth = User32.GetSystemMetrics(User32.SystemMetric.SM_CXFRAME) + User32.GetSystemMetrics(User32.SystemMetric.SM_CXPADDEDBORDER);
@@ -186,7 +191,7 @@ namespace ProjectCohesion.Win32.AppWindows
         /// <summary>
         /// 处理窗口事件
         /// </summary>
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
 
             switch ((User32.WindowMessage)msg)
@@ -208,7 +213,7 @@ namespace ProjectCohesion.Win32.AppWindows
                     return IntPtr.Zero;
                 case User32.WindowMessage.WM_NCHITTEST:
                     handled = true;
-                    if (DwmDefWindowProc(hwnd, msg, wParam, lParam, out IntPtr dwmHitTest))
+                    if (DwmDefWindowProc(hWnd, msg, wParam, lParam, out IntPtr dwmHitTest))
                         return dwmHitTest;
                     var mousePosition = PointFromScreen(new Point(lParam.ToInt32() & 0xFFFF, lParam.ToInt32() >> 16));
                     var hitTest = HitTest(mousePosition);
@@ -216,11 +221,11 @@ namespace ProjectCohesion.Win32.AppWindows
                 case User32.WindowMessage.WM_NCRBUTTONUP:
                     handled = true;
                     if (wParam == (IntPtr)HitTestFlags.CAPTION)
-                        OpenSystemMenu();
+                        OpenSystemMenu(hWnd);
                     break;
                 case User32.WindowMessage.WM_GETMINMAXINFO:
                     if (Environment.OSVersion.Version.Build < 22000)
-                        UpdateMinMaxInfo(hwnd, lParam);
+                        UpdateMinMaxInfo(hWnd, lParam);
                     break;
             }
 
@@ -232,15 +237,15 @@ namespace ProjectCohesion.Win32.AppWindows
         /// </summary>
         private void OnThemeChanged()
         {
-            Dispatcher.Invoke(() => UpdateTheme(new WindowInteropHelper(this).Handle));
+            Dispatcher.Invoke(() => UpdateTheme(hWnd));
         }
 
         /// <summary>
         /// 设置窗口最大化信息
         /// </summary>
-        private void UpdateMinMaxInfo(IntPtr hwnd, IntPtr lParam)
+        private void UpdateMinMaxInfo(IntPtr hWnd, IntPtr lParam)
         {
-            var monitor = User32.MonitorFromWindow(hwnd, User32.MonitorOptions.MONITOR_DEFAULTTONEAREST);
+            var monitor = User32.MonitorFromWindow(hWnd, User32.MonitorOptions.MONITOR_DEFAULTTONEAREST);
             if (monitor != IntPtr.Zero)
             {
                 User32.MONITORINFO monitorInfo = new();
@@ -373,7 +378,6 @@ namespace ProjectCohesion.Win32.AppWindows
             }
             else if (e.Property.Name == nameof(Background))
             {
-                var hWnd = new WindowInteropHelper(this).Handle;
                 UpdateWindowEffect(hWnd);
                 UpdateTheme(hWnd);
             }
