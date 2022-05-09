@@ -112,7 +112,6 @@ namespace ProjectCohesion.Win32.AppWindows
                 var width = 1 / WindowScale;
                 WindowChrome.SetWindowChrome(this, new WindowChrome()
                 {
-
                     GlassFrameThickness = new Thickness(0, width, width, width),
                     NonClientFrameEdges = NonClientFrameEdges.Top
                 }); ;
