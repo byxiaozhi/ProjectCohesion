@@ -42,13 +42,15 @@ namespace ProjectCohesion.Controls.MainWindow
 
         private void navigationView_ItemInvoked(object sender, EventArgs e)
         {
-            IsOpen = uiViewModel.TopMenuCollapsed && (prevSelected != uiViewModel.TopMenu.Selected || !IsOpen);
+            IsOpen = uiViewModel.TopMenu.Selected != null && uiViewModel.TopMenuCollapsed && (prevSelected != uiViewModel.TopMenu.Selected || !IsOpen);
             prevSelected = uiViewModel.TopMenu.Selected;
         }
 
         private void navigationView_DoubleClick(object sender, EventArgs e)
         {
             uiViewModel.TopMenuCollapsed = !uiViewModel.TopMenuCollapsed;
+            if (uiViewModel.TopMenuCollapsed)
+                uiViewModel.TopMenu.Selected = null;
             IsOpen = false;
         }
 
