@@ -11,6 +11,7 @@ using System.Windows.Shell;
 using PInvoke;
 using System.Windows.Controls;
 using ProjectCohesion.Win32.Controls;
+using System.Windows.Data;
 
 namespace ProjectCohesion.Win32.AppWindows
 {
@@ -69,7 +70,7 @@ namespace ProjectCohesion.Win32.AppWindows
         static extern IntPtr TrackPopupMenu(IntPtr hMenu, uint uFlags, int x, int y, int nReserved, IntPtr hWnd, IntPtr prcRect);
 
         // 内容属性
-        public new static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(BaseWindow), new PropertyMetadata(PropertyChanged));
+        public new static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(BaseWindow), null);
         public new object Content
         {
             get => GetValue(ContentProperty);
@@ -77,56 +78,59 @@ namespace ProjectCohesion.Win32.AppWindows
         }
 
         // 背景属性，仅支持纯色
-        public new static readonly DependencyProperty BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(SolidColorBrush), typeof(BaseWindow), new PropertyMetadata(PropertyChanged));
+        public new static readonly DependencyProperty BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(SolidColorBrush), typeof(BaseWindow), null);
         public new SolidColorBrush Background
         {
             get => (SolidColorBrush)GetValue(BackgroundProperty);
             set => SetValue(BackgroundProperty, value);
         }
 
-        IntPtr hWnd;
-        double WindowScale => User32.GetDpiForWindow(hWnd) / 96.0;
+        IntPtr Handle => new WindowInteropHelper(this).Handle;
+        double WindowScale => User32.GetDpiForWindow(Handle) / 96.0;
 
         public BaseWindow()
         {
+            InitializeComponent();
             ThemeListener.ThemeChanged += OnThemeChanged;
             Closed += (s, e) => ThemeListener.ThemeChanged -= OnThemeChanged;
-            StateChanged += (s, e) => UpdateWindowStyle();
         }
 
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            hWnd = new WindowInteropHelper(this).Handle;
-            var hWndSource = HwndSource.FromHwnd(hWnd);
+            var hWndSource = HwndSource.FromHwnd(Handle);
             if (Environment.OSVersion.Version.Build >= 22000)
             {
                 // 在Win11下拓展标题栏到整个窗口，窗口背景设置透明后会显示标题栏颜色
                 hWndSource.CompositionTarget.BackgroundColor = Colors.Transparent;
                 base.Background = new SolidColorBrush(Colors.Transparent);
                 var nonClientArea = new MARGINS { cyTopHeight = -1 };
-                DwmExtendFrameIntoClientArea(hWnd, ref nonClientArea);
+                DwmExtendFrameIntoClientArea(Handle, ref nonClientArea);
             }
             else
             {
-                // 在Win10下将删除标题栏并将边框调整为1个像素
+                // 在Win10下将边框调整为1个像素
                 var width = 1 / WindowScale;
                 WindowChrome.SetWindowChrome(this, new WindowChrome()
                 {
                     GlassFrameThickness = new Thickness(0, width, width, width),
                     NonClientFrameEdges = NonClientFrameEdges.Top
-                }); ;
-                WindowStyle = WindowStyle.None;
+                });
             }
 
             // 移除WS_CLIPCHILDREN，否则无法渲染透明的Xaml控件
-            var style = (User32.SetWindowLongFlags)User32.GetWindowLong(hWnd, User32.WindowLongIndexFlags.GWL_STYLE);
-            User32.SetWindowLong(hWnd, User32.WindowLongIndexFlags.GWL_STYLE, style & ~User32.SetWindowLongFlags.WS_CLIPCHILDREN);
+            var style = (User32.SetWindowLongFlags)User32.GetWindowLong(Handle, User32.WindowLongIndexFlags.GWL_STYLE);
+            User32.SetWindowLong(Handle, User32.WindowLongIndexFlags.GWL_STYLE, style & ~User32.SetWindowLongFlags.WS_CLIPCHILDREN);
+            User32.SetWindowPos(Handle, IntPtr.Zero, 0, 0, 0, 0, User32.SetWindowPosFlags.SWP_FRAMECHANGED | User32.SetWindowPosFlags.SWP_NOMOVE | User32.SetWindowPosFlags.SWP_NOSIZE);
 
-            User32.SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, User32.SetWindowPosFlags.SWP_FRAMECHANGED | User32.SetWindowPosFlags.SWP_NOMOVE | User32.SetWindowPosFlags.SWP_NOSIZE);
-            UpdateWindowEffect(hWnd);
-            UpdateTheme(hWnd);
+            // 添加钩子
             hWndSource.AddHook(WndProc);
+
+            // 更新窗口
+            UpdateWindowEffect();
+            UpdateTheme();
+            UpdateWindowStyle();
+            UpdateRootLayout();
         }
 
         /// <summary>
@@ -190,7 +194,6 @@ namespace ProjectCohesion.Win32.AppWindows
         /// </summary>
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-
             switch ((User32.WindowMessage)msg)
             {
                 case User32.WindowMessage.WM_NCCALCSIZE:
@@ -225,7 +228,6 @@ namespace ProjectCohesion.Win32.AppWindows
                         UpdateMinMaxInfo(hWnd, lParam);
                     break;
             }
-
             return IntPtr.Zero;
         }
 
@@ -234,7 +236,7 @@ namespace ProjectCohesion.Win32.AppWindows
         /// </summary>
         private void OnThemeChanged()
         {
-            Dispatcher.Invoke(() => UpdateTheme(hWnd));
+            Dispatcher.Invoke(UpdateTheme);
         }
 
         /// <summary>
@@ -262,23 +264,25 @@ namespace ProjectCohesion.Win32.AppWindows
         /// <summary>
         /// 设置窗口视觉样式
         /// </summary>
-        private void UpdateWindowEffect(IntPtr hWnd)
+        private void UpdateWindowEffect()
         {
+            if (Handle == null) return;
+
             if (Background != null)
             {
                 uint falseValue = 0x00;
-                DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_MICA_EFFECT, ref falseValue, Marshal.SizeOf(typeof(int)));
-                DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_SYSTEMBACKDROP_TYPE, ref falseValue, Marshal.SizeOf(typeof(int)));
+                DwmSetWindowAttribute(Handle, DwmWindowAttribute.DWMWA_MICA_EFFECT, ref falseValue, Marshal.SizeOf(typeof(int)));
+                DwmSetWindowAttribute(Handle, DwmWindowAttribute.DWMWA_SYSTEMBACKDROP_TYPE, ref falseValue, Marshal.SizeOf(typeof(int)));
             }
             else if (Environment.OSVersion.Version.Build >= 22523)
             {
                 uint micaValue = 0x02;
-                DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_SYSTEMBACKDROP_TYPE, ref micaValue, Marshal.SizeOf(typeof(int)));
+                DwmSetWindowAttribute(Handle, DwmWindowAttribute.DWMWA_SYSTEMBACKDROP_TYPE, ref micaValue, Marshal.SizeOf(typeof(int)));
             }
             else if (Environment.OSVersion.Version.Build >= 22000)
             {
                 uint trueValue = 0x01;
-                DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_MICA_EFFECT, ref trueValue, Marshal.SizeOf(typeof(int)));
+                DwmSetWindowAttribute(Handle, DwmWindowAttribute.DWMWA_MICA_EFFECT, ref trueValue, Marshal.SizeOf(typeof(int)));
             }
         }
 
@@ -287,6 +291,20 @@ namespace ProjectCohesion.Win32.AppWindows
         /// </summary>
         private void UpdateWindowStyle()
         {
+            if (Environment.OSVersion.Version.Build < 22000)
+                if (ResizeMode == ResizeMode.CanResize || ResizeMode == ResizeMode.CanResizeWithGrip)
+                    WindowStyle = WindowStyle.None;
+                else
+                    WindowStyle = WindowStyle.SingleBorderWindow;
+        }
+
+        /// <summary>
+        /// 设置窗口布局
+        /// </summary>
+        private void UpdateRootLayout()
+        {
+            if (rootElement == null) return;
+
             // 最大化时整个布局向下移动
             if (WindowState == WindowState.Maximized && rootElement != null)
                 rootElement.Margin = new Thickness(0, borderWidth / WindowScale, 0, 0);
@@ -297,8 +315,10 @@ namespace ProjectCohesion.Win32.AppWindows
         /// <summary>
         /// 设置窗口主题
         /// </summary>
-        private void UpdateTheme(IntPtr hWnd)
+        private void UpdateTheme()
         {
+            if (Handle == null) return;
+
             // 获取设置的主题
             var uiViewModel = Core.Autofac.Container.Resolve<UIViewModel>();
             uint darkModeValue = uiViewModel.Theme switch
@@ -309,76 +329,76 @@ namespace ProjectCohesion.Win32.AppWindows
             };
 
             // 设置窗口主题，会影响窗口三个控制按钮颜色
-            DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, ref darkModeValue, Marshal.SizeOf(typeof(int)));
+            DwmSetWindowAttribute(Handle, DwmWindowAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, ref darkModeValue, Marshal.SizeOf(typeof(int)));
 
+            // 设置背景色
+            var fallbackColor = (Color)ColorConverter.ConvertFromString(darkModeValue == 1 ? "#202020" : "#f3f3f3");
             if (Environment.OSVersion.Version.Build >= 22000)
             {
                 // 在Win11下由于标题栏被拓展到整个窗口，所以只需要设置标题栏背景颜色
+                // 由于标题栏颜色不支持半透明，所以需要混色
                 if (Background != null)
                 {
+                    var alpha1 = Background.Color.A / 255f;
+                    var alpha2 = 1 - alpha1;
                     uint color = 0;
-                    color |= (uint)Background.Color.R << 0;
-                    color |= (uint)Background.Color.G << 8;
-                    color |= (uint)Background.Color.B << 16;
-                    DwmSetWindowAttribute(hWnd, DwmWindowAttribute.DWMWA_CAPTION_COLOR, ref color, Marshal.SizeOf(typeof(int)));
+                    color |= (uint)(Background.Color.R * alpha1 + fallbackColor.R * alpha2) << 0;
+                    color |= (uint)(Background.Color.G * alpha1 + fallbackColor.G * alpha2) << 8;
+                    color |= (uint)(Background.Color.B * alpha1 + fallbackColor.B * alpha2) << 16;
+                    DwmSetWindowAttribute(Handle, DwmWindowAttribute.DWMWA_CAPTION_COLOR, ref color, Marshal.SizeOf(typeof(int)));
                 }
-
             }
             else
             {
                 // 在Win10下需要设置窗口背景颜色
-                base.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(darkModeValue == 1 ? "#202020" : "#f3f3f3"));
-                if (Background != null && rootElement != null)
-                    rootElement.Background = Background;
+                base.Background = new SolidColorBrush(fallbackColor);
+                rootElement.Background = Background;
             }
         }
 
         /// <summary>
         // 构建基础布局
         /// </summary>
-        private void UpdateContent()
+        private void InitializeComponent()
         {
-            if (rootElement == null)
+            if (rootElement != null) return;
+            base.Content = rootElement = new Grid();
+            contentElement = new ContentControl();
+            rootElement.Children.Add(contentElement);
+            if (Environment.OSVersion.Version.Build < 22000)
             {
-                rootElement = new Grid();
-                contentElement = new ContentControl();
-                rootElement.Children.Add(contentElement);
-                if (Environment.OSVersion.Version.Build < 22000)
-                {
-                    // Win10下添加自定义窗口控制按钮
-                    rootElement.Children.Add(
-                        captionButtons = new CaptionButtons()
-                        {
-                            VerticalAlignment = VerticalAlignment.Top,
-                            HorizontalAlignment = HorizontalAlignment.Right,
-                        });
-                }
+                // Win10下添加自定义窗口控制按钮
+                rootElement.Children.Add(
+                    captionButtons = new CaptionButtons()
+                    {
+                        VerticalAlignment = VerticalAlignment.Top,
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                    });
             }
-            contentElement.Content = Content;
-            base.Content = rootElement;
         }
 
         /// <summary>
         /// 依赖属性变化
         /// </summary>
-        private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            ((BaseWindow)d).PropertyChanged(e);
-        }
-
-        /// <summary>
-        /// 依赖属性变化
-        /// </summary>
-        private void PropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property.Name == nameof(Content))
+            base.OnPropertyChanged(e);
+            if (e.Property == BackgroundProperty)
             {
-                UpdateContent();
+                UpdateWindowEffect();
+                UpdateTheme();
             }
-            else if (e.Property.Name == nameof(Background))
+            else if (e.Property == ResizeModeProperty)
             {
-                UpdateWindowEffect(hWnd);
-                UpdateTheme(hWnd);
+                UpdateWindowStyle();
+            }
+            else if (e.Property == WindowStateProperty)
+            {
+                UpdateRootLayout();
+            }
+            else if (e.Property == ContentProperty)
+            {
+                contentElement.Content = Content;
             }
         }
 
