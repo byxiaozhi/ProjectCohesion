@@ -10,11 +10,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel FlowDirection="RightToLeft">
-        <Border DockPanel.Dock="Left" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,1,0">
+        <Grid DockPanel.Dock="Left" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" >
             <winui:SidePanelTabView 
                 MenuItems="{Binding UIViewModel.RightTabs.Items}" 
                 SelectedItem="{Binding UIViewModel.RightTabs.Selected, Mode=TwoWay}"/>
-        </Border>
+            <Border BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,1,0"/>
+        </Grid>
         <DockPanel 
             DockPanel.Dock="Right"
             Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}" 

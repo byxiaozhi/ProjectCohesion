@@ -49,9 +49,9 @@
                     x:Name="leftPanelColumnDefinition"
                     MaxWidth="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource MaxWidthConverter}}" 
                     Width="{Binding MainWindowLeftPanelWidth, Source={x:Static properties:Settings.Default}}"/>
-                <ColumnDefinition Width="Auto" MinWidth="2"/>
+                <ColumnDefinition Width="Auto" MinWidth="1"/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="Auto" MinWidth="2"/>
+                <ColumnDefinition Width="Auto" MinWidth="1"/>
                 <ColumnDefinition 
                     MinWidth="41"
                     x:Name="rightPanelColumnDefinition"

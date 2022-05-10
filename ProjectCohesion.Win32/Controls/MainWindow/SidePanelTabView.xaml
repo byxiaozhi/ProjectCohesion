@@ -30,7 +30,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBoxItem">
-                            <Border x:Name="border" Background="Transparent" Padding="0,8,8,8" CornerRadius="4">
+                            <Border x:Name="border" Background="Transparent" Padding="0,8,6,8" Margin="1,0,1,0" CornerRadius="4">
                                 <StackPanel Orientation="Horizontal">
                                     <Border
                                         x:Name="line"
