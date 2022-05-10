@@ -87,6 +87,11 @@ namespace ProjectCohesion.Core.ViewModels
         public Selectable<MenuModule> TopMenu { get; } = new();
 
         /// <summary>
+        /// 主页顶部菜单是否折叠
+        /// </summary>
+        public bool TopMenuCollapsed { get; set; }
+
+        /// <summary>
         /// 主页左侧标签页，
         /// 一般储存基础参数界面，
         /// 按照Order递增排序，

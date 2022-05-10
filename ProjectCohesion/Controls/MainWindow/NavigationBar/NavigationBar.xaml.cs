@@ -16,12 +16,22 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using ProjectCohesion.Core.Services;
+using PInvoke;
 
 namespace ProjectCohesion.Controls.MainWindow
 {
     public partial class NavigationBar : UserControl
     {
         readonly UIViewModel uiViewModel = Core.Autofac.Container.Resolve<UIViewModel>();
+        readonly EventCenter eventCenter = Core.Autofac.Container.Resolve<EventCenter>();
+
+        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(NavigationBar), null);
+        public bool IsOpen
+        {
+            get => (bool)GetValue(IsOpenProperty);
+            set => SetValue(IsOpenProperty, value);
+        }
 
         Core.Modules.MenuModule prevSelected;
 
@@ -32,52 +42,50 @@ namespace ProjectCohesion.Controls.MainWindow
 
         private void navigationView_ItemInvoked(object sender, EventArgs e)
         {
-            // 打开Popup
-            popup.StaysOpen = true;
-            popup.IsOpen = moduleGroupsWrapper.Visibility == Visibility.Collapsed && (prevSelected != uiViewModel.TopMenu.Selected || !popup.IsOpen);
+            IsOpen = uiViewModel.TopMenuCollapsed && (prevSelected != uiViewModel.TopMenu.Selected || !IsOpen);
             prevSelected = uiViewModel.TopMenu.Selected;
-        }
-
-        private void Popup_MouseMove(object sender, MouseEventArgs e)
-        {
-            // 当HitTest使用
-            var point = e.GetPosition(navigationView);
-            popup.StaysOpen = point.Y < navigationView.ActualHeight + popup.Height;
         }
 
         private void navigationView_DoubleClick(object sender, EventArgs e)
         {
-            if (moduleGroupsWrapper.Visibility == Visibility.Visible)
-            {
-                moduleGroupsWrapper.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                moduleGroupsWrapper.Visibility = Visibility.Visible;
-                popup.IsOpen = false;
-            }
+            uiViewModel.TopMenuCollapsed = !uiViewModel.TopMenuCollapsed;
+            IsOpen = false;
         }
 
         Window Window => Window.GetWindow(this);
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Window.LocationChanged += ClosePopup;
             Window.Deactivated += ClosePopup;
-            Window.MouseMove += Popup_MouseMove;
+            eventCenter.AddEventListener("WM_MOUSEACTIVATE", MouseEvent);
+            eventCenter.AddEventListener("WM_LBUTTONDOWN", MouseEvent);
+            eventCenter.AddEventListener("WM_RBUTTONDOWN", MouseEvent);
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            Window.LocationChanged -= ClosePopup;
             Window.Deactivated -= ClosePopup;
-            Window.MouseMove -= Popup_MouseMove;
+            eventCenter.RemoveEventListener("WM_MOUSEACTIVATE", MouseEvent);
+            eventCenter.RemoveEventListener("WM_LBUTTONDOWN", MouseEvent);
+            eventCenter.RemoveEventListener("WM_RBUTTONDOWN", MouseEvent);
+        }
+
+        private void MouseEvent(object sender, EventArgs e)
+        {
+            if (!IsOpen) return;
+            var screenPoint = User32.GetCursorPos();
+            var point = TranslatePoint(PointFromScreen(new Point(screenPoint.x, screenPoint.y)), this);
+            if (point.X < 8 ||
+                point.X > ActualWidth - 16 ||
+                point.Y < 0 ||
+                point.Y > ActualHeight + moduleGroupsWrapper.ActualHeight - 24)
+                ClosePopup(sender, e);
         }
 
         private void ClosePopup(object sender, EventArgs e)
         {
-            // 点击窗口时关闭Popup
-            popup.IsOpen = false;
+            IsOpen = false;
+            uiViewModel.TopMenu.Selected = null;
         }
     }
 }

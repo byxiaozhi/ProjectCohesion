@@ -12,6 +12,8 @@ using PInvoke;
 using System.Windows.Controls;
 using ProjectCohesion.Win32.Controls;
 using System.Windows.Data;
+using System.Diagnostics;
+using ProjectCohesion.Core.Services;
 
 namespace ProjectCohesion.Win32.AppWindows
 {
@@ -188,6 +190,7 @@ namespace ProjectCohesion.Win32.AppWindows
 
         readonly int borderWidth = User32.GetSystemMetrics(User32.SystemMetric.SM_CXFRAME) + User32.GetSystemMetrics(User32.SystemMetric.SM_CXPADDEDBORDER);
         readonly int captionHeight = 32;
+        readonly EventCenter eventCenter = Core.Autofac.Container.Resolve<EventCenter>();
 
         /// <summary>
         /// 处理窗口事件
@@ -226,6 +229,17 @@ namespace ProjectCohesion.Win32.AppWindows
                 case User32.WindowMessage.WM_GETMINMAXINFO:
                     if (Environment.OSVersion.Version.Build < 22000)
                         UpdateMinMaxInfo(hWnd, lParam);
+                    break;
+                case User32.WindowMessage.WM_MOUSEACTIVATE:
+                    eventCenter.EmitEvent("WM_MOUSEACTIVATE", this, EventArgs.Empty);
+                    break;
+                case User32.WindowMessage.WM_NCLBUTTONDOWN:
+                case User32.WindowMessage.WM_LBUTTONDOWN:
+                    eventCenter.EmitEvent("WM_LBUTTONDOWN", this, EventArgs.Empty);
+                    break;
+                case User32.WindowMessage.WM_NCRBUTTONDOWN:
+                case User32.WindowMessage.WM_RBUTTONDOWN:
+                    eventCenter.EmitEvent("WM_RBUTTONDOWN", this, EventArgs.Empty);
                     break;
             }
             return IntPtr.Zero;
