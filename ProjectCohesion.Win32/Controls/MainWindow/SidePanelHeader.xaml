@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <local:AppXamlHost
-        Height="Auto" 
+        Height="40" 
         InitialTypeName="ProjectCohesion.WinUI.Controls.SidePanelHeader"
         ChildChanged="AppXamlHost_ChildChanged"/>
 </UserControl>

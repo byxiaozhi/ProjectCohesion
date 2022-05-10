@@ -12,7 +12,8 @@
     <UserControl.Resources>
         <converters:BoolToObjectConverter x:Key="BoolToHiddenConverter" TrueValue="Visible" FalseValue="Hidden"/>
     </UserControl.Resources>
-    <ListBox 
+    <ListBox
+        Width="40"
         Grid.Row="0" 
         ItemsSource="{Binding MenuItems, ElementName=thisControl}" 
         SelectedItem="{Binding SelectedItem,ElementName=thisControl, Mode=TwoWay}"
@@ -30,7 +31,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ListBoxItem">
-                            <Border x:Name="border" Background="Transparent" Padding="0,8,6,8" Margin="1,0,1,0" CornerRadius="4">
+                            <Border x:Name="border" Background="Transparent" Padding="0,8,0,8" Margin="1,0,2,0" CornerRadius="4">
                                 <StackPanel Orientation="Horizontal">
                                     <Border
                                         x:Name="line"
