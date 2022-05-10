@@ -46,8 +46,8 @@
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorDefaultBrush}"/>
-                            <Setter TargetName="border" Property="Opacity" Value="0.8"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"/>
+                            <Setter TargetName="border" Property="Opacity" Value="0.7"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -78,8 +78,8 @@
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorDefaultBrush}"/>
-                            <Setter TargetName="border" Property="Opacity" Value="0.8"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"/>
+                            <Setter TargetName="border" Property="Opacity" Value="0.7"/>
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
                             <Setter TargetName="border" Property="Margin" Value="1"/>
