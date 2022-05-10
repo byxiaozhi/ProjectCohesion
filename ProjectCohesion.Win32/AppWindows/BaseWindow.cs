@@ -333,7 +333,9 @@ namespace ProjectCohesion.Win32.AppWindows
             }
         }
 
+        /// <summary>
         // 构建基础布局
+        /// </summary>
         private void UpdateContent()
         {
             if (rootElement == null)

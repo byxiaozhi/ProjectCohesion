@@ -87,16 +87,17 @@
     <Compile Include="Controls\BasicControls\Button.xaml.cs">
       <DependentUpon>Button.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BasicControls\NavigationView.xaml.cs">
+    <Compile Include="Controls\MainWindow\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BasicControls\TabView.xaml.cs">
+    <Compile Include="Controls\MainWindow\TabView.xaml.cs">
       <DependentUpon>TabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MainWindow\SidePanelHeader.xaml.cs">
       <DependentUpon>SidePanelHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Converters\GuidToModuleConverter.cs" />
     <EmbeddedResource Include="Properties\ProjectCohesion.WinUI.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -107,19 +108,17 @@
       <Version>2.8.0-prerelease.220118001</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Controls\BasicControls\Button.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\BasicControls\NavigationView.xaml">
+    <Page Include="Controls\MainWindow\NavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\BasicControls\TabView.xaml">
+    <Page Include="Controls\MainWindow\TabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,6 +126,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectCohesion.Core\ProjectCohesion.Core.csproj">
+      <Project>{1de75a42-cc5e-4859-b8c2-6559d70c6b27}</Project>
+      <Name>ProjectCohesion.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

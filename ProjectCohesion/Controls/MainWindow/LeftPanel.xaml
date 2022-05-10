@@ -9,30 +9,22 @@
              d:DataContext="{d:DesignInstance Type=viewmodels:AppViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,1,0">
+    <DockPanel>
+        <Border DockPanel.Dock="Left" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultSolidBrush}" BorderThickness="0,0,1,0">
             <winui:SidePanelTabView 
                 MenuItems="{Binding UIViewModel.LeftTabs.Items}" 
                 SelectedItem="{Binding UIViewModel.LeftTabs.Selected, Mode=TwoWay}"/>
         </Border>
-        <Grid 
-            Grid.Column="1" 
+        <DockPanel 
+            DockPanel.Dock="Right"
             Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}"
             Visibility="{Binding UIViewModel.LeftTabs.Selected, Converter={StaticResource ObjectToVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
             <winui:SidePanelHeader 
-                Grid.Row="0" Margin="0,0,-2,0"
+                DockPanel.Dock="Top" Margin="0,0,-2,0"
                 Title="{Binding UIViewModel.LeftTabs.Selected.Name}"
                 CloseClick="SidePanelHeader_CloseClick"
                 Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"/>
-            <winui:WindowContainer Grid.Row="1" >
+            <winui:WindowContainer DockPanel.Dock="Bottom" >
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl ItemsSource="{Binding UIViewModel.LeftTabs.Selected.Element}">
                         <ItemsControl.ItemsPanel>
@@ -42,14 +34,12 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Margin="2,2,0,2">
-                                    <ContentControl Content="{Binding Converter={StaticResource GuidToControlConverter}}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                                </Border>
+                                <ContentControl Content="{Binding Converter={StaticResource GuidToControlConverter}}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
             </winui:WindowContainer>
-        </Grid>
-    </Grid>
+        </DockPanel>
+    </DockPanel>
 </UserControl>

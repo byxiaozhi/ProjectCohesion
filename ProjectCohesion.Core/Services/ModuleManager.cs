@@ -54,7 +54,9 @@ namespace ProjectCohesion.Core.Services
         /// </summary>
         public object GetModule(Guid guid)
         {
-            return moduleDictionary[guid];
+            if (moduleDictionary.ContainsKey(guid))
+                return moduleDictionary[guid];
+            return null;
         }
 
         /// <summary>

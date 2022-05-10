@@ -105,7 +105,7 @@ namespace ProjectCohesion.Core.ViewModels
         /// <summary>
         /// 主页内容标签页
         /// </summary>
-        public Selectable<GroupModule> ContentTabs { get; } = new();
+        public Selectable<Guid?> ContentTabs { get; } = new();
 
     }
 }

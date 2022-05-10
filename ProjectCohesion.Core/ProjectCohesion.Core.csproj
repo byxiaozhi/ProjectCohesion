@@ -89,6 +89,7 @@
     <Compile Include="Modules\MenuModule.cs" />
     <Compile Include="Modules\GroupModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ContentTabsManager.cs" />
     <Compile Include="Services\EventCenter.cs" />
     <Compile Include="Services\ModuleManager.cs" />
     <Compile Include="Services\UIManager.cs" />

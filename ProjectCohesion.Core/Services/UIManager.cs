@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ProjectCohesion.Core.Services
 {
+    /// <summary>
+    /// UI管理服务
+    /// </summary>
     public class UIManager
     {
         private readonly ModuleManager moduleManager;
@@ -60,12 +63,12 @@ namespace ProjectCohesion.Core.Services
         {
             var groupModules = moduleManager.GetModules<GroupModule>().Where(x => x.Type == location);
             var groupModule = groupModules.Where(x => x.Name == title).FirstOrDefault();
-            if(groupModule == null)
+            if (groupModule == null)
             {
                 // 如果不存在该标签，就注册一个
                 groupModule = new GroupModule()
                 {
-                    Name= title,
+                    Name = title,
                     Type = location,
                     Element = new()
                 };

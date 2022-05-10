@@ -4,16 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectCohesion.Controls.MainWindow"
-             xmlns:winui="clr-namespace:ProjectCohesion.Win32.Controls;assembly=ProjectCohesion.Win32"
+             xmlns:winui="clr-namespace:ProjectCohesion.Win32.Controls;assembly=ProjectCohesion.Win32" 
+             xmlns:viewmodels="clr-namespace:ProjectCohesion.Core.ViewModels;assembly=ProjectCohesion.Core" d:DataContext="{d:DesignInstance Type=viewmodels:AppViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0" Margin="-2,0,-2,0">
-            <winui:TabView Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"/>
+    <DockPanel Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}">
+        <Border DockPanel.Dock="Top" Margin="-2,0,-2,0">
+            <winui:TabView 
+                DockPanel.Dock="Top"
+                x:Name="tabView"
+                Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+                TabItems="{Binding UIViewModel.ContentTabs.Items}"
+                SelectedItem="{Binding UIViewModel.ContentTabs.Selected, Mode=TwoWay}"
+                TabCloseRequested="TabView_TabCloseRequested"/>
         </Border>
-    </Grid>
+        <winui:WindowContainer
+            DockPanel.Dock="Bottom" 
+            Content="{Binding UIViewModel.ContentTabs.Selected, Converter={StaticResource GuidToControlConverter}}"/>
+    </DockPanel>
 </UserControl>

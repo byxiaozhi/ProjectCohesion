@@ -11,18 +11,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ProjectCohesion.Win32.Controls
+namespace ProjectCohesion.Modules.Demo.Pages
 {
-    public partial class TabView : UserControl
+    public partial class Inclination : UserControl
     {
-        public TabView()
+        public Inclination()
         {
             InitializeComponent();
-        }
-
-        private void AppXamlHost_ChildChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

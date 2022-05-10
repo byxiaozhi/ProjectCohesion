@@ -38,7 +38,7 @@ namespace ProjectCohesion.Win32.Controls
             InitializeComponent();
         }
 
-        WinUI.Controls.NavigationView navigationView;
+        private WinUI.Controls.NavigationView navigationView;
 
         private PropertyBridge propertyBridge = new();
 

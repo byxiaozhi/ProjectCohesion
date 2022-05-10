@@ -38,6 +38,7 @@ namespace ProjectCohesion.Core
             builder.RegisterType<EventCenter>().SingleInstance();
             builder.RegisterType<ModuleManager>().SingleInstance();
             builder.RegisterType<UIManager>().SingleInstance();
+            builder.RegisterType<ContentTabsManager>().SingleInstance();
         }
     }
 }

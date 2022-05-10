@@ -17,6 +17,40 @@ namespace ProjectCohesion.Win32.Utilities
             disposeActions.Add(key, disposeAction);
         }
 
+        private Action CreateOneWayChannel(
+            Windows.UI.Xaml.DependencyObject target,
+            Windows.UI.Xaml.DependencyProperty targetProp,
+            System.Windows.DependencyObject source,
+            System.Windows.DependencyProperty sourceProp)
+        {
+            void Handler(object s, EventArgs e)
+            {
+                var newValue = source.GetValue(sourceProp);
+                var oldValue = target.GetValue(targetProp);
+                if (!(newValue?.Equals(oldValue) ?? newValue == oldValue))
+                    target.SetValue(targetProp, newValue);
+            }
+            var dependencyPropertyDescriptor = DependencyPropertyDescriptor.FromProperty(sourceProp, source.GetType());
+            dependencyPropertyDescriptor.AddValueChanged(source, Handler);
+            return () => dependencyPropertyDescriptor.RemoveValueChanged(source, Handler);
+        }
+
+        private Action CreateOneWayChannel(
+             System.Windows.DependencyObject target,
+            System.Windows.DependencyProperty targetProp,
+            Windows.UI.Xaml.DependencyObject source,
+            Windows.UI.Xaml.DependencyProperty sourceProp)
+        {
+            var token = source.RegisterPropertyChangedCallback(sourceProp, (s, e) =>
+            {
+                var newValue = source.GetValue(sourceProp);
+                var oldValue = target.GetValue(targetProp);
+                if (!(newValue?.Equals(oldValue) ?? newValue == oldValue))
+                    source.SetValue(sourceProp, newValue);
+            });
+            return () => source.UnregisterPropertyChangedCallback(sourceProp, token);
+        }
+
         public void RemoveBinding(object target, object targetProp)
         {
             var key = Tuple.Create(target, targetProp);
@@ -34,20 +68,12 @@ namespace ProjectCohesion.Win32.Utilities
             System.Windows.DependencyProperty sourceProp)
         {
             target.SetValue(targetProp, source.GetValue(sourceProp));
-            var targetToSourceToken = target.RegisterPropertyChangedCallback(targetProp, (s, e) =>
-            {
-                source.SetValue(sourceProp, target.GetValue(targetProp));
-            });
-            void sourceToTargetHandler(object s, EventArgs e)
-            {
-                target.SetValue(targetProp, source.GetValue(sourceProp));
-            }
-            var dependencyPropertyDescriptor = DependencyPropertyDescriptor.FromProperty(sourceProp, source.GetType());
-            dependencyPropertyDescriptor.AddValueChanged(source, sourceToTargetHandler);
+            var dispose1 = CreateOneWayChannel(target, targetProp, source, sourceProp);
+            var dispose2 = CreateOneWayChannel(source, sourceProp, target, targetProp);
             AddBindingDisposeAction(target, targetProp, () =>
             {
-                target.UnregisterPropertyChangedCallback(targetProp, targetToSourceToken);
-                dependencyPropertyDescriptor.RemoveValueChanged(source, sourceToTargetHandler);
+                dispose1();
+                dispose2();
             });
         }
 
@@ -58,16 +84,8 @@ namespace ProjectCohesion.Win32.Utilities
             System.Windows.DependencyProperty sourceProp)
         {
             target.SetValue(targetProp, source.GetValue(sourceProp));
-            void sourceToTargetHandler(object s, EventArgs e)
-            {
-                target.SetValue(targetProp, source.GetValue(sourceProp));
-            }
-            var dependencyPropertyDescriptor = DependencyPropertyDescriptor.FromProperty(sourceProp, source.GetType());
-            dependencyPropertyDescriptor.AddValueChanged(source, sourceToTargetHandler);
-            AddBindingDisposeAction(target, targetProp, () =>
-            {
-                dependencyPropertyDescriptor.RemoveValueChanged(source, sourceToTargetHandler);
-            });
+            var dispose = CreateOneWayChannel(target, targetProp, source, sourceProp);
+            AddBindingDisposeAction(target, targetProp, dispose);
         }
 
         public void OneWayToSourceBinding(
@@ -77,14 +95,8 @@ namespace ProjectCohesion.Win32.Utilities
             System.Windows.DependencyProperty sourceProp)
         {
             source.SetValue(sourceProp, target.GetValue(targetProp));
-            var targetToSourceToken = target.RegisterPropertyChangedCallback(targetProp, (s, e) =>
-            {
-                source.SetValue(sourceProp, target.GetValue(targetProp));
-            });
-            AddBindingDisposeAction(target, targetProp, () =>
-            {
-                target.UnregisterPropertyChangedCallback(targetProp, targetToSourceToken);
-            });
+            var dispose = CreateOneWayChannel(source, sourceProp, target, targetProp);
+            AddBindingDisposeAction(target, targetProp, dispose);
         }
 
         ~PropertyBridge()
