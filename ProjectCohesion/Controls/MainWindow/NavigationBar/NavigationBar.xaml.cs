@@ -84,6 +84,7 @@ namespace ProjectCohesion.Controls.MainWindow
 
         private void ClosePopup(object sender, EventArgs e)
         {
+            if (!IsOpen) return;
             IsOpen = false;
             uiViewModel.TopMenu.Selected = null;
         }
