@@ -332,7 +332,7 @@ namespace ProjectCohesion.Win32.AppWindows
             DwmSetWindowAttribute(Handle, DwmWindowAttribute.DWMWA_USE_IMMERSIVE_DARK_MODE, ref darkModeValue, Marshal.SizeOf(typeof(int)));
 
             // 设置背景色
-            var fallbackColor = (Color)ColorConverter.ConvertFromString(darkModeValue == 1 ? "#202020" : "#f3f3f3");
+            var fallbackColor = darkModeValue == 1 ? Color.FromRgb(0x20, 0x20, 0x20) : Color.FromRgb(0xf3, 0xf3, 0xf3);
             if (Environment.OSVersion.Version.Build >= 22000)
             {
                 // 在Win11下由于标题栏被拓展到整个窗口，所以只需要设置标题栏背景颜色
