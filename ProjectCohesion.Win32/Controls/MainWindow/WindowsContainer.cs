@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -49,5 +50,12 @@ namespace ProjectCohesion.Win32.Controls
         {
             hwndSource?.Dispose();
         }
+
+        protected override async void OnWindowPositionChanged(Rect rcBoundingBox)
+        {
+            await Task.Yield();
+            base.OnWindowPositionChanged(rcBoundingBox);
+        }
+
     }
 }

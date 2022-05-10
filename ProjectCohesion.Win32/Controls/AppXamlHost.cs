@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -26,6 +27,12 @@ namespace ProjectCohesion.Win32.Controls
         protected override void DestroyWindowCore(HandleRef hwnd)
         {
             base.DestroyWindowCore(hwnd);
+        }
+
+        protected override async void OnWindowPositionChanged(Rect rcBoundingBox)
+        {
+            await Task.Yield();
+            base.OnWindowPositionChanged(rcBoundingBox);
         }
 
     }
