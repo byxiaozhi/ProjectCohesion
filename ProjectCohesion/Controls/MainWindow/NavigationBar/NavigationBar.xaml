@@ -20,7 +20,7 @@
                 MenuItems="{Binding UIViewModel.TopMenu.Items}" 
                 SelectedItem="{Binding UIViewModel.TopMenu.Selected, Mode=TwoWay}"
                 ItemInvoked="navigationView_ItemInvoked"
-                DoubleClick="navigationView_DoubleClick"/>
+                DoubleTapped="navigationView_DoubleTapped"/>
             <winui:WindowContainer x:Name="moduleGroupsWrapper">
                 <winui:WindowContainer.Style>
                     <Style TargetType="winui:WindowContainer">

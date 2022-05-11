@@ -19,11 +19,10 @@
             PaneDisplayMode="Top"
             x:Name="navView"
             MenuItemsSource="{Binding MenuItems,ElementName=thisControl}"
-            SelectedItem="{Binding SelectedItem,ElementName=thisControl}"
-            ItemInvoked="navView_ItemInvoked">
+            SelectedItem="{Binding SelectedItem,ElementName=thisControl, Mode=TwoWay}">
             <muxc:NavigationView.MenuItemTemplate>
                 <DataTemplate>
-                    <muxc:NavigationViewItem Content="{Binding Name}" FontSize="13" Height="38" DoubleTapped="NavigationViewItem_DoubleTapped"/>
+                    <muxc:NavigationViewItem Content="{Binding Name}" Tag="{Binding}" FontSize="13" Height="38" DoubleTapped="DoubleTapped" Tapped="NavigationViewItem_Tapped"/>
                 </DataTemplate>
             </muxc:NavigationView.MenuItemTemplate>
         </muxc:NavigationView>

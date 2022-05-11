@@ -25,24 +25,19 @@ namespace ProjectCohesion.WinUI.Controls
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(NavigationView), null);
         public object SelectedItem { get => GetValue(SelectedItemProperty); set => SetValue(SelectedItemProperty, value); }
 
-        public event EventHandler ItemInvoked;
+        public event TypedEventHandler<NavigationView, object> ItemInvoked;
 
-        public event RoutedEventHandler DoubleClick;
+        public new event DoubleTappedEventHandler DoubleTapped;
 
         public NavigationView()
         {
             InitializeComponent();
         }
 
-        private void navView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        private void NavigationViewItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            SelectedItem = sender.SelectedItem;
-            ItemInvoked?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void NavigationViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            DoubleClick?.Invoke(this, e);
+            SelectedItem = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).Tag;
+            ItemInvoked?.Invoke(this, SelectedItem);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace ProjectCohesion.Win32.Utilities
                 var newValue = source.GetValue(sourceProp);
                 var oldValue = target.GetValue(targetProp);
                 if (!(newValue?.Equals(oldValue) ?? newValue == oldValue))
-                    source.SetValue(sourceProp, newValue);
+                    target.SetValue(targetProp, newValue);
             });
             return () => source.UnregisterPropertyChangedCallback(sourceProp, token);
         }

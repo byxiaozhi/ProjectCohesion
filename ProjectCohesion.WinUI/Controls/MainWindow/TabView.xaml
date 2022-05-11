@@ -20,7 +20,7 @@
             TabWidthMode="SizeToContent" 
             TabItemsSource="{Binding TabItems, ElementName=thisControl}"
             SelectedItem="{Binding SelectedItem, ElementName=thisControl, Mode=TwoWay}"
-            SelectionChanged="TabView_SelectionChanged"
+            SelectionChanged="SelectionChanged"
             TabCloseRequested="TabView_TabCloseRequested">
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate>

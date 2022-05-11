@@ -40,13 +40,13 @@ namespace ProjectCohesion.Controls.MainWindow
             InitializeComponent();
         }
 
-        private void navigationView_ItemInvoked(object sender, EventArgs e)
+        private void navigationView_ItemInvoked(object sender, object args)
         {
             IsOpen = uiViewModel.TopMenu.Selected != null && uiViewModel.TopMenuCollapsed && (prevSelected != uiViewModel.TopMenu.Selected || !IsOpen);
             prevSelected = uiViewModel.TopMenu.Selected;
         }
 
-        private void navigationView_DoubleClick(object sender, EventArgs e)
+        private void navigationView_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
             uiViewModel.TopMenuCollapsed = !uiViewModel.TopMenuCollapsed;
             if (uiViewModel.TopMenuCollapsed)
@@ -89,6 +89,8 @@ namespace ProjectCohesion.Controls.MainWindow
             if (!IsOpen) return;
             IsOpen = false;
             uiViewModel.TopMenu.Selected = null;
+            prevSelected = null;
         }
+
     }
 }

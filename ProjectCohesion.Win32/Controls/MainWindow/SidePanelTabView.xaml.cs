@@ -18,10 +18,10 @@ namespace ProjectCohesion.Win32.Controls
 {
     public partial class SidePanelTabView : UserControl
     {
-        public static readonly DependencyProperty MenuItemsProperty = DependencyProperty.Register(nameof(MenuItems), typeof(object), typeof(SidePanelTabView), new PropertyMetadata(PropertyChanged));
+        public static readonly DependencyProperty MenuItemsProperty = DependencyProperty.Register(nameof(MenuItems), typeof(object), typeof(SidePanelTabView), null);
         public object MenuItems { get => GetValue(MenuItemsProperty); set => SetValue(MenuItemsProperty, value); }
 
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(SidePanelTabView), new PropertyMetadata(PropertyChanged));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(SidePanelTabView), null);
         public object SelectedItem { get => GetValue(SelectedItemProperty); set => SetValue(SelectedItemProperty, value); }
 
         public event RoutedEventHandler SelectionChanged;
@@ -31,11 +31,6 @@ namespace ProjectCohesion.Win32.Controls
         public SidePanelTabView()
         {
             InitializeComponent();
-        }
-
-        private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-
         }
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)

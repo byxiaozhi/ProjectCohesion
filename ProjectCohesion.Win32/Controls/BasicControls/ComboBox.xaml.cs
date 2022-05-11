@@ -72,11 +72,11 @@ namespace ProjectCohesion.Win32.Controls
         {
             var comboBox = ((ComboBox)d).comboBox;
             if (comboBox == null) return;
-            if(e.Property.Name == nameof(ItemsSource) && comboBox.ItemsSource != e.NewValue)
+            if(e.Property == ItemsSourceProperty && comboBox.ItemsSource != e.NewValue)
                 comboBox.ItemsSource = e.NewValue;
-            if(e.Property.Name == nameof(SelectedIndex) && comboBox.SelectedIndex != (int)e.NewValue)
+            if(e.Property == SelectedIndexProperty && comboBox.SelectedIndex != (int)e.NewValue)
                 comboBox.SelectedIndex = (int)e.NewValue;
-            if(e.Property.Name == nameof(SelectedItem) && comboBox.SelectedItem != e.NewValue)
+            if(e.Property == SelectedItemProperty && comboBox.SelectedItem != e.NewValue)
                 comboBox.SelectedItem = e.NewValue;
         }
     }

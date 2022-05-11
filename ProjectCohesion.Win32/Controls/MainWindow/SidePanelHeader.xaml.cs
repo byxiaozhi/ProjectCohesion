@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Wpf.UI.XamlHost;
+using ProjectCohesion.Win32.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,7 @@ namespace ProjectCohesion.Win32.Controls
 {
     public partial class SidePanelHeader : UserControl
     {
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(SidePanelHeader), new PropertyMetadata(PropertyChanged));
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(SidePanelHeader), null);
         public string Title
         {
             get => (string)GetValue(TitleProperty);
@@ -26,6 +27,8 @@ namespace ProjectCohesion.Win32.Controls
         public event Windows.UI.Xaml.RoutedEventHandler CloseClick;
 
         WinUI.Controls.SidePanelHeader sidePanelHeader;
+
+        private readonly PropertyBridge propertyBridge = new();
 
         public SidePanelHeader()
         {
@@ -38,23 +41,8 @@ namespace ProjectCohesion.Win32.Controls
             sidePanelHeader = windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.SidePanelHeader;
             if (sidePanelHeader != null)
             {
-                sidePanelHeader.CloseClick += SidePanelHeader_CloseClick;
-                sidePanelHeader.Title = Title;
-            }
-        }
-
-        private void SidePanelHeader_CloseClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            CloseClick?.Invoke(this, e);
-        }
-
-        private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = (SidePanelHeader)d;
-            if (control != null)
-            {
-                if (e.Property.Name == nameof(Title))
-                    control.sidePanelHeader.Title = e.NewValue as string;
+                sidePanelHeader.CloseClick += CloseClick;
+                propertyBridge.OneWayBinding(sidePanelHeader, WinUI.Controls.SidePanelHeader.TitleProperty, this, TitleProperty);
             }
         }
     }

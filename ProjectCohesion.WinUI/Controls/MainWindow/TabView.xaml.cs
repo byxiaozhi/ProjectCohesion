@@ -37,10 +37,5 @@ namespace ProjectCohesion.WinUI.Controls
         {
             TabCloseRequested?.Invoke(this, args.Item);
         }
-
-        private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SelectionChanged?.Invoke(this, e);
-        }
     }
 }

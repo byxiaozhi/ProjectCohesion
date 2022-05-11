@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Windows.Foundation;
+using Windows.UI.Xaml.Input;
 
 namespace ProjectCohesion.Win32.Controls
 {
@@ -29,9 +31,9 @@ namespace ProjectCohesion.Win32.Controls
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(NavigationView), null);
         public object SelectedItem { get => GetValue(SelectedItemProperty); set => SetValue(SelectedItemProperty, value); }
 
-        public event EventHandler ItemInvoked;
+        public event TypedEventHandler<WinUI.Controls.NavigationView, object> ItemInvoked;
 
-        public event RoutedEventHandler DoubleClick;
+        public event DoubleTappedEventHandler DoubleTapped;
 
         public NavigationView()
         {
@@ -40,7 +42,7 @@ namespace ProjectCohesion.Win32.Controls
 
         private WinUI.Controls.NavigationView navigationView;
 
-        private PropertyBridge propertyBridge = new();
+        private readonly PropertyBridge propertyBridge = new();
 
         private void AppXamlHost_ChildChanged(object sender, EventArgs e)
         {
@@ -48,8 +50,8 @@ namespace ProjectCohesion.Win32.Controls
             navigationView = windowsXamlHost.GetUwpInternalObject() as WinUI.Controls.NavigationView;
             if (navigationView != null)
             {
-                navigationView.ItemInvoked += NavigationView_ItemInvoked;
-                navigationView.DoubleClick += NavigationView_DoubleClick; ;
+                navigationView.ItemInvoked += ItemInvoked;
+                navigationView.DoubleTapped += DoubleTapped; ;
                 navigationView.Loaded += NavigationView_Loaded;
                 propertyBridge.OneWayBinding(navigationView, WinUI.Controls.NavigationView.MenuItemsProperty, this, MenuItemsProperty);
                 if (Environment.OSVersion.Version.Build >= 22000)
@@ -57,21 +59,12 @@ namespace ProjectCohesion.Win32.Controls
             }
         }
 
-        private void NavigationView_DoubleClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            DoubleClick?.Invoke(this, new RoutedEventArgs());
-        }
-
-        private void NavigationView_ItemInvoked(object sender, EventArgs e)
-        {
-            SelectedItem = navigationView.SelectedItem;
-            ItemInvoked?.Invoke(this, EventArgs.Empty);
-        }
-
         private async void NavigationView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await System.Threading.Tasks.Task.Delay(500);
-            propertyBridge.TwoWayBinding(navigationView, WinUI.Controls.NavigationView.SelectedItemProperty, this, SelectedItemProperty);
+            await Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, () =>
+            {
+                propertyBridge.TwoWayBinding(navigationView, WinUI.Controls.NavigationView.SelectedItemProperty, this, SelectedItemProperty);
+            });
         }
     }
 }

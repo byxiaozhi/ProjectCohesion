@@ -35,7 +35,7 @@ namespace ProjectCohesion.Win32.Controls
 
         private WinUI.Controls.TabView tabView;
 
-        private PropertyBridge propertyBridge = new();
+        private readonly PropertyBridge propertyBridge = new();
 
         private void AppXamlHost_ChildChanged(object sender, EventArgs e)
         {
@@ -44,21 +44,11 @@ namespace ProjectCohesion.Win32.Controls
             if (tabView != null)
             {
                 propertyBridge.TwoWayBinding(tabView, WinUI.Controls.TabView.TabItemsProperty, this, TabItemsProperty);
-                propertyBridge.OneWayBinding(tabView, WinUI.Controls.TabView.SelectedItemProperty, this, SelectedItemProperty);
-                tabView.SelectionChanged += TabView_SelectionChanged;
-                tabView.TabCloseRequested += TabView_TabCloseRequested;
+                propertyBridge.TwoWayBinding(tabView, WinUI.Controls.TabView.SelectedItemProperty, this, SelectedItemProperty);
+                tabView.SelectionChanged += SelectionChanged;
+                tabView.TabCloseRequested += TabCloseRequested;
             }
         }
 
-        private void TabView_TabCloseRequested(object sender, object e)
-        {
-            TabCloseRequested?.Invoke(this, e);
-        }
-
-        private void TabView_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
-        {
-            SelectedItem = tabView.SelectedItem;
-            SelectionChanged?.Invoke(this, e);
-        }
     }
 }
