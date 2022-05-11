@@ -420,6 +420,15 @@ namespace ProjectCohesion.Win32.AppWindows
         }
 
         /// <summary>
+        /// 失去焦点事件
+        /// </summary>
+        protected override void OnDeactivated(EventArgs e)
+        {
+            base.OnDeactivated(e);
+            CloseAllPopup();
+        }
+
+        /// <summary>
         /// 关闭所有Popup
         /// Popup在打开后，无法自动关闭，所以暂时使用这个方法关闭所有Popup
         /// 这应该是个Bug，等未来修复后删除这个方法
