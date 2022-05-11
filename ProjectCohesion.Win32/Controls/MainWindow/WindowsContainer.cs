@@ -1,6 +1,7 @@
 ﻿using PInvoke;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,13 +26,15 @@ namespace ProjectCohesion.Win32.Controls
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             contentControl = new() { DataContext = DataContext };
-            var binding = new Binding()
+            contentControl.SetBinding(ContentControl.ContentProperty, new Binding()
             {
                 Source = this,
                 Path = new PropertyPath(nameof(Content)),
                 Mode = BindingMode.OneWay,
-            };
-            contentControl.SetBinding(ContentControl.ContentProperty, binding);
+            });
+            var window = Window.GetWindow(this);
+            var fieldInfo = typeof(Window).GetField("IWindowServiceProperty", BindingFlags.Static | BindingFlags.NonPublic);
+            contentControl.SetValue(fieldInfo.GetValue(window) as DependencyProperty, window);
 
             hwndSource = new(new HwndSourceParameters()
             {
