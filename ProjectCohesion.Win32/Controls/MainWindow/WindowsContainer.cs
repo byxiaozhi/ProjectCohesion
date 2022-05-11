@@ -25,16 +25,12 @@ namespace ProjectCohesion.Win32.Controls
 
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
-            contentControl = new() { DataContext = DataContext };
-            contentControl.SetBinding(ContentControl.ContentProperty, new Binding()
-            {
-                Source = this,
-                Path = new PropertyPath(nameof(Content)),
-                Mode = BindingMode.OneWay,
-            });
-            var window = Window.GetWindow(this);
+            contentControl = new();
+            Inherit(DataContextProperty);
+            Inherit(ContentControl.ContentProperty);
             var fieldInfo = typeof(Window).GetField("IWindowServiceProperty", BindingFlags.Static | BindingFlags.NonPublic);
-            contentControl.SetValue(fieldInfo.GetValue(window) as DependencyProperty, window);
+            var window = Window.GetWindow(this);
+            contentControl.SetBinding(fieldInfo.GetValue(window) as DependencyProperty, new Binding("IWindowService") { Source = window });
 
             hwndSource = new(new HwndSourceParameters()
             {
@@ -47,6 +43,11 @@ namespace ProjectCohesion.Win32.Controls
             hwndSource.RootVisual = contentControl;
 
             return new HandleRef(this, hwndSource.Handle);
+        }
+
+        private void Inherit(DependencyProperty property)
+        {
+            contentControl.SetBinding(property, new Binding(property.Name) { Source = this });
         }
 
         protected override void DestroyWindowCore(HandleRef hwnd)
