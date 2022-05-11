@@ -41,15 +41,15 @@ namespace ProjectCohesion.Controls.MainWindow
             var itemsControl = (sender as ModuleGroupsWrapper).itemsControl;
             if (e.Property.Name == nameof(ItemsSource))
             {
+                var nextItem = new ModuleGroups() { ItemsSource = e.NewValue };
                 if (itemsControl.Items.Count == 0)
                 {
-                    itemsControl.Items.Add(new ModuleGroups() { ItemsSource = e.NewValue });
+                    itemsControl.Items.Add(nextItem);
                 }
                 else
                 {
                     // 过渡动画
-                    var prevItem = itemsControl.Items[itemsControl.Items.Count - 1] as UserControl;
-                    var nextItem = new ModuleGroups() { ItemsSource = e.NewValue };
+                    var prevItem = itemsControl.Items[^1] as UserControl;
                     itemsControl.Items.Add(nextItem);
                     var duration = 300;
                     var ease = new CircleEase() { EasingMode = EasingMode.EaseInOut };
