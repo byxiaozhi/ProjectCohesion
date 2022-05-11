@@ -14,6 +14,7 @@ using ProjectCohesion.Win32.Controls;
 using System.Windows.Data;
 using System.Diagnostics;
 using ProjectCohesion.Core.Services;
+using System.Linq;
 
 namespace ProjectCohesion.Win32.AppWindows
 {
@@ -435,9 +436,8 @@ namespace ProjectCohesion.Win32.AppWindows
         /// </summary>
         private void CloseAllPopup()
         {
-            foreach (var element in AppXamlHost.Elements)
-                foreach (var popup in Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(element.XamlRoot))
-                    popup.IsOpen = false;
+            foreach (var popup in AppXamlHost.Elements.SelectMany(ele => Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(ele.XamlRoot)))
+                popup.IsOpen = false;
         }
 
         private Grid rootElement;
