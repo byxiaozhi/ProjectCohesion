@@ -18,13 +18,13 @@ namespace ProjectCohesion
 
         public void Destroy(IContainer container)
         {
-            // 初始化各个模块
+            // 销毁各个模块
             moduleLoaders.ForEach(module => module.Destroy(container));
         }
 
         public void Initialize(IContainer container)
         {
-            // 销毁各个模块
+            // 初始化各个模块
             moduleLoaders.ForEach(module => module.Initialize(container));
         }
     }

@@ -10,7 +10,7 @@ namespace ProjectCohesion.Core.ViewModels
     /// <summary>
     /// 视图模型基类
     /// </summary>
-    public abstract class ViewModel: INotifyPropertyChanged
+    public abstract class ViewModelBase: INotifyPropertyChanged
     {
 #pragma warning disable CS0067
         // PropertyChanged.Fody 会自动监听属性变化并发出事件

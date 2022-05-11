@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace ProjectCohesion.Core.ViewModels
 {
     /// <summary>
-    /// 根视图模型
+    /// 根视图模型，作为DataContext提供给各个页面
     /// </summary>
-    public class AppViewModel : ViewModel
+    public class AppViewModel : ViewModelBase
     {
         public UIViewModel UIViewModel { get; }
         public ProjectViewModel ProjectViewModel { get; }

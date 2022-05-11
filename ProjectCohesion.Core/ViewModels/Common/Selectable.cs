@@ -10,7 +10,7 @@ namespace ProjectCohesion.Core.ViewModels.Common
     /// <summary>
     /// 可选视图模型
     /// </summary>
-    public class Selectable<T> : ViewModel
+    public class Selectable<T> : ViewModelBase
     {
         private int selectedIndex = -1;
 

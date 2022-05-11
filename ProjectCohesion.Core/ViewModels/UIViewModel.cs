@@ -14,7 +14,7 @@ namespace ProjectCohesion.Core.ViewModels
     /// <summary>
     /// 界面视图模型，存放界面布局、主题样式、语言设定、显示单位等界面相关数据
     /// </summary>
-    public class UIViewModel : ViewModel, IDisposable
+    public class UIViewModel : ViewModelBase, IDisposable
     {
         private readonly ModuleManager moduleManager;
 

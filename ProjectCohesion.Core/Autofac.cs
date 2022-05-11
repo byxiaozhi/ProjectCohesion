@@ -26,8 +26,8 @@ namespace ProjectCohesion.Core
         static public void RegisterViewModel(ContainerBuilder builder)
         {
             builder.RegisterType<AppViewModel>().SingleInstance();
-            builder.RegisterType<UIViewModel>().SingleInstance();
             builder.RegisterType<ProjectViewModel>().SingleInstance();
+            builder.RegisterType<UIViewModel>().SingleInstance();
         }
 
         /// <summary>
@@ -35,10 +35,12 @@ namespace ProjectCohesion.Core
         /// </summary>
         static public void RegisterServices(ContainerBuilder builder)
         {
+            builder.RegisterType<ContentTabsManager>().SingleInstance();
             builder.RegisterType<EventCenter>().SingleInstance();
             builder.RegisterType<ModuleManager>().SingleInstance();
+            builder.RegisterType<ProjectManager>().SingleInstance();
+            builder.RegisterType<TaskManager>().SingleInstance();
             builder.RegisterType<UIManager>().SingleInstance();
-            builder.RegisterType<ContentTabsManager>().SingleInstance();
         }
     }
 }

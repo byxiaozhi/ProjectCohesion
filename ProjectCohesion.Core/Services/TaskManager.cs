@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectCohesion.Core.ViewModels
+namespace ProjectCohesion.Core.Services
 {
     /// <summary>
-    /// 项目视图模型，存放项目相关数据
+    /// 任务管理服务
     /// </summary>
-    public class ProjectViewModel : ViewModelBase
+    public class TaskManager
     {
-
     }
 }

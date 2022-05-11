@@ -23,7 +23,7 @@ namespace ProjectCohesion.Controls.MainWindow
             set => SetValue(ItemsSourceProperty, value);
         }
 
-        public class Page : Core.ViewModels.ViewModel
+        public class Page : Core.ViewModels.ViewModelBase
         {
             public Core.Modules.MenuModule Groups { get; set; }
             public double Opacity { get; set; }
