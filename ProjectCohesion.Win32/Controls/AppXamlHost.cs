@@ -13,6 +13,9 @@ namespace ProjectCohesion.Win32.Controls
 {
     public class AppXamlHost : WindowsXamlHost
     {
+        public static IEnumerable<Windows.UI.Xaml.UIElement> Elements => elementDictionary.Values;
+
+        private static Dictionary<AppXamlHost, Windows.UI.Xaml.UIElement> elementDictionary = new();
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
@@ -33,6 +36,15 @@ namespace ProjectCohesion.Win32.Controls
         {
             await Task.Yield();
             base.OnWindowPositionChanged(rcBoundingBox);
+        }
+
+        protected override void OnChildChanged()
+        {
+            base.OnChildChanged();
+            if (GetUwpInternalObject() is Windows.UI.Xaml.UIElement ele)
+                elementDictionary.Add(this, ele);
+            else
+                elementDictionary.Remove(this);
         }
 
     }

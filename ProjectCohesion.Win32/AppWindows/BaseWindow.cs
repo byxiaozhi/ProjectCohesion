@@ -232,14 +232,17 @@ namespace ProjectCohesion.Win32.AppWindows
                     break;
                 case User32.WindowMessage.WM_MOUSEACTIVATE:
                     eventCenter.EmitEvent("WM_MOUSEACTIVATE", this, EventArgs.Empty);
+                    CloseAllPopup();
                     break;
                 case User32.WindowMessage.WM_NCLBUTTONDOWN:
                 case User32.WindowMessage.WM_LBUTTONDOWN:
                     eventCenter.EmitEvent("WM_LBUTTONDOWN", this, EventArgs.Empty);
+                    CloseAllPopup();
                     break;
                 case User32.WindowMessage.WM_NCRBUTTONDOWN:
                 case User32.WindowMessage.WM_RBUTTONDOWN:
                     eventCenter.EmitEvent("WM_RBUTTONDOWN", this, EventArgs.Empty);
+                    CloseAllPopup();
                     break;
             }
             return IntPtr.Zero;
@@ -414,6 +417,18 @@ namespace ProjectCohesion.Win32.AppWindows
             {
                 contentElement.Content = Content;
             }
+        }
+
+        /// <summary>
+        /// 关闭所有Popup
+        /// Popup在打开后，无法自动关闭，所以暂时使用这个方法关闭所有Popup
+        /// 这应该是个Bug，等未来修复后删除这个方法
+        /// </summary>
+        private void CloseAllPopup()
+        {
+            foreach (var element in AppXamlHost.Elements)
+                foreach (var popup in Windows.UI.Xaml.Media.VisualTreeHelper.GetOpenPopupsForXamlRoot(element.XamlRoot))
+                    popup.IsOpen = false;
         }
 
         private Grid rootElement;
