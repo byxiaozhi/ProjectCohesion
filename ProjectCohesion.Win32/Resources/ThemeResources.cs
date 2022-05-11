@@ -9,7 +9,7 @@ using ProjectCohesion.Win32.Utilities;
 
 namespace ProjectCohesion.Win32.Resources
 {
-    public class ThemeResources : ResourceDictionary, IDisposable
+    public class ThemeResources : ResourceDictionary
     {
         private readonly Uri lightSource = new("/ProjectCohesion.Win32;component/Resources/Styles/Theme.Light.xaml", UriKind.Relative);
         private readonly Uri darkSource = new("/ProjectCohesion.Win32;component/Resources/Styles/Theme.Dark.xaml", UriKind.Relative);
@@ -17,34 +17,25 @@ namespace ProjectCohesion.Win32.Resources
 
         public ThemeResources()
         {
+
             Source = lightSource;
             uiViewModel.PropertyChanged += UiViewModel_PropertyChanged;
             ThemeListener.ThemeChanged += ThemeChanged;
             UpdateSource();
         }
 
-        public void Dispose()
-        {
-            uiViewModel.PropertyChanged -= UiViewModel_PropertyChanged;
-            ThemeListener.ThemeChanged -= ThemeChanged;
-        }
-
         private void UiViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // 当软件主题设置发生变化时更新主题
             if (e.PropertyName == nameof(UIViewModel.Theme))
-            {
                 UpdateSource();
-            }
         }
 
         private void ThemeChanged()
         {
             // 当系统主题发生变化且软件主题设置为默认时更新主题
-            if(uiViewModel.Theme == Themes.Default)
-            {
+            if (uiViewModel.Theme == Themes.Default)
                 UpdateSource();
-            }
         }
 
         /// <summary>

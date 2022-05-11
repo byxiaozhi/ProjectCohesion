@@ -1,6 +1,8 @@
 ﻿using ProjectCohesion.Core.Models;
+using ProjectCohesion.Core.Models.EventArgs;
 using ProjectCohesion.Core.Modules;
 using ProjectCohesion.Core.Services;
+using ProjectCohesion.Core.Utilities;
 using ProjectCohesion.Core.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -14,7 +16,7 @@ namespace ProjectCohesion.Core.ViewModels
     /// <summary>
     /// 界面视图模型，存放界面布局、主题样式、语言设定、显示单位等界面相关数据
     /// </summary>
-    public class UIViewModel : ViewModelBase, IDisposable
+    public class UIViewModel : ViewModelBase
     {
         private readonly ModuleManager moduleManager;
 
@@ -23,15 +25,8 @@ namespace ProjectCohesion.Core.ViewModels
             this.moduleManager = moduleManager;
 
             // 监听模块更新
-            moduleManager.Registered += ModuleManager_Registered;
-            moduleManager.Removed += ModuleManager_Removed;
-        }
-
-        public void Dispose()
-        {
-            // 移除监听模块更新
-            moduleManager.Registered -= ModuleManager_Registered;
-            moduleManager.Removed -= ModuleManager_Removed;
+            moduleManager.Registered += new WeakEventHandler<ModuleEventArgs>(ModuleManager_Registered);
+            moduleManager.Removed += new WeakEventHandler<ModuleEventArgs>(ModuleManager_Removed);
         }
 
         /// <summary>
