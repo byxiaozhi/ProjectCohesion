@@ -28,7 +28,7 @@ namespace ProjectCohesion.Win32.Controls
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
-            eventCenter.EmitEvent("PropertyChanged", this, new ReactiveEventArgs(GetType(), e.Property.Name, e.NewValue));
+            eventCenter.EmitEvent("PropertyChanged", this, new ReactiveEventArgs(GetType(), e.Property.Name));
         }
 
         public void ShouldDispose(IDisposable disposable)

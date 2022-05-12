@@ -31,7 +31,7 @@ namespace ProjectCohesion.Core.Reactive
 
         private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
         {
-            eventCenter.EmitEvent("PropertyChanged", this, new ReactiveEventArgs(GetType(), e.PropertyName, GetValue(e.PropertyName)));
+            eventCenter.EmitEvent("PropertyChanged", this, new ReactiveEventArgs(GetType(), e.PropertyName));
         }
 
         public void ShouldDispose(IDisposable disposable)

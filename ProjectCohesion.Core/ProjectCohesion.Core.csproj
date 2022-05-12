@@ -86,7 +86,7 @@
     <Compile Include="Models\EventArgs\ModuleEventArgs.cs" />
     <Compile Include="Models\EventArgs\ReactiveEventArgs.cs" />
     <Compile Include="Reactive\ReactiveCommand.cs" />
-    <Compile Include="Reactive\ReactiveExtend.cs" />
+    <Compile Include="Reactive\ReactiveExtension.cs" />
     <Compile Include="Reactive\ReactiveObject.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Models\Themes.cs" />

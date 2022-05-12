@@ -13,12 +13,11 @@ namespace ProjectCohesion.Core.Models.EventArgs
     {
         public Type DeclaringType { get; }
         public string PropertyName { get; }
-        public object Value { get; }
-        public ReactiveEventArgs(Type declaringType, string propertyName, object value)
+
+        public ReactiveEventArgs(Type declaringType, string propertyName)
         {
             DeclaringType = declaringType;
             PropertyName = propertyName;
-            Value = value;
         }
     }
 }
