@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProjectCohesion.Core.Models;
+using ProjectCohesion.Core.Reactive;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,9 +12,9 @@ namespace ProjectCohesion.Core.ViewModels.Common
     /// <summary>
     /// 可选视图模型
     /// </summary>
-    public class Selectable<T> : ViewModelBase
+    public class Selectable<T> : ReactiveObject
     {
-        private int selectedIndex = -1;
+        private int selectedIndex = 0;
 
 
         /// <summary>

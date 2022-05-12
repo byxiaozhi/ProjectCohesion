@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectCohesion.Win32", "Pr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{6E7CA68A-C1B0-48D2-B66A-3D1490191CC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectCohesion.Modules.Demo", "Modules\ProjectCohesion.Modules.Demo\ProjectCohesion.Modules.Demo.csproj", "{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectCohesion.Modules.Demo", "Modules\ProjectCohesion.Modules.Demo\ProjectCohesion.Modules.Demo.csproj", "{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,8 +99,8 @@ Global
 		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Debug|x64.Build.0 = Debug|Any CPU
+		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Debug|x64.ActiveCfg = Debug|x64
+		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Debug|x64.Build.0 = Debug|x64
 		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Debug|x86.Build.0 = Debug|Any CPU
 		{9BB66737-C516-47B0-984C-6E247CD7AF92}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -115,8 +115,8 @@ Global
 		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Debug|ARM64.ActiveCfg = Debug|Any CPU
 		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Debug|x64.Build.0 = Debug|Any CPU
+		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Debug|x64.ActiveCfg = Debug|x64
+		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Debug|x64.Build.0 = Debug|x64
 		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Debug|x86.Build.0 = Debug|Any CPU
 		{9D37BC67-BB76-4C52-BED9-88FCE56A0C01}.Release|Any CPU.ActiveCfg = Release|Any CPU

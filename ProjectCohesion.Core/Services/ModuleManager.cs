@@ -4,6 +4,8 @@ using ProjectCohesion.Core.Models.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 
 namespace ProjectCohesion.Core.Services
@@ -13,15 +15,18 @@ namespace ProjectCohesion.Core.Services
     /// </summary>
     public class ModuleManager
     {
+
         /// <summary>
         /// 注册组件事件
         /// </summary>
-        public event EventHandler<ModuleEventArgs> Registered;
+        private readonly Subject<ModuleEventArgs> registeredSubject = new();
+        public IObservable<ModuleEventArgs> Registered => registeredSubject.AsObservable();
 
         /// <summary>
         /// 移除组件事件
         /// </summary>
-        public event EventHandler<ModuleEventArgs> Removed;
+        private readonly Subject<ModuleEventArgs> removedSubject = new();
+        public IObservable<ModuleEventArgs> Removed => removedSubject.AsObservable();
 
         /// <summary>
         /// Key为组件ID，Value为组件
@@ -36,7 +41,7 @@ namespace ProjectCohesion.Core.Services
             if (moduleDictionary.ContainsKey(guid))
                 RemoveModule(guid);
             moduleDictionary.Add(guid, module);
-            Registered?.Invoke(this, new ModuleEventArgs() { Guid = guid, Module = module });
+            registeredSubject.OnNext(new ModuleEventArgs() { Guid = guid, Module = module });
         }
 
         /// <summary>
@@ -84,7 +89,7 @@ namespace ProjectCohesion.Core.Services
                 return;
             var module = moduleDictionary[guid];
             moduleDictionary.Remove(guid);
-            Removed?.Invoke(this, new ModuleEventArgs() { Guid = guid, Module = module });
+            removedSubject.OnNext(new ModuleEventArgs() { Guid = guid, Module = module });
         }
     }
 }

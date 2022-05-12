@@ -1,13 +1,17 @@
 ﻿using ProjectCohesion.Core.Models;
 using ProjectCohesion.Core.Models.EventArgs;
 using ProjectCohesion.Core.Modules;
+using ProjectCohesion.Core.Reactive;
 using ProjectCohesion.Core.Services;
 using ProjectCohesion.Core.Utilities;
 using ProjectCohesion.Core.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,57 +20,37 @@ namespace ProjectCohesion.Core.ViewModels
     /// <summary>
     /// 界面视图模型，存放界面布局、主题样式、语言设定、显示单位等界面相关数据
     /// </summary>
-    public class UIViewModel : ViewModelBase
+    public class UIViewModel : ReactiveObject
     {
         private readonly ModuleManager moduleManager;
 
         public UIViewModel(ModuleManager moduleManager)
         {
             this.moduleManager = moduleManager;
-
-            // 监听模块更新
-            moduleManager.Registered += new WeakEventHandler<ModuleEventArgs>(ModuleManager_Registered);
-            moduleManager.Removed += new WeakEventHandler<ModuleEventArgs>(ModuleManager_Removed);
-        }
-
-        /// <summary>
-        /// 当有模块卸载时更新UI
-        /// </summary>
-        private void ModuleManager_Removed(object sender, Models.EventArgs.ModuleEventArgs e)
-        {
-            if (e.Module is MenuModule menuModule && menuModule.Type == "MainTopMenu")
-                TopMenu.Items.Remove(menuModule);
-            else if (e.Module is GroupModule groupModule)
-                if (groupModule.Type == "MainLeftTab")
-                    LeftTabs.Items.Remove(groupModule);
-                else if (groupModule.Type == "MainRightTab")
-                    RightTabs.Items.Remove(groupModule);
+            SubscribeModuleRegistered();
+            SubscribeModuleRemoved();
         }
 
         /// <summary>
         /// 当有新模块注册时更新UI
         /// </summary>
-        private void ModuleManager_Registered(object sender, Models.EventArgs.ModuleEventArgs e)
+        private void SubscribeModuleRegistered()
         {
-            if (e.Module is MenuModule menuModule && menuModule.Type == "MainTopMenu")
-            {
-                TopMenu.Items.Add(menuModule);
-                if (TopMenu.Selected == null)
-                    TopMenu.Selected = menuModule;
-            }
-            else if (e.Module is GroupModule groupModule)
-                if (groupModule.Type == "MainLeftTab")
-                {
-                    LeftTabs.Items.Add(groupModule);
-                    if (LeftTabs.Selected == null)
-                        LeftTabs.Selected = groupModule;
-                }
-                else if (groupModule.Type == "MainRightTab")
-                {
-                    RightTabs.Items.Add(groupModule);
-                    if (RightTabs.Selected == null)
-                        RightTabs.Selected = groupModule;
-                }
+            var registeredModule = moduleManager.Registered.Select(x => x.Module);
+            registeredModule.OfType<MenuModule>().Where(x => x.Type == "MainTopMenu").Subscribe(TopMenu.Items.Add);
+            registeredModule.OfType<GroupModule>().Where(x => x.Type == "MainLeftTab").Subscribe(LeftTabs.Items.Add);
+            registeredModule.OfType<GroupModule>().Where(x => x.Type == "MainRightTab").Subscribe(RightTabs.Items.Add);
+        }
+
+        /// <summary>
+        /// 当有模块卸载时更新UI
+        /// </summary>
+        private void SubscribeModuleRemoved()
+        {
+            var removedModule = moduleManager.Removed.Select(x => x.Module);
+            removedModule.OfType<MenuModule>().Where(x => x.Type == "MainTopMenu").Subscribe(x => TopMenu.Items.Remove(x));
+            removedModule.OfType<GroupModule>().Where(x => x.Type == "MainLeftTab").Subscribe(x => LeftTabs.Items.Remove(x));
+            removedModule.OfType<GroupModule>().Where(x => x.Type == "MainRightTab").Subscribe(x => RightTabs.Items.Remove(x));
         }
 
         /// <summary>

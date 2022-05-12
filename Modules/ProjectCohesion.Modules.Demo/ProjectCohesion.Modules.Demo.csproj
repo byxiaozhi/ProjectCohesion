@@ -5,6 +5,7 @@
 		<AssetTargetFallback>uap10.0.19041</AssetTargetFallback>
 		<LangVersion>latest</LangVersion>
 		<UseWPF>true</UseWPF>
+		<Platforms>AnyCPU;x64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>

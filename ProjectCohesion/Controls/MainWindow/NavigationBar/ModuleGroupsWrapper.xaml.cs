@@ -39,7 +39,7 @@ namespace ProjectCohesion.Controls.MainWindow
         private static async void PropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             var itemsControl = (sender as ModuleGroupsWrapper).itemsControl;
-            if (e.Property.Name == nameof(ItemsSource))
+            if (e.Property == ItemsSourceProperty)
             {
                 var nextItem = new ModuleGroups() { ItemsSource = e.NewValue };
                 if (itemsControl.Items.Count == 0)
