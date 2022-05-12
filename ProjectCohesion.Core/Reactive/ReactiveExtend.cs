@@ -32,13 +32,12 @@ namespace ProjectCohesion.Core.Reactive
         public static IObservable<TResult> WhenPropertyChanged<T, TResult>(this T obj,
             Expression<Func<T, TResult>> expr)
         {
-            var func = expr.Compile();
             (var declaringType, var propertyName) = GetExpressionDependency(expr);
             return EventCenter.GetObservable<ReactiveEventArgs>("PropertyChanged")
                 .Select(x => x.EventArgs)
                 .Where(x => x.DeclaringType == declaringType)
                 .Where(x => x.PropertyName == propertyName)
-                .Select(x => func(obj))
+                .Select(x => (TResult)x.Value)
                 .DistinctUntilChanged();
         }
 
