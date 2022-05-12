@@ -12,7 +12,7 @@ namespace ProjectCohesion.Core.Reactive
     {
         public static IObservable<T> WhenPropertyChanged<T>(this T reactiveObject, params string[] properties) where T : ReactiveObject
         {
-            return reactiveObject.PropertyChangedObservable().TakeWhile(x => properties.Contains(x.PropertyName)).Select(x => reactiveObject);
+            return reactiveObject.PropertyChangedObservable().Where(x => properties.Contains(x.PropertyName)).Select(x => reactiveObject);
         }
     }
 }
