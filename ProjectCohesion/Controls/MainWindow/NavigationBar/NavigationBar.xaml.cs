@@ -18,10 +18,12 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using ProjectCohesion.Core.Services;
 using PInvoke;
+using System.Reactive.Linq;
+using ProjectCohesion.Win32.Controls;
 
 namespace ProjectCohesion.Controls.MainWindow
 {
-    public partial class NavigationBar : UserControl
+    public partial class NavigationBar : ReactiveControl
     {
         readonly UIViewModel uiViewModel = Core.Autofac.Container.Resolve<UIViewModel>();
         readonly EventCenter eventCenter = Core.Autofac.Container.Resolve<EventCenter>();
@@ -58,35 +60,27 @@ namespace ProjectCohesion.Controls.MainWindow
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Window.Deactivated += ClosePopup;
-            eventCenter.AddEventListener("WM_MOUSEACTIVATE", MouseEvent);
-            eventCenter.AddEventListener("WM_LBUTTONDOWN", MouseEvent);
-            eventCenter.AddEventListener("WM_RBUTTONDOWN", MouseEvent);
+            var observable1 = Observable.FromEventPattern(h => Window.Deactivated += h, h => Window.Deactivated -= h);
+            var observable2 = eventCenter.GetObservable().Where(x => x.Name == "WM_MOUSEACTIVATE" || x.Name == "WM_LBUTTONDOWN" || x.Name == "WM_RBUTTONDOWN");
+            ShouldDispose(Observable.Merge<object>(observable1, observable2).Where(x => IsOpen).Subscribe(x => MouseEvent()));
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            Window.Deactivated -= ClosePopup;
-            eventCenter.RemoveEventListener("WM_MOUSEACTIVATE", MouseEvent);
-            eventCenter.RemoveEventListener("WM_LBUTTONDOWN", MouseEvent);
-            eventCenter.RemoveEventListener("WM_RBUTTONDOWN", MouseEvent);
+            Dispose();
         }
 
-        private void MouseEvent(object sender, EventArgs e)
+        private void MouseEvent()
         {
-            if (!IsOpen) return;
             var screenPoint = User32.GetCursorPos();
             var point = TranslatePoint(PointFromScreen(new Point(screenPoint.x, screenPoint.y)), this);
-            if (point.X < 8 ||
-                point.X > ActualWidth - 16 ||
-                point.Y < 0 ||
-                point.Y > ActualHeight + moduleGroupsWrapper.ActualHeight - 24)
-                ClosePopup(sender, e);
+            var rect = new Rect(8, 0, ActualWidth - 16, ActualHeight + moduleGroupsWrapper.ActualHeight - 24);
+            if (!rect.Contains(point))
+                ClosePopup(null, null);
         }
 
         private void ClosePopup(object sender, EventArgs e)
         {
-            if (!IsOpen) return;
             IsOpen = false;
             uiViewModel.TopMenu.Selected = null;
             prevSelected = null;

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace ProjectCohesion.Win32.Utilities
 {
+    /// <summary>
+    /// 连接UWP与WPF依赖属性的属性桥
+    /// </summary>
     public class PropertyBridge
     {
         readonly Dictionary<Tuple<object, object>, Action> disposeActions = new();
@@ -17,6 +20,9 @@ namespace ProjectCohesion.Win32.Utilities
             disposeActions.Add(key, disposeAction);
         }
 
+        /// <summary>
+        /// 创建一个从WPF到UWP属性的单向通道
+        /// </summary>
         private Action CreateOneWayChannel(
             Windows.UI.Xaml.DependencyObject target,
             Windows.UI.Xaml.DependencyProperty targetProp,
@@ -35,6 +41,9 @@ namespace ProjectCohesion.Win32.Utilities
             return () => dependencyPropertyDescriptor.RemoveValueChanged(source, Handler);
         }
 
+        /// <summary>
+        /// 创建一个从UWP到WPF属性的单向通道
+        /// </summary>
         private Action CreateOneWayChannel(
              System.Windows.DependencyObject target,
             System.Windows.DependencyProperty targetProp,
@@ -51,6 +60,9 @@ namespace ProjectCohesion.Win32.Utilities
             return () => source.UnregisterPropertyChangedCallback(sourceProp, token);
         }
 
+        /// <summary>
+        /// 移除绑定
+        /// </summary>
         public void RemoveBinding(object target, object targetProp)
         {
             var key = Tuple.Create(target, targetProp);
@@ -61,6 +73,9 @@ namespace ProjectCohesion.Win32.Utilities
             }
         }
 
+        /// <summary>
+        /// 双向绑定
+        /// </summary>
         public void TwoWayBinding(
             Windows.UI.Xaml.DependencyObject target,
             Windows.UI.Xaml.DependencyProperty targetProp,
@@ -77,6 +92,9 @@ namespace ProjectCohesion.Win32.Utilities
             });
         }
 
+        /// <summary>
+        /// 单向绑定
+        /// </summary>
         public void OneWayBinding(
             Windows.UI.Xaml.DependencyObject target,
             Windows.UI.Xaml.DependencyProperty targetProp,
@@ -88,6 +106,9 @@ namespace ProjectCohesion.Win32.Utilities
             AddBindingDisposeAction(target, targetProp, dispose);
         }
 
+        /// <summary>
+        /// 单项到源绑定
+        /// </summary>
         public void OneWayToSourceBinding(
             Windows.UI.Xaml.DependencyObject target,
             Windows.UI.Xaml.DependencyProperty targetProp,

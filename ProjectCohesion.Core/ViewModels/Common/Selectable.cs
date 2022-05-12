@@ -14,7 +14,7 @@ namespace ProjectCohesion.Core.ViewModels.Common
     /// </summary>
     public class Selectable<T> : ReactiveObject
     {
-        private int selectedIndex = 0;
+        private int selectedIndex = -1;
 
 
         /// <summary>

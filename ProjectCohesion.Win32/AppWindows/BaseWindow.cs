@@ -168,11 +168,8 @@ namespace ProjectCohesion.Win32.AppWindows
             {
                 // 检测是否命中控制按钮
                 var point = captionButtons.TranslatePoint(new Point(0d, 0d), rootElement);
-                if (mousePosition.X > point.X &&
-                    mousePosition.Y > point.Y &&
-                    mousePosition.X < point.X + captionButtons.ActualWidth &&
-                    mousePosition.Y < captionButtons.ActualHeight)
-                    return HitTestFlags.CLIENT;
+                var rect = new Rect(point.X, point.Y, point.X + captionButtons.ActualWidth, point.Y + captionButtons.ActualHeight);
+                if (rect.Contains(point)) return HitTestFlags.CLIENT;
             }
 
             return hitTest;
@@ -357,12 +354,9 @@ namespace ProjectCohesion.Win32.AppWindows
                 // 由于标题栏颜色不支持半透明，所以需要混色
                 if (Background != null)
                 {
-                    var alpha1 = Background.Color.A / 255f;
-                    var alpha2 = 1 - alpha1;
-                    uint color = 0;
-                    color |= (uint)(Background.Color.R * alpha1 + fallbackColor.R * alpha2) << 0;
-                    color |= (uint)(Background.Color.G * alpha1 + fallbackColor.G * alpha2) << 8;
-                    color |= (uint)(Background.Color.B * alpha1 + fallbackColor.B * alpha2) << 16;
+                    var alpha = Background.Color.A / 255f;
+                    var mix = Background.Color * alpha + fallbackColor * (1 - alpha);
+                    uint color = (uint)(mix.R << 0 | mix.G << 8 | mix.B << 16);
                     DwmSetWindowAttribute(Handle, DwmWindowAttribute.DWMWA_CAPTION_COLOR, ref color, Marshal.SizeOf(typeof(int)));
                 }
             }

@@ -31,12 +31,12 @@ namespace ProjectCohesion.Core.Services
         /// <summary>
         /// Key为组件ID，Value为组件
         /// </summary>
-        private readonly Dictionary<Guid, object> moduleDictionary = new();
+        private readonly Dictionary<Guid, Module> moduleDictionary = new();
 
         /// <summary>
         /// 注册一个组件
         /// </summary>
-        public void RegisterModule(Guid guid, object module)
+        public void RegisterModule(Guid guid, Module module)
         {
             if (moduleDictionary.ContainsKey(guid))
                 RemoveModule(guid);
@@ -47,7 +47,7 @@ namespace ProjectCohesion.Core.Services
         /// <summary>
         /// 注册一个组件
         /// </summary>
-        public Guid RegisterModule(object module)
+        public Guid RegisterModule(Module module)
         {
             Guid guid = Guid.NewGuid();
             RegisterModule(guid, module);
@@ -67,7 +67,7 @@ namespace ProjectCohesion.Core.Services
         /// <summary>
         /// 通过类型获取组件
         /// </summary>
-        public T GetModule<T>()
+        public T GetModule<T>() where T : Module
         {
             return (T)moduleDictionary.Values.Where(x => x is T).First();
         }
@@ -75,7 +75,7 @@ namespace ProjectCohesion.Core.Services
         /// <summary>
         /// 通过类型获取组件列表
         /// </summary>
-        public List<T> GetModules<T>()
+        public List<T> GetModules<T>() where T : Module
         {
             return moduleDictionary.Values.Where(x => x is T).Select(x => (T)x).ToList();
         }

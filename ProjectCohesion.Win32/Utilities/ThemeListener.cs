@@ -18,6 +18,9 @@ namespace ProjectCohesion.Win32.Utilities
 
         public static ThemeChangedHandler ThemeChanged;
 
+        /// <summary>
+        /// 从注册表获取当前是否浅色主题
+        /// </summary>
         private static bool GetUseLightTheme()
         {
             using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
@@ -31,6 +34,9 @@ namespace ProjectCohesion.Win32.Utilities
             UiSettings_ColorValuesChanged(uiSettings, null);
         }
 
+        /// <summary>
+        /// 主题变化回调
+        /// </summary>
         private static void UiSettings_ColorValuesChanged(UISettings sender, object args)
         {
             var isDarkMode = !GetUseLightTheme();

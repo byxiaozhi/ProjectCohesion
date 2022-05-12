@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectCohesion.Core
 {
-    public class Module<T>
+    public class Module
     {
         /// <summary>
         /// 模块名称
@@ -41,6 +41,14 @@ namespace ProjectCohesion.Core
         /// <summary>
         /// 模块元素
         /// </summary>
-        public T Element { get; set; }
+        public object Element { get; set; }
+    }
+
+    public class Module<T> : Module
+    {
+        /// <summary>
+        /// 模块元素
+        /// </summary>
+        public new T Element { get => (T)base.Element; set => base.Element = value; }
     }
 }

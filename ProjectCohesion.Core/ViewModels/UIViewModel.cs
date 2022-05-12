@@ -36,10 +36,10 @@ namespace ProjectCohesion.Core.ViewModels
         /// </summary>
         private void SubscribeModuleRegistered()
         {
-            var registeredModule = moduleManager.Registered.Select(x => x.Module);
-            registeredModule.OfType<MenuModule>().Where(x => x.Type == "MainTopMenu").Subscribe(TopMenu.Items.Add);
-            registeredModule.OfType<GroupModule>().Where(x => x.Type == "MainLeftTab").Subscribe(LeftTabs.Items.Add);
-            registeredModule.OfType<GroupModule>().Where(x => x.Type == "MainRightTab").Subscribe(RightTabs.Items.Add);
+            var observable = moduleManager.Registered.Select(x => x.Module);
+            ShouldDispose(observable.OfType<MenuModule>().Where(x => x.Type == "MainTopMenu").Subscribe(TopMenu.Items.Add));
+            ShouldDispose(observable.OfType<GroupModule>().Where(x => x.Type == "MainLeftTab").Subscribe(LeftTabs.Items.Add));
+            ShouldDispose(observable.OfType<GroupModule>().Where(x => x.Type == "MainRightTab").Subscribe(RightTabs.Items.Add));
         }
 
         /// <summary>
@@ -47,10 +47,10 @@ namespace ProjectCohesion.Core.ViewModels
         /// </summary>
         private void SubscribeModuleRemoved()
         {
-            var removedModule = moduleManager.Removed.Select(x => x.Module);
-            removedModule.OfType<MenuModule>().Where(x => x.Type == "MainTopMenu").Subscribe(x => TopMenu.Items.Remove(x));
-            removedModule.OfType<GroupModule>().Where(x => x.Type == "MainLeftTab").Subscribe(x => LeftTabs.Items.Remove(x));
-            removedModule.OfType<GroupModule>().Where(x => x.Type == "MainRightTab").Subscribe(x => RightTabs.Items.Remove(x));
+            var observable = moduleManager.Removed.Select(x => x.Module);
+            ShouldDispose(observable.OfType<MenuModule>().Where(x => x.Type == "MainTopMenu").Subscribe(x => TopMenu.Items.Remove(x)));
+            ShouldDispose(observable.OfType<GroupModule>().Where(x => x.Type == "MainLeftTab").Subscribe(x => LeftTabs.Items.Remove(x)));
+            ShouldDispose(observable.OfType<GroupModule>().Where(x => x.Type == "MainRightTab").Subscribe(x => RightTabs.Items.Remove(x)));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace ProjectCohesion.Core.ViewModels
         /// 按照Order递增排序，
         /// 仅储存菜单元素，点击等事件需要组件自行处理
         /// </summary>
-        public Selectable<MenuModule> TopMenu { get; } = new();
+        public Selectable<MenuModule> TopMenu { get; } = new() { SelectedIndex = 0 };
 
         /// <summary>
         /// 主页顶部菜单是否折叠
@@ -76,7 +76,7 @@ namespace ProjectCohesion.Core.ViewModels
         /// 按照Order递增排序，
         /// 仅当Location为空或Location与当前内容标签页的Key相同时显示
         /// </summary>
-        public Selectable<GroupModule> LeftTabs { get; } = new();
+        public Selectable<GroupModule> LeftTabs { get; } = new() { SelectedIndex = 0 };
 
         /// <summary>
         /// 主页右侧标签页，
@@ -84,12 +84,12 @@ namespace ProjectCohesion.Core.ViewModels
         /// 按照Order递增排序，
         /// 仅当Location为空或Location与当前内容标签页的Key相同时显示
         /// </summary>
-        public Selectable<GroupModule> RightTabs { get; } = new();
+        public Selectable<GroupModule> RightTabs { get; } = new() { SelectedIndex = 0 };
 
         /// <summary>
         /// 主页内容标签页
         /// </summary>
-        public Selectable<Guid?> ContentTabs { get; } = new();
+        public Selectable<Guid?> ContentTabs { get; } = new() { SelectedIndex = -1 };
 
     }
 }

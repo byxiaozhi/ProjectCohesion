@@ -28,11 +28,17 @@ namespace ProjectCohesion.Core.Reactive
             canExecuteSubject.DistinctUntilChanged().Subscribe(_ => CanExecuteChanged?.Invoke(this, EventArgs.Empty));
         }
 
+        /// <summary>
+        /// 获取命令是否可以执行
+        /// </summary>
         public bool CanExecute(object parameter)
         {
             return canExecuteSubject.Value;
         }
 
+        /// <summary>
+        /// 执行命令
+        /// </summary>
         public void Execute(object parameter)
         {
             executeSubject.OnNext((T)parameter);
