@@ -22,13 +22,13 @@ using Windows.UI.Xaml.Input;
 namespace ProjectCohesion.Win32.Controls
 {
     [ContentProperty("MenuItems")]
-    public partial class NavigationView : UserControl
+    public partial class NavigationView : ReactiveControl
     {
 
-        public static readonly DependencyProperty MenuItemsProperty = DependencyProperty.Register(nameof(MenuItems), typeof(object), typeof(NavigationView), null);
+        public static readonly DependencyProperty MenuItemsProperty = RegisterProperty(nameof(MenuItems), typeof(NavigationView));
         public object MenuItems { get => GetValue(MenuItemsProperty); set => SetValue(MenuItemsProperty, value); }
 
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(NavigationView), null);
+        public static readonly DependencyProperty SelectedItemProperty = RegisterProperty(nameof(SelectedItem), typeof(NavigationView));
         public object SelectedItem { get => GetValue(SelectedItemProperty); set => SetValue(SelectedItemProperty, value); }
 
         public event TypedEventHandler<WinUI.Controls.NavigationView, object> ItemInvoked;

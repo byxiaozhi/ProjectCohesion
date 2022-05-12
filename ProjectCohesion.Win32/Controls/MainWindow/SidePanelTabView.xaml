@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ProjectCohesion.Win32.Controls.SidePanelTabView"
+﻿<local:ReactiveControl x:Class="ProjectCohesion.Win32.Controls.SidePanelTabView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -69,4 +69,4 @@
             </Style>
         </ListBox.ItemContainerStyle>
     </ListBox>
-</UserControl>
+</local:ReactiveControl>

@@ -16,12 +16,12 @@ using System.Windows.Shapes;
 
 namespace ProjectCohesion.Win32.Controls
 {
-    public partial class SidePanelTabView : UserControl
+    public partial class SidePanelTabView : ReactiveControl
     {
-        public static readonly DependencyProperty MenuItemsProperty = DependencyProperty.Register(nameof(MenuItems), typeof(object), typeof(SidePanelTabView), null);
+        public static readonly DependencyProperty MenuItemsProperty = RegisterProperty(nameof(MenuItems), typeof(SidePanelTabView));
         public object MenuItems { get => GetValue(MenuItemsProperty); set => SetValue(MenuItemsProperty, value); }
 
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(SidePanelTabView), null);
+        public static readonly DependencyProperty SelectedItemProperty = RegisterProperty(nameof(SelectedItem), typeof(SidePanelTabView));
         public object SelectedItem { get => GetValue(SelectedItemProperty); set => SetValue(SelectedItemProperty, value); }
 
         public event RoutedEventHandler SelectionChanged;

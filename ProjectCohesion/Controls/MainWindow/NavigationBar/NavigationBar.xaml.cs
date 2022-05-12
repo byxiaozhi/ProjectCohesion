@@ -28,7 +28,7 @@ namespace ProjectCohesion.Controls.MainWindow
         readonly UIViewModel uiViewModel = Core.Autofac.Container.Resolve<UIViewModel>();
         readonly EventCenter eventCenter = Core.Autofac.Container.Resolve<EventCenter>();
 
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(NavigationBar), null);
+        public static readonly DependencyProperty IsOpenProperty = RegisterProperty(nameof(IsOpen), typeof(NavigationBar));
         public bool IsOpen
         {
             get => (bool)GetValue(IsOpenProperty);

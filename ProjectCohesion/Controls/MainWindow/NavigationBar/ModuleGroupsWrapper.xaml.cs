@@ -17,14 +17,14 @@ namespace ProjectCohesion.Controls.MainWindow
 {
     public partial class ModuleGroupsWrapper : UserControl
     {
-        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(ModuleGroupsWrapper), new PropertyMetadata(PropertyChanged));
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(ModuleGroupsWrapper));
         public object ItemsSource
         {
             get => GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
-        public static new readonly DependencyProperty BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(SolidColorBrush), typeof(ModuleGroupsWrapper), null);
+        public static new readonly DependencyProperty BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(SolidColorBrush), typeof(ModuleGroupsWrapper));
         public new SolidColorBrush Background
         {
             get => (SolidColorBrush)GetValue(BackgroundProperty);
@@ -36,9 +36,9 @@ namespace ProjectCohesion.Controls.MainWindow
             InitializeComponent();
         }
 
-        private static async void PropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        protected override async void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            var itemsControl = (sender as ModuleGroupsWrapper).itemsControl;
+            base.OnPropertyChanged(e);
             if (e.Property == ItemsSourceProperty)
             {
                 var nextItem = new ModuleGroups() { ItemsSource = e.NewValue };

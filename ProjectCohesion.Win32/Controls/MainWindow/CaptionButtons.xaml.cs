@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 
 namespace ProjectCohesion.Win32.Controls
 {
-    public partial class CaptionButtons : UserControl
+    public partial class CaptionButtons : ReactiveControl
     {
 
         public Window Window => Window.GetWindow(this);

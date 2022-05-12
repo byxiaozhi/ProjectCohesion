@@ -3,6 +3,7 @@ using ProjectCohesion.Core.Models.EventArgs;
 using ProjectCohesion.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive;
@@ -39,6 +40,12 @@ namespace ProjectCohesion.Win32.Controls
         public void Dispose()
         {
             disposables.Clear();
+        }
+
+        public static DependencyProperty RegisterProperty(string name, Type ownerType, PropertyMetadata propertyMetadata = null)
+        {
+            var propertyType = ownerType.GetProperty(name).PropertyType;
+            return DependencyProperty.Register(name, propertyType, ownerType, propertyMetadata);
         }
     }
 }

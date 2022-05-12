@@ -15,9 +15,9 @@ using System.Windows.Shapes;
 
 namespace ProjectCohesion.Win32.Controls
 {
-    public partial class SidePanelHeader : UserControl
+    public partial class SidePanelHeader : ReactiveControl
     {
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(SidePanelHeader), null);
+        public static readonly DependencyProperty TitleProperty = RegisterProperty(nameof(Title), typeof(SidePanelHeader));
         public string Title
         {
             get => (string)GetValue(TitleProperty);

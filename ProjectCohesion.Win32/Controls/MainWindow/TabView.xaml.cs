@@ -16,12 +16,12 @@ using System.Windows.Shapes;
 
 namespace ProjectCohesion.Win32.Controls
 {
-    public partial class TabView : UserControl
+    public partial class TabView : ReactiveControl
     {
-        public static readonly DependencyProperty TabItemsProperty = DependencyProperty.Register(nameof(TabItems), typeof(object), typeof(TabView), null);
+        public static readonly DependencyProperty TabItemsProperty = RegisterProperty(nameof(TabItems), typeof(TabView));
         public object TabItems { get => GetValue(TabItemsProperty); set => SetValue(TabItemsProperty, value); }
 
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(TabView), null);
+        public static readonly DependencyProperty SelectedItemProperty = RegisterProperty(nameof(SelectedItem), typeof(TabView));
         public object SelectedItem { get => GetValue(SelectedItemProperty); set => SetValue(SelectedItemProperty, value); }
 
         public event Windows.UI.Xaml.Controls.SelectionChangedEventHandler SelectionChanged;
