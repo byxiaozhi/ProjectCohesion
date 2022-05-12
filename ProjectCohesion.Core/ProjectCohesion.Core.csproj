@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Autofac.cs" />
     <Compile Include="Models\EventArgs\ModuleEventArgs.cs" />
+    <Compile Include="Models\EventArgs\ReactiveEventArgs.cs" />
     <Compile Include="Reactive\ReactiveCommand.cs" />
     <Compile Include="Reactive\ReactiveExtend.cs" />
     <Compile Include="Reactive\ReactiveObject.cs" />

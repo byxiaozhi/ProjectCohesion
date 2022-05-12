@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Autofac;
+using ProjectCohesion.Core.Models.EventArgs;
+using ProjectCohesion.Core.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,23 +13,25 @@ using System.Threading.Tasks;
 
 namespace ProjectCohesion.Core.Reactive
 {
+    /// <summary>
+    /// 响应式对象
+    /// 可以使用 WhenPropertyChanged 监听到该对象的属性变化
+    /// </summary>
     public class ReactiveObject : INotifyPropertyChanged, IDisposable
     {
-        private readonly Subject<PropertyChangedEventArgs> subject = new();
 
         private readonly CompositeDisposable disposables = new();
 
+        private readonly EventCenter eventCenter = Autofac.Container.Resolve<EventCenter>();
+
         public ReactiveObject()
         {
-            PropertyChanged += (o, e) => subject.OnNext(e);
+            PropertyChanged += PropertyChangedHandler;
         }
 
-        /// <summary>
-        /// 获取一个观察属性变化的 Observable
-        /// </summary>
-        public IObservable<PropertyChangedEventArgs> PropertyChangedObservable()
+        private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
         {
-            return subject.AsObservable();
+            eventCenter.EmitEvent("PropertyChanged", this, new ReactiveEventArgs(GetType(), e.PropertyName, GetValue(e.PropertyName)));
         }
 
         public void ShouldDispose(IDisposable disposable)
@@ -37,6 +42,16 @@ namespace ProjectCohesion.Core.Reactive
         public void Dispose()
         {
             disposables.Clear();
+        }
+
+        public object GetValue(string propertyName)
+        {
+            return GetType().GetProperty(propertyName).GetValue(this);
+        }
+
+        public void SetValue(string propertyName, object value)
+        {
+            GetType().GetProperty(propertyName).SetValue(this, value);
         }
 
 #pragma warning disable CS0067

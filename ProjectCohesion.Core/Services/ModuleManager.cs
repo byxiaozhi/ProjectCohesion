@@ -41,7 +41,7 @@ namespace ProjectCohesion.Core.Services
             if (moduleDictionary.ContainsKey(guid))
                 RemoveModule(guid);
             moduleDictionary.Add(guid, module);
-            registeredSubject.OnNext(new ModuleEventArgs() { Guid = guid, Module = module });
+            registeredSubject.OnNext(new ModuleEventArgs(guid, module));
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace ProjectCohesion.Core.Services
                 return;
             var module = moduleDictionary[guid];
             moduleDictionary.Remove(guid);
-            removedSubject.OnNext(new ModuleEventArgs() { Guid = guid, Module = module });
+            removedSubject.OnNext(new ModuleEventArgs(guid, module));
         }
     }
 }
