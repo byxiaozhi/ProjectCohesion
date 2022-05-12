@@ -47,11 +47,7 @@ namespace ProjectCohesion.Core.Services
         /// </summary>
         public void RemoveOtherTab(Guid moduleGuid)
         {
-            foreach (var guid in uiViewModel.ContentTabs.Items)
-            {
-                if (guid != moduleGuid)
-                    uiViewModel.ContentTabs.Items.Remove(moduleGuid);
-            }
+            uiViewModel.ContentTabs.Items.Where(guid => guid != moduleGuid).ToList().ForEach(guid => uiViewModel.ContentTabs.Items.Remove(guid));
             uiViewModel.ContentTabs.SelectedIndex = 0;
         }
 
