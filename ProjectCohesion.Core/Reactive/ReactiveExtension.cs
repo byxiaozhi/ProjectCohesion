@@ -27,9 +27,10 @@ namespace ProjectCohesion.Core.Reactive
         }
 
         /// <summary>
-        /// 获取一个观察指定属性变化的 Observable
+        /// 获取一个观察表达式结果变化的 Observable
+        /// 当属性依赖的类为 ReactiveObject 或 ReactiveControl 的子类时可以使用
         /// </summary>
-        public static IObservable<TResult> WhenPropertyChanged<T, TResult>(this T obj,
+        public static IObservable<TResult> WhenAny<T, TResult>(this T obj,
             Expression<Func<T, TResult>> expr)
         {
             var func = expr.Compile();
@@ -43,23 +44,25 @@ namespace ProjectCohesion.Core.Reactive
         }
 
         /// <summary>
-        /// 获取一个观察指定属性变化的 Observable
+        /// 获取一个观察表达式结果变化的 Observable
+        /// 当属性依赖的类为 ReactiveObject 或 ReactiveControl 的子类时可以使用
         /// </summary>
-        public static IObservable<Tuple<TResult1, TResult2>> WhenPropertyChanged<T, TResult1, TResult2>(this T obj,
+        public static IObservable<Tuple<TResult1, TResult2>> WhenAny<T, TResult1, TResult2>(this T obj,
             Expression<Func<T, TResult1>> expr1,
             Expression<Func<T, TResult2>> expr2)
         {
             var func1 = expr1.Compile();
             var func2 = expr2.Compile();
-            var observable1 = WhenPropertyChanged(obj, expr1).Select(x => (object)x);
-            var observable2 = WhenPropertyChanged(obj, expr2).Select(x => (object)x);
+            var observable1 = WhenAny(obj, expr1).Select(x => (object)x);
+            var observable2 = WhenAny(obj, expr2).Select(x => (object)x);
             return Observable.Merge(observable1, observable2).Select(x => Tuple.Create(func1(obj), func2(obj)));
         }
 
         /// <summary>
-        /// 获取一个观察指定属性变化的 Observable
+        /// 获取一个观察表达式结果变化的 Observable
+        /// 当属性依赖的类为 ReactiveObject 或 ReactiveControl 的子类时可以使用
         /// </summary>
-        public static IObservable<Tuple<TResult1, TResult2, TResult3>> WhenPropertyChanged<T, TResult1, TResult2, TResult3>(this T obj,
+        public static IObservable<Tuple<TResult1, TResult2, TResult3>> WhenAny<T, TResult1, TResult2, TResult3>(this T obj,
             Expression<Func<T, TResult1>> expr1,
             Expression<Func<T, TResult2>> expr2,
             Expression<Func<T, TResult3>> expr3)
@@ -67,16 +70,17 @@ namespace ProjectCohesion.Core.Reactive
             var func1 = expr1.Compile();
             var func2 = expr2.Compile();
             var func3 = expr3.Compile();
-            var observable1 = WhenPropertyChanged(obj, expr1).Select(x => (object)x);
-            var observable2 = WhenPropertyChanged(obj, expr2).Select(x => (object)x);
-            var observable3 = WhenPropertyChanged(obj, expr3).Select(x => (object)x);
+            var observable1 = WhenAny(obj, expr1).Select(x => (object)x);
+            var observable2 = WhenAny(obj, expr2).Select(x => (object)x);
+            var observable3 = WhenAny(obj, expr3).Select(x => (object)x);
             return Observable.Merge(observable1, observable2, observable3).Select(x => Tuple.Create(func1(obj), func2(obj), func3(obj)));
         }
 
         /// <summary>
-        /// 获取一个观察指定属性变化的 Observable
+        /// 获取一个观察表达式结果变化的 Observable
+        /// 当属性依赖的类为 ReactiveObject 或 ReactiveControl 的子类时可以使用
         /// </summary>
-        public static IObservable<Tuple<TResult1, TResult2, TResult3, TResult4>> WhenPropertyChanged<T, TResult1, TResult2, TResult3, TResult4>(this T obj,
+        public static IObservable<Tuple<TResult1, TResult2, TResult3, TResult4>> WhenAny<T, TResult1, TResult2, TResult3, TResult4>(this T obj,
             Expression<Func<T, TResult1>> expr1,
             Expression<Func<T, TResult2>> expr2,
             Expression<Func<T, TResult3>> expr3,
@@ -86,10 +90,10 @@ namespace ProjectCohesion.Core.Reactive
             var func2 = expr2.Compile();
             var func3 = expr3.Compile();
             var func4 = expr4.Compile();
-            var observable1 = WhenPropertyChanged(obj, expr1).Select(x => (object)x);
-            var observable2 = WhenPropertyChanged(obj, expr2).Select(x => (object)x);
-            var observable3 = WhenPropertyChanged(obj, expr3).Select(x => (object)x);
-            var observable4 = WhenPropertyChanged(obj, expr4).Select(x => (object)x);
+            var observable1 = WhenAny(obj, expr1).Select(x => (object)x);
+            var observable2 = WhenAny(obj, expr2).Select(x => (object)x);
+            var observable3 = WhenAny(obj, expr3).Select(x => (object)x);
+            var observable4 = WhenAny(obj, expr4).Select(x => (object)x);
             return Observable.Merge(observable1, observable2, observable3).Select(x => Tuple.Create(func1(obj), func2(obj), func3(obj), func4(obj)));
         }
     }
