@@ -11,7 +11,15 @@
 		<ApplicationIcon>icon.ico</ApplicationIcon>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+		<SkipMicrosoftUIXamlCheckTargetPlatformVersion>true</SkipMicrosoftUIXamlCheckTargetPlatformVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Resources\Strings\**" />
+	  <EmbeddedResource Remove="Resources\Strings\**" />
+	  <None Remove="Resources\Strings\**" />
+	  <Page Remove="Resources\Strings\**" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <Content Include="icon.ico" />
@@ -23,7 +31,7 @@
 		<PackageReference Include="Microsoft.Toolkit.Wpf.UI.XamlHost" Version="6.1.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="PInvoke.User32" Version="0.7.104" />
-		<PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All"/>
+		<PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All" />
 		<PackageReference Include="System.Reactive" Version="5.0.0" />
 	</ItemGroup>
 
@@ -33,10 +41,6 @@
 		<ProjectReference Include="..\ProjectCohesion.Win32\ProjectCohesion.Win32.csproj" />
 		<ProjectReference Include="..\ProjectCohesion.WinUI\ProjectCohesion.WinUI.csproj" />
 		<ProjectReference Include="..\ProjectCohesion.XamlHost\ProjectCohesion.XamlHost.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Resources\Strings\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -52,6 +56,10 @@
 	    <Generator>SettingsSingleFileGenerator</Generator>
 	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\" />
 	</ItemGroup>
 
 </Project>

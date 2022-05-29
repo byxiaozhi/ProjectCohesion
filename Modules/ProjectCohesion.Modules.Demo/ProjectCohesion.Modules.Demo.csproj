@@ -6,6 +6,7 @@
 		<LangVersion>latest</LangVersion>
 		<UseWPF>true</UseWPF>
 		<Platforms>AnyCPU;x64</Platforms>
+		<SkipMicrosoftUIXamlCheckTargetPlatformVersion>true</SkipMicrosoftUIXamlCheckTargetPlatformVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
