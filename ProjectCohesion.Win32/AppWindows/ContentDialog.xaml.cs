@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 
 namespace ProjectCohesion.Win32.AppWindows
 {
-    public partial class ContentDialog : BaseWindow
+    public partial class ContentDialog : WindowBase
     {
         public Controls.Button PrimaryButton => primaryButton;
         public Controls.Button SecondaryButton => secondaryButton;

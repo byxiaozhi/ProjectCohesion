@@ -19,7 +19,7 @@ using ProjectCohesion.Core.ViewModels;
 
 namespace ProjectCohesion
 {
-    public partial class MainWindow : Win32.AppWindows.BaseWindow
+    public partial class MainWindow : Win32.AppWindows.WindowBase
     {
         readonly Properties.Settings settings = Properties.Settings.Default;
 

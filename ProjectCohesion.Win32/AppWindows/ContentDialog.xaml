@@ -1,4 +1,4 @@
-﻿<local:BaseWindow 
+﻿<local:WindowBase
         x:Class="ProjectCohesion.Win32.AppWindows.ContentDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,9 +14,9 @@
         Background="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}"
         Foreground="{DynamicResource TextFillColorPrimaryBrush}"
         x:Name="thisControl">
-    <local:BaseWindow.Resources>
+    <local:WindowBase.Resources>
         <converter:BoolToObjectConverter x:Key="TextToWidthConverter" TrueValue="*" FalseValue="0"/>
-    </local:BaseWindow.Resources>
+    </local:WindowBase.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -66,4 +66,4 @@
             </Grid>
         </Border>
     </Grid>
-</local:BaseWindow>
+</local:WindowBase>

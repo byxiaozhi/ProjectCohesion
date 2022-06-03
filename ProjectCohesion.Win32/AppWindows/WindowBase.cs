@@ -18,7 +18,7 @@ using System.Linq;
 
 namespace ProjectCohesion.Win32.AppWindows
 {
-    public class BaseWindow : Window
+    public class WindowBase : Window
     {
         enum DwmWindowAttribute : uint
         {
@@ -73,7 +73,7 @@ namespace ProjectCohesion.Win32.AppWindows
         static extern IntPtr TrackPopupMenu(IntPtr hMenu, uint uFlags, int x, int y, int nReserved, IntPtr hWnd, IntPtr prcRect);
 
         // 内容属性
-        public new static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(BaseWindow), null);
+        public new static readonly DependencyProperty ContentProperty = DependencyProperty.Register(nameof(Content), typeof(object), typeof(WindowBase), null);
         public new object Content
         {
             get => GetValue(ContentProperty);
@@ -81,7 +81,7 @@ namespace ProjectCohesion.Win32.AppWindows
         }
 
         // 背景属性，仅支持纯色
-        public new static readonly DependencyProperty BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(SolidColorBrush), typeof(BaseWindow), null);
+        public new static readonly DependencyProperty BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(SolidColorBrush), typeof(WindowBase), null);
         public new SolidColorBrush Background
         {
             get => (SolidColorBrush)GetValue(BackgroundProperty);
@@ -91,7 +91,7 @@ namespace ProjectCohesion.Win32.AppWindows
         IntPtr Handle => new WindowInteropHelper(this).Handle;
         double WindowScale => User32.GetDpiForWindow(Handle) / 96.0;
 
-        public BaseWindow()
+        public WindowBase()
         {
             InitializeComponent();
             ThemeListener.ThemeChanged += OnThemeChanged;
