@@ -169,7 +169,7 @@ namespace ProjectCohesion.Win32.AppWindows
                 // 检测是否命中控制按钮
                 var point = captionButtons.TranslatePoint(new Point(0d, 0d), rootElement);
                 var rect = new Rect(point.X, point.Y, point.X + captionButtons.ActualWidth, point.Y + captionButtons.ActualHeight);
-                if (rect.Contains(point)) return HitTestFlags.CLIENT;
+                if (rect.Contains(mousePosition)) return HitTestFlags.CLIENT;
             }
 
             return hitTest;
